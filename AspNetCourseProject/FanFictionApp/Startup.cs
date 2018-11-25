@@ -1,5 +1,6 @@
 ﻿namespace FanFictionApp
 {
+    using Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Hosting;
@@ -34,8 +35,20 @@
             services.AddDbContext<FanFictionContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<FanFictionUser, IdentityRole>()
-                .AddEntityFrameworkStores<FanFictionContext>();
+
+            services.AddIdentity<FanFictionUser, IdentityRole>(opt =>
+                {
+                    opt.Password.RequireDigit = false;
+                    opt.Password.RequireLowercase = false;
+                    opt.Password.RequireNonAlphanumeric = false;
+                    opt.Password.RequireUppercase = false;
+                    opt.Password.RequiredLength = 3;
+                    opt.Password.RequiredUniqueChars = 0;
+                })
+                .AddEntityFrameworkStores<FanFictionContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddLogging();
 
             services.AddMvc(opt =>
             {
@@ -56,6 +69,7 @@
                 app.UseHsts();
             }
 
+            app.UseSeedRolesMiddleware();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
