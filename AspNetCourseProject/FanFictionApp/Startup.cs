@@ -5,14 +5,16 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.HttpsPolicy;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-
     using FanFiction.Data;
     using FanFiction.Models;
+    using FanFiction.Services;
+    using FanFiction.Services.Interfaces;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.Extensions.Logging;
 
     public class Startup
     {
@@ -48,15 +50,18 @@
                 .AddEntityFrameworkStores<FanFictionContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddLogging();
+            services.AddScoped<LogExceptionActionFilter>();
+
+            services.AddScoped<IUserService, UserService>();
 
             services.AddMvc(opt =>
             {
+                opt.Filters.Add<LogExceptionActionFilter>();
                 opt.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -79,8 +84,12 @@
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    name: "areas",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                     name: "default",
+                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

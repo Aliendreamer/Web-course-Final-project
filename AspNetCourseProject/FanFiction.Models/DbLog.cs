@@ -3,7 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.Data;
 
-    public class Log
+    public class DbLog
     {
         [Key]
         public int Id { get; set; }

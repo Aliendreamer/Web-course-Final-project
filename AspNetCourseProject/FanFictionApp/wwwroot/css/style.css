@@ -1,2 +1,16 @@
-﻿body {
+﻿.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.bg-FanFiction {
+    background-color: black
+}
+
+.bg-Body {
+    background-color: navy
+}
+
+.h2 {
+    height: 3px;
 }

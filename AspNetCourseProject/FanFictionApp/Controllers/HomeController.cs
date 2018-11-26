@@ -1,15 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using FanFictionApp.Models;
-
-namespace FanFictionApp.Controllers
+﻿namespace FanFictionApp.Controllers
 {
+    using System.Diagnostics;
+    using Extensions;
+    using FanFiction.Services.Interfaces;
+    using Microsoft.AspNetCore.Mvc;
+    using Models;
+
+    [ServiceFilter(typeof(LogExceptionActionFilter))]
     public class HomeController : Controller
     {
+        public HomeController(IUserService userService)
+        {
+            this.UserService = userService;
+        }
+
+        protected IUserService UserService { get; }
+
         public IActionResult Index()
         {
             return View();
