@@ -1,5 +1,6 @@
 ﻿namespace FanFictionApp
 {
+    using AutoMapper;
     using Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Identity;
@@ -13,6 +14,7 @@
     using FanFiction.Models;
     using FanFiction.Services;
     using FanFiction.Services.Interfaces;
+    using FanFiction.Services.Utilities;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.Extensions.Logging;
 
@@ -50,10 +52,14 @@
                 .AddEntityFrameworkStores<FanFictionContext>()
                 .AddDefaultTokenProviders();
 
-            //TODO: try if as opt in mvc it is global or not!
             services.AddScoped<LogExceptionActionFilter>();
 
             services.AddScoped<IUserService, UserService>();
+
+            services.AddAutoMapper(opt =>
+            {
+                opt.AddProfile<FanfictionProfile>();
+            });
 
             services.AddMvc(opt =>
             {

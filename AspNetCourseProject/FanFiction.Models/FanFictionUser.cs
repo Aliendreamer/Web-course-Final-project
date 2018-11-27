@@ -25,9 +25,6 @@
         [RegularExpression(@"[A-Za-z]+")]
         public string Nickname { get; set; }
 
-        [Required]
-        public string Fullname { get; set; }
-
         public bool? IsDeleted { get; set; }
 
         public ICollection<StoryRating> StoryRatings { get; set; }

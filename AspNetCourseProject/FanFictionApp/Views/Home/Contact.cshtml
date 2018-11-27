@@ -1,17 +1,20 @@
 ﻿@{
     ViewData["Title"] = "Contact";
 }
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
-
-<address>
-    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+<main>
+    <div class=" jumbotron-fluid justify-content-center" style="margin-top: 10em">
+        <div class="container d-flex justify-content-center">
+            <div class="card justify-content-center" style="width: 20rem; justify-content: center">
+                <div class="card-body">
+                    <h5 class="card-title">FanFiction Contacts</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">The dreamers heaven</h6>
+                    <p class="card-text">Contact us at: test@test.com!</p>
+                    <p class="card-text">  Or our social network pages!</p>
+                    <a href="www.facebook.com" class="card-link">Facebook link</a>
+                    <a asp-action="Index" asp-controller="Home" class="card-link">Join the fun!Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

@@ -1,24 +1,16 @@
 ﻿namespace FanFictionApp.Controllers
 {
     using System.Diagnostics;
-    using Extensions;
-    using FanFiction.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Models;
 
-    [ServiceFilter(typeof(LogExceptionActionFilter))]
     public class HomeController : Controller
     {
-        public HomeController(IUserService userService)
-        {
-            this.UserService = userService;
-        }
-
-        protected IUserService UserService { get; }
-
         public IActionResult Index()
         {
-            return View();
+            return this.User.Identity.IsAuthenticated
+                ? this.View("LoggedHome")
+                : this.View();
         }
 
         public IActionResult About()
@@ -43,7 +35,7 @@
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
         }
     }
 }

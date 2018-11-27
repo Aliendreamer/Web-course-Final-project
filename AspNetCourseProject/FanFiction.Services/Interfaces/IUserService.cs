@@ -6,6 +6,10 @@
 
     public interface IUserService
     {
-        Task<SignInResult> LogUser(LoginInputModel loginModel);
+        SignInResult LogUser(LoginInputModel loginModel);
+
+        Task<SignInResult> RegisterUser(RegisterInputModel registerModel);
+
+        void Logout();
     }
 }

@@ -184,9 +184,6 @@ namespace FanFiction.Data.Migrations
 
                     b.Property<string>("FanFictionUserId");
 
-                    b.Property<string>("Fullname")
-                        .IsRequired();
-
                     b.Property<bool?>("IsDeleted");
 
                     b.Property<bool>("LockoutEnabled");

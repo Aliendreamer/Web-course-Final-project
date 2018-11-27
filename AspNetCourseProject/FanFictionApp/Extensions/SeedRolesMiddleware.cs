@@ -49,7 +49,6 @@
             var user = new FanFictionUser
             {
                 UserName = "AppAdmin",
-                Fullname = "Admin",
                 Email = "admin@admin.com",
                 Nickname = "ThatAdmin"
             };

@@ -1,22 +1,26 @@
 ﻿namespace FanFiction.Services
 {
+    using AutoMapper;
     using Data;
     using Microsoft.AspNetCore.Identity;
     using Models;
 
     public abstract class BaseService
     {
-        protected BaseService(UserManager<FanFictionUser> userManager, SignInManager<FanFictionUser> signInManager, FanFictionContext context)
+        protected BaseService(UserManager<FanFictionUser> userManager, SignInManager<FanFictionUser> signInManager, FanFictionContext context, IMapper mapper)
         {
             this.UserManager = userManager;
             this.SingInManager = signInManager;
             this.Context = context;
+            this.Mapper = mapper;
         }
 
-        protected FanFictionContext Context { get; set; }
+        protected IMapper Mapper { get; }
 
-        protected SignInManager<FanFictionUser> SingInManager { get; set; }
+        protected FanFictionContext Context { get; }
 
-        protected UserManager<FanFictionUser> UserManager { get; set; }
+        protected SignInManager<FanFictionUser> SingInManager { get; }
+
+        protected UserManager<FanFictionUser> UserManager { get; }
     }
 }

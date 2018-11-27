@@ -6,19 +6,19 @@
     {
         [Required]
         [StringLength(100, MinimumLength = 5)]
-        [RegularExpression(@"[A-Za-z]+")]
+        [RegularExpression(@"[A-Za-z]+", ErrorMessage = "Your nickname should contain only alphabet symbols")]
         public string Nickname { get; set; }
 
         [Required]
-        public string Fullname { get; set; }
+        [RegularExpression(@"[A-Za-z]+", ErrorMessage = "Your username should contain only alphabet symbols")]
+        public string Username { get; set; }
 
         [Required]
-        [Display(Name = "Password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required]
-        [Compare(nameof(Password))]
+        [Compare("Password")]
         [Display(Name = "Confirm Password")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
