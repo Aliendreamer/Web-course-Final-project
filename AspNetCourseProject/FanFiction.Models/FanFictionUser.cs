@@ -8,6 +8,7 @@
     {
         public FanFictionUser()
         {
+            this.Notifications = new HashSet<Notification>();
             this.BlockedUsers = new HashSet<FanFictionUser>();
             this.Comments = new HashSet<Comment>();
             this.SendMessages = new HashSet<Message>();
@@ -44,6 +45,8 @@
         public ICollection<UserStory> FollowedStories { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
+
+        public ICollection<Notification> Notifications { get; set; }
 
         public ICollection<Announcement> Announcements { get; set; }
     }

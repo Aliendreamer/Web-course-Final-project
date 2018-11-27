@@ -30,6 +30,8 @@
 
         public DbSet<UserStory> UsersStories { get; set; }
 
+        public DbSet<Notification> Notifications { get; set; }
+
         public DbSet<StoryType> StoryTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

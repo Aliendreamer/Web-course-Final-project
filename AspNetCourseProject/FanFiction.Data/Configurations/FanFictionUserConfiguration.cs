@@ -11,6 +11,11 @@
             builder.HasMany(x => x.BlockedUsers)
                 .WithOne(x => x).HasForeignKey(x => x.Id)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(x => x.Notifications)
+                .WithOne(x => x.FanFictionUser)
+                .HasForeignKey(x => x.Id)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

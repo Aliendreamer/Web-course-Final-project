@@ -4,14 +4,16 @@ using FanFiction.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FanFiction.Data.Migrations
 {
     [DbContext(typeof(FanFictionContext))]
-    partial class FanFictionContextModelSnapshot : ModelSnapshot
+    [Migration("20181127155916_addedNotificationModel")]
+    partial class addedNotificationModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,7 +274,7 @@ namespace FanFiction.Data.Migrations
 
                     b.HasIndex("FanFictionUserId");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("FanFiction.Models.StoryRating", b =>

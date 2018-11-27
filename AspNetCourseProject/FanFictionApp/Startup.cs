@@ -50,6 +50,7 @@
                 .AddEntityFrameworkStores<FanFictionContext>()
                 .AddDefaultTokenProviders();
 
+            //TODO: try if as opt in mvc it is global or not!
             services.AddScoped<LogExceptionActionFilter>();
 
             services.AddScoped<IUserService, UserService>();
