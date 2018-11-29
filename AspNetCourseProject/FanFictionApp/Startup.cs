@@ -56,10 +56,7 @@
 
             services.AddScoped<IUserService, UserService>();
 
-            services.AddAutoMapper(opt =>
-            {
-                opt.AddProfile<FanfictionProfile>();
-            });
+            services.AddAutoMapper();
 
             services.AddMvc(opt =>
             {
@@ -87,6 +84,11 @@
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            Mapper.Initialize(opt =>
+            {
+                opt.AddProfile<FanfictionProfile>();
+            });
 
             app.UseMvc(routes =>
             {

@@ -3,11 +3,13 @@
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using Data;
     using Interfaces;
     using Microsoft.AspNetCore.Identity;
     using Models;
     using ViewModels.InputModels;
+    using ViewModels.OutputModels;
 
     public class UserService : BaseService, IUserService
     {
@@ -50,6 +52,25 @@
             var result = await this.SingInManager.PasswordSignInAsync(user, registerModel.Password, true, false);
 
             return result;
+        }
+
+        public HomeLoggedModel GetHomeViewDetails()
+        {
+            var homeviewmodel = new HomeLoggedModel
+            {
+                Stories = this.Context.FictionStories.OrderByDescending(x => x.CreatedOn).Take(10).ProjectTo<StoryOutputModel>().ToList(),
+                Announcements = this.Context.Announcements.OrderByDescending(x => x.PublshedOn).Take(10).ProjectTo<AnnouncementOutputModel>().ToList()
+            };
+
+            return homeviewmodel;
+        }
+
+        public string GetUserNickname(string username)
+        {
+            var user = this.Context.Users.First(x => x.UserName == username);
+            var nick = user.Nickname;
+
+            return nick;
         }
 
         public async void Logout()

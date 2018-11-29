@@ -69,5 +69,17 @@
 
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public IActionResult Profile(string name)
+        {
+            return this.View();
+        }
+
+        [HttpGet]
+        public IActionResult UserFriends(string name)
+        {
+            return this.View();
+        }
     }
 }

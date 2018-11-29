@@ -7,7 +7,10 @@
 
     public abstract class BaseService
     {
-        protected BaseService(UserManager<FanFictionUser> userManager, SignInManager<FanFictionUser> signInManager, FanFictionContext context, IMapper mapper)
+        protected BaseService(UserManager<FanFictionUser> userManager,
+            SignInManager<FanFictionUser> signInManager,
+            FanFictionContext context,
+            IMapper mapper)
         {
             this.UserManager = userManager;
             this.SingInManager = signInManager;
