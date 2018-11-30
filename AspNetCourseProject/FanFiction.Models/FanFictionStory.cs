@@ -42,7 +42,7 @@
         public string AuthorId { get; set; }
         public FanFictionUser Author { get; set; }
 
-        public double Rating => this.Ratings.Average(x => x.StoryRating.Rating);
+        public double Rating => this.Ratings.Any() ? this.Ratings.Average(x => x.StoryRating.Rating) : 0;
 
         public double Length => this.Chapters.Sum(x => x.Length);
     }

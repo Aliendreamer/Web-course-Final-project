@@ -1,5 +1,7 @@
 ﻿namespace FanFiction.Services
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
@@ -7,9 +9,11 @@
     using Data;
     using Interfaces;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
     using Models;
     using ViewModels.InputModels;
     using ViewModels.OutputModels;
+    using ViewModels.OutputModels.Stories;
 
     public class UserService : BaseService, IUserService
     {
@@ -54,15 +58,26 @@
             return result;
         }
 
+        // because i didn't want to inject other services in the view
         public HomeLoggedModel GetHomeViewDetails()
         {
-            var homeviewmodel = new HomeLoggedModel
+            var homeViewModel = new HomeLoggedModel
             {
-                Stories = this.Context.FictionStories.OrderByDescending(x => x.CreatedOn).Take(10).ProjectTo<StoryOutputModel>().ToList(),
-                Announcements = this.Context.Announcements.OrderByDescending(x => x.PublshedOn).Take(10).ProjectTo<AnnouncementOutputModel>().ToList()
+                Stories = this.Context.FictionStories
+                .Include(x => x.Ratings)
+                .Include(x => x.Author)
+                .OrderByDescending(x => x.CreatedOn)
+                .Take(5).ProjectTo<StoryHomeOutputModel>().ToList(),
+
+                Announcements = this.Context.Announcements
+                    .Where(x => x.PublshedOn.AddMonths(1) >= DateTime.Now.Date)
+                    .OrderByDescending(x => x.PublshedOn)
+                    .Take(3)
+                    .ProjectTo<AnnouncementOutputModel>()
+                    .ToList()
             };
 
-            return homeviewmodel;
+            return homeViewModel;
         }
 
         public string GetUserNickname(string username)
