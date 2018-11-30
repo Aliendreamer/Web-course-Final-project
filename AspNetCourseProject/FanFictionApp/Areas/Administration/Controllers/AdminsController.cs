@@ -20,7 +20,6 @@
         [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult AllUsers()
         {
-            return NotFound();
             var model = this.AdminService.AllUsers().Result;
 
             return View(model);

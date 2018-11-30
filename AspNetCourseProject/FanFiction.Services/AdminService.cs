@@ -8,6 +8,7 @@
     using Data;
     using Interfaces;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
     using Models;
     using Utilities;
     using ViewModels.OutputModels.Users;
@@ -23,8 +24,14 @@
 
         public async Task<IEnumerable<UserAdminViewModel>> AllUsers()
         {
-            var users = this.Context.Users.ToList();
+            var users = this.Context.Users.Include(x => x.FanFictionStories)
+                .Include(x => x.Comments)
+                .Include(x => x.SendMessages)
+                .Include(x => x.ReceivedMessages)
+                .ToList();
+
             var modelUsers = users.AsQueryable().ProjectTo<UserAdminViewModel>().ToList();
+
             for (int i = 0; i < users.Count; i++)
             {
                 var current = users[i];
