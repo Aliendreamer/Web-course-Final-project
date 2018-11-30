@@ -39,7 +39,8 @@
             context.Result = new RedirectToRouteResult(new RouteValueDictionary
             {
                 { "controller", "Home" },
-                { "action", "Error" }
+                { "action", "Error" },
+                {"area",""}
             });
         }
     }

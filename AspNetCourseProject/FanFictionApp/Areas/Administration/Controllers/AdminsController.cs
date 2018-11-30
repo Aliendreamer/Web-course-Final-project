@@ -1,5 +1,6 @@
 ﻿namespace FanFictionApp.Areas.Administration.Controllers
 {
+    using System;
     using FanFiction.Services.Interfaces;
     using FanFiction.Services.Utilities;
     using Microsoft.AspNetCore.Authorization;
@@ -19,6 +20,7 @@
         [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult AllUsers()
         {
+            return NotFound();
             var model = this.AdminService.AllUsers().Result;
 
             return View(model);

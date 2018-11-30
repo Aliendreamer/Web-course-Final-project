@@ -52,6 +52,7 @@
                 .AddEntityFrameworkStores<FanFictionContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddScoped<CustomActionFilterAttribute>();
             services.AddScoped<LogExceptionActionFilter>();
 
             services.AddScoped<IUserService, UserService>();
@@ -59,8 +60,17 @@
 
             services.AddAutoMapper();
 
+            //TODO: Think about this shit? leave it for now though
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.LoginPath = $"/Account/Login";
+            //    options.LogoutPath = $"/Account/Logout";
+            //    options.AccessDeniedPath = $"/Account/AccessDenied";
+            //});
+
             services.AddMvc(opt =>
             {
+                opt.Filters.Add<CustomActionFilterAttribute>();
                 opt.Filters.Add<LogExceptionActionFilter>();
                 opt.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

@@ -38,16 +38,16 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     @if (this.User.IsInRole(GlobalConstants.Admin))
                                     {
-                                        <a class="dropdown-item" style="color: blue" asp-controller="Admins" asp-action="AllUsers" asp-area="Administration">Users</a>
+                                        <a class="dropdown-item text-center" style="color: blue" asp-controller="Admins" asp-action="AllUsers" asp-area="Administration">Users</a>
                                     }
-                                    <div class="divider"></div>
+                                    <div class="dropdown-divider"></div>
 
-                                    <a class="dropdown-item" style="color: blue" asp-controller="Admins" asp-action="AllStories" asp-area="Administration">Stories</a>
-                                    <div class="divider"></div>
+                                    <a class="dropdown-item text-center" style="color: blue" asp-controller="Admins" asp-action="AllStories" asp-area="Administration">Stories</a>
+                                    <div class="dropdown-divider"></div>
 
-                                    <a class="dropdown-item" style="color: blue" asp-controller="Admins" asp-action="AllAnnouncements" asp-area="Administration">Announcements</a>
+                                    <a class="dropdown-item text-center" style="color: blue" asp-controller="Admins" asp-action="AllAnnouncements" asp-area="Administration">Announcements</a>
                                 </div>
-                                <div class="divider"></div>
+                                
                             </li>
                         }
                     </ul>
@@ -82,7 +82,7 @@
             </nav>
         </header>
         <main>
-        @RenderBody()
+            @RenderBody()
         </main>
         <footer class="text-center fixed-bottom bg-FanFiction">
             <div>
