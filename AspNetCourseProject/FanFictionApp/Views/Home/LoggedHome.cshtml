@@ -8,35 +8,34 @@
 
 }
 
-<main>
-    <div class="container d-flex justify-content-around col-12">
-        <div class="col-md-4" style="margin-top: 10em;">
+
+    <div class="container d-flex justify-content-around col-md-12 col-sm-6 card-group" style="margin-top: 5em;">
+        <div class="col-md-4">
             <div class="col-md-12 border border-dark" style="min-height: 15em; min-width: 10em">
                 <div class=" card-header text-center text-dark  container-fluid">Last Published Stories</div>
-                <div class="card-body">
-                    @foreach (var s in model.Stories)
-                    {
-                        <div class="card-body w-100">
-                            <div class="container d-flex justify-content-between row">
-                                <h5 class="card-title">Title: @s.Title</h5>
-                                <h6 class="card-subtitle text-muted">Published: @s.CreatedOn</h6>
-                            </div>
-                            <hr style="height: 2px" />
-                            <div class="container d-flex justify-content-between row">
-                                <h6 class="card-title text-center">Author: @s.Author</h6>
-                                <h6 class="card-subtitle text-muted">Genre: @s.StoryType</h6>
-                            </div>
-                            <hr />
-                            <div class="card-text">
-                                @s.Summary
-                            </div>
-                            <hr style="height: 2px" />
+
+                @foreach (var s in model.Stories)
+                {
+                    <div class="card-body w-100">
+                        <div class="container d-flex justify-content-between row">
+                            <h5 class="card-title">Title: @s.Title</h5>
+                            <h6 class="card-subtitle text-muted">Published: @s.CreatedOn</h6>
                         </div>
-                    }
-                </div>
+                        <hr style="height: 2px" />
+                        <div class="container d-flex justify-content-between row">
+                            <h6 class="card-title text-center">Author: @s.Author</h6>
+                            <h6 class="card-subtitle text-muted">Genre: @s.StoryType</h6>
+                        </div>
+                        <hr />
+                        <div class="card-text">
+                            @s.Summary
+                        </div>
+                        <hr style="height: 2px" />
+                    </div>
+                }
             </div>
         </div>
-        <div class="col-md-4" style="margin-top: 10em;">
+        <div class="col-md-4">
             <div class="col-md-12 col-sm-12 border border-dark" style="min-height: 20em; min-width: 10em">
                 <div class=" card-header text-center text-dark"> User options</div>
                 <div class="card-body">
@@ -49,31 +48,29 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4" style="margin-top: 10em;">
+        <div class="col-md-4">
             <div class="col-md-12  border border-dark" style="min-height: 20em; min-width: 10em">
                 <div class=" card-header text-center text-dark">Announcements</div>
-                <div>
-                    @if (hasAnnouncement)
-                    {
 
-                        foreach (var anounce in model.Announcements)
-                        {
-                            <div class="card-body w-100">
-                                <h5 class="card-title">@anounce.Author</h5>
-                                <h6 class="card-subtitle text-muted">@anounce.PublishedOn</h6>
-                                <hr />
-                                <p class="card-text">@anounce.Content</p>
-                                <hr style="height: 2px" />
-                            </div>
+                @if (hasAnnouncement)
+                {
 
-                        }
-                    }
-                    else
+                    foreach (var anounce in model.Announcements)
                     {
-                        <p class="text-info">No current announcements</p>
+                        <div class="card-body w-100">
+                            <h5 class="card-title">@anounce.Author</h5>
+                            <h6 class="card-subtitle text-muted">@anounce.PublishedOn</h6>
+                            <hr />
+                            <p class="card-text">@anounce.Content</p>
+                            <hr style="height: 2px" />
+                        </div>
+
                     }
-                </div>
+                }
+                else
+                {
+                    <p class="text-info">No current announcements</p>
+                }
             </div>
         </div>
     </div>
-</main>

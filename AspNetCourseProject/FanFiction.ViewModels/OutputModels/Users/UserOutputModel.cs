@@ -1,4 +1,4 @@
-﻿namespace FanFiction.ViewModels.OutputModels
+﻿namespace FanFiction.ViewModels.OutputModels.Users
 {
     using System.Collections.Generic;
 
@@ -16,8 +16,6 @@
         public string Nickname { get; set; }
 
         public string Id { get; set; }
-
-        public string Type { get; set; }
 
         public ICollection<MessageOutputModel> Messages { get; set; }
 

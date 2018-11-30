@@ -71,9 +71,12 @@
         }
 
         [HttpGet]
-        public IActionResult Profile(string name)
+        [Route(GlobalConstants.RouteConstants.UserProfileRoute)]
+        public IActionResult Profile(string nickName)
         {
-            return this.View();
+            var user = this.UserService.GetUser(nickName);
+
+            return this.View(user);
         }
 
         [HttpGet]

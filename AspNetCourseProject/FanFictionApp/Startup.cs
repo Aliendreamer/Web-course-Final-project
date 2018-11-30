@@ -55,6 +55,7 @@
             services.AddScoped<LogExceptionActionFilter>();
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAdminService, AdminService>();
 
             services.AddAutoMapper();
 

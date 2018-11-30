@@ -407,7 +407,11 @@ namespace FanFiction.Data.Migrations
 
                     b.Property<string>("RoleId");
 
+                    b.Property<string>("FanFictionUserId");
+
                     b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("FanFictionUserId");
 
                     b.HasIndex("RoleId");
 
@@ -575,6 +579,10 @@ namespace FanFiction.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
+                    b.HasOne("FanFiction.Models.FanFictionUser")
+                        .WithMany("Roles")
+                        .HasForeignKey("FanFictionUserId");
+
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
                         .WithMany()
                         .HasForeignKey("RoleId")

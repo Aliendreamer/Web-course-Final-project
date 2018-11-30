@@ -45,7 +45,6 @@
             builder.ApplyConfiguration(new StoryRatingConfiguration());
             builder.ApplyConfiguration(new FanFictionRatingConfiguration());
             builder.ApplyConfiguration(new FanFictionStoryConfiguration());
-
             base.OnModelCreating(builder);
         }
     }

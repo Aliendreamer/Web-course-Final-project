@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Identity;
     using ViewModels.InputModels;
     using ViewModels.OutputModels;
+    using ViewModels.OutputModels.Users;
 
     public interface IUserService
     {
@@ -16,5 +17,7 @@
         string GetUserNickname(string username);
 
         void Logout();
+
+        UserOutputModel GetUser(string nickName);
     }
 }

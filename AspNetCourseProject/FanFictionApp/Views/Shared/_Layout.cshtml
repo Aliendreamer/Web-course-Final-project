@@ -36,11 +36,16 @@
                                     <span style="color: white">Administration</span>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" style="color: blue" asp-controller="Admins" asp-action="AllUsers" asp-area="Administration">Users</a>
-
+                                    @if (this.User.IsInRole(GlobalConstants.Admin))
+                                    {
+                                        <a class="dropdown-item" style="color: blue" asp-controller="Admins" asp-action="AllUsers" asp-area="Administration">Users</a>
+                                    }
                                     <div class="divider"></div>
 
                                     <a class="dropdown-item" style="color: blue" asp-controller="Admins" asp-action="AllStories" asp-area="Administration">Stories</a>
+                                    <div class="divider"></div>
+
+                                    <a class="dropdown-item" style="color: blue" asp-controller="Admins" asp-action="AllAnnouncements" asp-area="Administration">Announcements</a>
                                 </div>
                                 <div class="divider"></div>
                             </li>
@@ -76,9 +81,9 @@
                 </div>
             </nav>
         </header>
-
+        <main>
         @RenderBody()
-
+        </main>
         <footer class="text-center fixed-bottom bg-FanFiction">
             <div>
                 <hr />

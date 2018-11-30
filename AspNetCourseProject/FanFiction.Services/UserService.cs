@@ -14,6 +14,7 @@
     using ViewModels.InputModels;
     using ViewModels.OutputModels;
     using ViewModels.OutputModels.Stories;
+    using ViewModels.OutputModels.Users;
 
     public class UserService : BaseService, IUserService
     {
@@ -67,7 +68,7 @@
                 .Include(x => x.Ratings)
                 .Include(x => x.Author)
                 .OrderByDescending(x => x.CreatedOn)
-                .Take(5).ProjectTo<StoryHomeOutputModel>().ToList(),
+                .Take(3).ProjectTo<StoryHomeOutputModel>().ToList(),
 
                 Announcements = this.Context.Announcements
                     .Where(x => x.PublshedOn.AddMonths(1) >= DateTime.Now.Date)
@@ -91,6 +92,14 @@
         public async void Logout()
         {
             await this.SingInManager.SignOutAsync();
+        }
+
+        public UserOutputModel GetUser(string nickname)
+        {
+            var user = this.Context.Users.First(x => x.Nickname == nickname);
+            var result = Mapper.Map<UserOutputModel>(user);
+
+            return result;
         }
     }
 }
