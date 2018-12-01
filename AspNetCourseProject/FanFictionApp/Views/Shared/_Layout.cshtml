@@ -7,15 +7,15 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="~/css/reset-css.css" />
     <link rel="stylesheet" type="text/css" href="~/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/jquery.dataTables.min.css">
 </head>
 <body>
     <div class="container-flex">
         <header>
-            <nav class="navbar navbar-expand-lg bg-FanFiction ">
-                <a class="navbar-brand" href="/">Fan FictionApp</a>
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark  justify-content-between">
+                <a class="navbar-brand text-white" href="/">Fan FictionApp</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon text-white"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
@@ -47,13 +47,11 @@
 
                                     <a class="dropdown-item text-center" style="color: blue" asp-controller="Admins" asp-action="AllAnnouncements" asp-area="Administration">Announcements</a>
                                 </div>
-                                
                             </li>
                         }
                     </ul>
                 </div>
-
-                <div class="collapse navbar-collapse navbar-left justify-content-end " id="navbarNav">
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                     @if (!this.User.Identity.IsAuthenticated)
                     {
 
@@ -84,17 +82,13 @@
         <main>
             @RenderBody()
         </main>
-        <footer class="text-center fixed-bottom bg-FanFiction">
+        <footer class=" text-center fixed-bottom bg-dark container-fluid">
             <div>
                 <hr />
                 <p class="text-primary">&copy;CopyRight AlienDreamer Studios 2018. All rights reserved. </p>
             </div>
         </footer>
     </div>
-
-    <script src="~/js/jquery-3.3.1.min.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/bootstrap.js"></script>
-    <script src="~/js/popper.min.js"></script>
 </body>
+@RenderSection("scripts", required: false)
 </html>

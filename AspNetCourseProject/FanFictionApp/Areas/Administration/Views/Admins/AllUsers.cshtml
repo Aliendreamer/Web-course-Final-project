@@ -4,7 +4,7 @@
     int count = 0;
 }
 
-<div class="container d-flex col-md-10 mt-5 col-md-10 col-sm-6">
+<div class="container  col-md-12 mt-5 ">
 
     <table class="table table-bordered table-striped table-hover" id="dataFromDb">
         <thead class="thead-dark">
@@ -38,7 +38,7 @@
                         <div class=" d-flex justify-content-around ">
                             <a asp-action="ChangeRole" asp-controller="Admins" asp-area="Administration" asp-route-id="@m.Id" class="btn btn-info">Change Role</a>
                             <a asp-action="DeleteUser" asp-controller="Admins" asp-area="Administration" asp-route-id="@m.Id" class="btn btn-danger ">Delete</a>
-                            <a asp-action="Details" asp-controller="Users" asp-area="" asp-route-id="@m.Id" class="btn btn-dark ">Details</a>
+                            <a asp-action="Details" asp-controller="Admins" asp-area="Administration" asp-route-id="@m.Id" class="btn btn-dark ">Details</a>
                         </div>
                     </td>
                 </tr>
