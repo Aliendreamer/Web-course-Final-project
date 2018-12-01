@@ -1,0 +1,39 @@
+﻿@model AllAnnouncementsModel
+@{
+    ViewData["Title"] = "AllAnnouncements";
+}
+
+
+<div class="row container d-flex col-md-12 mt-5 form-group">
+  
+    <div class="col-md-8 card-group justify-content-between mb-2">
+        
+        @foreach (var a in Model.Announcements)
+        {
+            <div class="card text-center col-md-4 py-3 mb-3">
+                <div class="card-header">
+                    Author: @a.Author
+                </div>
+                <div class="card-body">
+
+                    <p class="card-text">@a.Content</p>
+                </div>
+                <div>
+                    <a asp-controller="Admins" asp-action="DeleteAnnouncement" asp-area="Administration" asp-route-id="@a.Id" class="btn btn-primary">Delete</a>
+                </div>
+
+                <div class="card-footer text-muted">
+                    Published: @a.PublishedOn
+                </div>
+            </div>
+        }
+    </div>
+
+    @await Html.PartialAsync("AnnouncementCreatePartial", Model.Announcement)
+</div>
+
+@section scripts{
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_MyScriptsPartial"); }
+}

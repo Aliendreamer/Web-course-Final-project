@@ -12,6 +12,8 @@
 
         public const string NoSummary = "No summary included";
 
+        public const string TooShortAnnouncement = "Your announcement has to be at least 5 characters long";
+
         public const string Admin = "admin";
 
         public const string Moderator = "moderator";

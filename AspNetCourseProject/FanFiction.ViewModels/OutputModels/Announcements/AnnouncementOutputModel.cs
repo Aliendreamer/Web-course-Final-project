@@ -1,4 +1,4 @@
-﻿namespace FanFiction.ViewModels.OutputModels
+﻿namespace FanFiction.ViewModels.OutputModels.Announcements
 {
     public class AnnouncementOutputModel
     {

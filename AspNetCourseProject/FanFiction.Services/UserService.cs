@@ -1,7 +1,6 @@
 ﻿namespace FanFiction.Services
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
@@ -13,6 +12,7 @@
     using Models;
     using ViewModels.InputModels;
     using ViewModels.OutputModels;
+    using ViewModels.OutputModels.Announcements;
     using ViewModels.OutputModels.Stories;
     using ViewModels.OutputModels.Users;
 

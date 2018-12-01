@@ -1,6 +1,7 @@
 ﻿namespace FanFiction.ViewModels.OutputModels
 {
     using System.Collections.Generic;
+    using Announcements;
     using Stories;
 
     public class HomeLoggedModel

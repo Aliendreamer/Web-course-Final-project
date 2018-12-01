@@ -23,11 +23,11 @@
                             <a class="nav-link" style="color: white" href="/">Home</a>
                         </li>
                         <li>
-                            <a class="nav-link" style="color: white" asp-action="Contact" asp-controller="Home">Contact</a>
+                            <a class="nav-link" style="color: white" asp-action="Contact" asp-area="" asp-controller="Home">Contact</a>
                         </li>
                         <li>
 
-                            <a class="nav-link" style="color: white" asp-action="About" asp-controller="Home">About</a>
+                            <a class="nav-link" style="color: white" asp-action="About" asp-area="" asp-controller="Home">About</a>
                         </li>
                         @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("admin") || this.User.IsInRole("moderator"))
                         {

@@ -1,8 +1,8 @@
 ﻿namespace FanFictionApp.Areas.Administration.Controllers
 {
-    using System;
     using FanFiction.Services.Interfaces;
     using FanFiction.Services.Utilities;
+    using FanFiction.ViewModels.InputModels;
     using FanFiction.ViewModels.OutputModels.Users;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -35,9 +35,38 @@
         }
 
         [HttpGet]
-        public IActionResult AllNotifications()
+        public IActionResult AllAnnouncements()
         {
-            return View();
+            var model = this.AdminService.AllAnnouncements();
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult DeleteAnnouncement(int Id)
+        {
+            this.AdminService.DeleteAnnouncement(Id);
+            return RedirectToAction("AllAnnouncements");
+        }
+
+        [HttpGet]
+        public IActionResult DeleteAllAnnouncements()
+        {
+            this.AdminService.DeleteAllAnnouncements();
+            return RedirectToAction("AllAnnouncements");
+        }
+
+        [HttpPost]
+        public IActionResult AllAnnouncements(AnnouncementInputModel inputModel)
+        {
+            if (ModelState.IsValid)
+            {
+                this.AdminService.AddAnnouncement(inputModel);
+                return RedirectToAction("AllAnnouncements");
+            }
+            //TODO: if i have enough time i may fix the validation problem here but is it worth it?
+            this.ViewData[GlobalConstants.Error] = GlobalConstants.TooShortAnnouncement;
+            return RedirectToAction("AllAnnouncements");
         }
 
         [HttpGet]

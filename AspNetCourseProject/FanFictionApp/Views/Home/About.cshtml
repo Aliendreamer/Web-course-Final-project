@@ -2,12 +2,12 @@
     ViewData["Title"] = "About";
 }
 
-<main>
-    <div class="container d-flex justify-content-between col-md-12  w-100">
-        <div class="col-md-4 justify-content-start">
+
+    <div class="container d-flex justify-content-around col-md-12  w-100">
+        <div class="col-md-4">
             <img src="~/images/star-wars-x-wing.jpg" alt="star wars" style="height: 700px; width: 500px; margin-top: 5em" />
         </div>
-        <div class="col-md-4 w-100 justify-content-center" style="margin-top: 10em">
+        <div class="col-md-4 w-100 j" style="margin-top: 10em">
             <text class="text-dark">
                 Have you ever dreamed to fly with Xan Solo?
                 Or join Aragorn and Frodo?Or join the Bridgeburners and WhiskeyJack!
@@ -21,11 +21,11 @@
                 Join us become a fan fiction writer!
             </text>
         </div>
-        <div class="col-md-4 justify-content-end">
+        <div class="col-md-4 ">
             <img src="~/images/malazahn.jpg" alt="star wars" style="height: 700px; width: 500px; margin-top: 5em" />
         </div>
     </div>
-</main>
+
 @section scripts{
 
     @{ await Html.RenderPartialAsync("_MyScriptsPartial"); }

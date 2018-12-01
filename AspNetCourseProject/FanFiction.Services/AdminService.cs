@@ -12,6 +12,8 @@
     using Microsoft.EntityFrameworkCore;
     using Models;
     using Utilities;
+    using ViewModels.InputModels;
+    using ViewModels.OutputModels.Announcements;
     using ViewModels.OutputModels.Users;
 
     public class AdminService : BaseService, IAdminService
@@ -59,6 +61,20 @@
             await this.Context.SaveChangesAsync();
         }
 
+        public void DeleteAnnouncement(int id)
+        {
+            var announce = this.Context.Announcements.Find(id);
+            this.Context.Remove(announce);
+            this.Context.SaveChanges();
+        }
+
+        public void DeleteAllAnnouncements()
+        {
+            var allAnounces = this.Context.Announcements.ToList();
+            this.Context.RemoveRange(allAnounces);
+            this.Context.SaveChanges();
+        }
+
         public async Task<IdentityResult> ChangeRole(ChangingRoleModel model)
         {
             bool roleExist = this.RoleManager.RoleExistsAsync(model.NewRole).Result;
@@ -89,6 +105,17 @@
             return result;
         }
 
+        public AllAnnouncementsModel AllAnnouncements()
+        {
+            var result = this.Context.Announcements.ProjectTo<AnnouncementOutputModel>().ToArray();
+            var model = new AllAnnouncementsModel
+            {
+                Announcements = result,
+                Announcement = new AnnouncementInputModel()
+            };
+            return model;
+        }
+
         public ChangingRoleModel AdminModifyRole(string Id)
         {
             var user = this.UserManager.FindByIdAsync(Id).Result;
@@ -100,6 +127,18 @@
             model.Role = this.UserManager.GetRolesAsync(user).Result.FirstOrDefault() ?? GlobalConstants.DefaultRole;
 
             return model;
+        }
+
+        public void AddAnnouncement(AnnouncementInputModel inputModel)
+        {
+            var user = this.UserManager.FindByNameAsync(inputModel.Author).Result;
+
+            var announce = Mapper.Map<Announcement>(inputModel);
+            announce.Author = user;
+
+            this.Context.Announcements.Add(announce);
+
+            this.Context.SaveChanges();
         }
 
         private ICollection<string> AppRoles()

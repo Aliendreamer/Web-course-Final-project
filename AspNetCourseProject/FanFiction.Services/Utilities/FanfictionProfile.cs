@@ -1,10 +1,12 @@
 ﻿namespace FanFiction.Services.Utilities
 {
+    using System;
     using System.Linq;
     using AutoMapper;
     using Models;
     using ViewModels.InputModels;
     using ViewModels.OutputModels;
+    using ViewModels.OutputModels.Announcements;
     using ViewModels.OutputModels.Stories;
     using ViewModels.OutputModels.Users;
 
@@ -48,6 +50,11 @@
                 .ForMember(x => x.Role, cfg => cfg.Ignore())
                 .ForMember(x => x.NewRole, cfg => cfg.Ignore())
                 .ForMember(x => x.AppRoles, cfg => cfg.Ignore());
+
+            CreateMap<AnnouncementInputModel, Announcement>()
+                .ForMember(opt => opt.Content, cfg => cfg.MapFrom(x => x.Content))
+                .ForMember(opt => opt.Author, cfg => cfg.Ignore())
+                .ForMember(x => x.PublshedOn, opt => opt.MapFrom(o => DateTime.UtcNow));
         }
     }
 }
