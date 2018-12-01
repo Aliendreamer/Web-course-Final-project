@@ -6,7 +6,7 @@
 
 <div class="container  col-md-12 mt-5 ">
 
-    <table class="table table-bordered table-striped table-hover" id="dataFromDb">
+    <table class="table table-bordered table-striped table-hover" id="@GlobalConstants.DbConstName">
         <thead class="thead-dark">
             <tr>
                 <th scope="col" class="text-center">#</th>
@@ -36,9 +36,9 @@
                     <td class="text-center">@m.Messages</td>
                     <td>
                         <div class=" d-flex justify-content-around ">
-                            <a asp-action="ChangeRole" asp-controller="Admins" asp-area="Administration" asp-route-id="@m.Id" class="btn btn-info">Change Role</a>
-                            <a asp-action="DeleteUser" asp-controller="Admins" asp-area="Administration" asp-route-id="@m.Id" class="btn btn-danger ">Delete</a>
-                            <a asp-action="Details" asp-controller="Admins" asp-area="Administration" asp-route-id="@m.Id" class="btn btn-dark ">Details</a>
+                            <a asp-action="EditRole" asp-controller="Admins" asp-area="Administration" asp-route-id="@m.Id" class="btn btn-info">Change Role</a>
+                            <a class="btn btn-danger js-delete" data-customer-id="@m.Id">Delete</a>
+                            <a asp-action="Details" asp-controller="Admins" asp-area="Administration" asp-route-id="@m.Username" class="btn btn-dark ">Details</a>
                         </div>
                     </td>
                 </tr>
@@ -46,3 +46,30 @@
         </tbody>
     </table>
 </div>
+@section scripts{
+
+    @{ await Html.RenderPartialAsync("_MyScriptsPartial"); }
+    <script>
+        $(document).ready(function () {
+            $("#dataFromDb").on("click", ".js-delete",
+                function () {
+                    var button = $(this);
+
+                    bootbox.confirm("Are you sure?",
+                        function (result) {
+                            if (result) {
+                                console.log("it works");
+                                $.ajax({
+                                    url: "/Administration/Admins/DeleteUser/" + button.attr("data-customer-id"),
+                                    method: "get",
+                                    success: function () {
+                                        button.parents("tr").remove();
+                                    }
+                                });
+                            }
+
+                        });
+                });
+        });
+    </script>
+}

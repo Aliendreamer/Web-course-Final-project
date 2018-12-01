@@ -2,6 +2,8 @@
 {
     public class GlobalConstants
     {
+        public const string Error = "Error";
+
         public const string ModelError = "LoginError";
 
         public const string LoginError = "Nickname or password don't match!";
@@ -15,6 +17,12 @@
         public const string Moderator = "moderator";
 
         public const string DefaultRole = "user";
+
+        public const string DbConstName = "dataFromDb";
+
+        public const string ErrorOnDeleteUser = "User was not deleted.Something went wrong!";
+
+        public const string RoleChangeError = "User already has no role make another choice!";
 
         public class RouteConstants
         {
