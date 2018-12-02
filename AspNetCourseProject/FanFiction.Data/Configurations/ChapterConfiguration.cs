@@ -24,6 +24,9 @@
                 .HasForeignKey(x => x.ChapterId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Property(x => x.CreatedOn)
+                .IsRequired();
+
             builder.Ignore(x => x.Length);
         }
     }

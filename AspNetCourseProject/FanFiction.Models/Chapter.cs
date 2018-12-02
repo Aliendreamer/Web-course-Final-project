@@ -1,5 +1,6 @@
 ﻿namespace FanFiction.Models
 {
+    using System;
     using System.Collections.Generic;
 
     public class Chapter
@@ -20,6 +21,8 @@
         public FanFictionStory FanFictionStory { get; set; }
 
         public string Content { get; set; }
+
+        public DateTime CreatedOn { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
     }

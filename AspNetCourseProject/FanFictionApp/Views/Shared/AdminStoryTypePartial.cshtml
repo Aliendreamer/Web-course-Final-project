@@ -1,0 +1,14 @@
+﻿@model IEnumerable<StoryTypeOutputModel>
+
+@{
+    ViewData["Title"] = "AdminStoryTypePartial";
+}
+<div class="col-md-4">
+    story genres here!
+</div>
+
+@section scripts{
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_MyScriptsPartial"); }
+}

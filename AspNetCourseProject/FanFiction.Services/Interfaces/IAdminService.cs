@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Identity;
     using ViewModels.InputModels;
     using ViewModels.OutputModels.Announcements;
+    using ViewModels.OutputModels.Stories;
     using ViewModels.OutputModels.Users;
 
     public interface IAdminService
@@ -24,5 +25,7 @@
         void DeleteAnnouncement(int id);
 
         void DeleteAllAnnouncements();
+
+        IEnumerable<StoryOutputModel> CurrentStories();
     }
 }

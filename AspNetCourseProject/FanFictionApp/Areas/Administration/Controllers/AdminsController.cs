@@ -1,12 +1,12 @@
 ﻿namespace FanFictionApp.Areas.Administration.Controllers
 {
-    using FanFiction.Services.Interfaces;
-    using FanFiction.Services.Utilities;
-    using FanFiction.ViewModels.InputModels;
-    using FanFiction.ViewModels.OutputModels.Users;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Identity;
+    using FanFiction.Services.Utilities;
+    using FanFiction.Services.Interfaces;
+    using FanFiction.ViewModels.InputModels;
+    using Microsoft.AspNetCore.Authorization;
+    using FanFiction.ViewModels.OutputModels.Users;
 
     [Area(GlobalConstants.RouteConstants.Administration)]
     [Authorize(Roles = "admin,moderator")]
@@ -31,7 +31,9 @@
         [HttpGet]
         public IActionResult AllStories()
         {
-            return View();
+            var model = this.AdminService.CurrentStories();
+
+            return View(model);
         }
 
         [HttpGet]
@@ -70,6 +72,7 @@
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult DeleteUSer(string id)
         {
             this.AdminService.DeleteUser(id);
@@ -78,6 +81,7 @@
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult EditRole(string id)
         {
             var model = this.AdminService.AdminModifyRole(id);
@@ -85,6 +89,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult EditRole(ChangingRoleModel inputModel)
         {
             var result = this.AdminService.ChangeRole(inputModel).Result;
@@ -100,6 +105,7 @@
         }
 
         [HttpGet]
+        [Authorize(Roles = GlobalConstants.Admin)]
         public IActionResult Details(string username)
         {
             return View();

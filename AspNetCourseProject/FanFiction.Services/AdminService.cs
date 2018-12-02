@@ -14,6 +14,7 @@
     using Utilities;
     using ViewModels.InputModels;
     using ViewModels.OutputModels.Announcements;
+    using ViewModels.OutputModels.Stories;
     using ViewModels.OutputModels.Users;
 
     public class AdminService : BaseService, IAdminService
@@ -73,6 +74,13 @@
             var allAnounces = this.Context.Announcements.ToList();
             this.Context.RemoveRange(allAnounces);
             this.Context.SaveChanges();
+        }
+
+        public IEnumerable<StoryOutputModel> CurrentStories()
+        {
+            var stories = this.Context.FictionStories.ProjectTo<StoryOutputModel>().ToArray();
+
+            return stories;
         }
 
         public async Task<IdentityResult> ChangeRole(ChangingRoleModel model)

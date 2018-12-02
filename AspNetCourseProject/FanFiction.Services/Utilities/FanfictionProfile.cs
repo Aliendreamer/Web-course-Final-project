@@ -1,14 +1,13 @@
 ﻿namespace FanFiction.Services.Utilities
 {
     using System;
+    using Models;
     using System.Linq;
     using AutoMapper;
-    using Models;
     using ViewModels.InputModels;
-    using ViewModels.OutputModels;
-    using ViewModels.OutputModels.Announcements;
-    using ViewModels.OutputModels.Stories;
     using ViewModels.OutputModels.Users;
+    using ViewModels.OutputModels.Stories;
+    using ViewModels.OutputModels.Announcements;
 
     public class FanfictionProfile : Profile
     {
@@ -55,6 +54,35 @@
                 .ForMember(opt => opt.Content, cfg => cfg.MapFrom(x => x.Content))
                 .ForMember(opt => opt.Author, cfg => cfg.Ignore())
                 .ForMember(x => x.PublshedOn, opt => opt.MapFrom(o => DateTime.UtcNow));
+
+            CreateMap<FanFictionStory, StoryOutputModel>()
+                .ForMember(opt => opt.Ratings, cfg => cfg.MapFrom(x => x.Ratings.Select(z => z.StoryRating.Rating)))
+                .ForMember(opt => opt.Followers, cfg => cfg.MapFrom(x => x.Followers.Select(xx => xx.FanFictionUser)))
+                .ForMember(x => x.LastEditedOn, opt => opt.MapFrom(x => x.LastEditedOn.Date))
+                .ForMember(x => x.CreatedOn, opt => opt.MapFrom(x => x.CreatedOn.Date))
+                .ForMember(o => o.Rating, opt => opt.Ignore())
+                .ForMember(x => x.Summary, opt => opt.NullSubstitute(GlobalConstants.NoSummary))
+                .ForMember(x => x.Comments, opt => opt.MapFrom(x => x.Comments))
+                .ForMember(x => x.Chapters, opt => opt.MapFrom(x => x.Chapters))
+                .ForMember(x => x.Title, o => o.MapFrom(x => x.Title))
+                .ForMember(x => x.Type, o => o.MapFrom(x => x.Type))
+                .ForMember(x => x.Id, o => o.MapFrom(x => x.Id))
+                .ForMember(x => x.ImageUrl, o => o.AllowNull());
+
+            CreateMap<Chapter, ChapterOutputModel>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
+                .ForMember(x => x.Content, opt => opt.MapFrom(x => x.Content))
+                .ForMember(x => x.Length, o => o.MapFrom(x => x.Content.Length))
+                .ForMember(x => x.Author, o => o.MapFrom(x => x.FanFictionUser.Nickname));
+
+            CreateMap<Comment, CommentOtputModel>()
+                .ForMember(x => x.Id, o => o.MapFrom(x => x.Id))
+                .ForMember(x => x.Author, o => o.MapFrom(x => x.FanFictionUser.UserName))
+                .ForMember(x => x.CommentedOn, o => o.MapFrom(x => x.CommentedOn.Date))
+                .ForMember(x => x.Message, o => o.MapFrom(x => x.Message));
+
+            CreateMap<StoryType, StoryTypeOutputModel>()
+                .ForMember(x => x.Type, opt => opt.MapFrom(z => z.Name)).ReverseMap();
         }
     }
 }
