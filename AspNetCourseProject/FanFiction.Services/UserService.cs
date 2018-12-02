@@ -94,10 +94,10 @@
             await this.SingInManager.SignOutAsync();
         }
 
-        public UserOutputModel GetUser(string nickname)
+        public UserOutputViewModel GetUser(string nickname)
         {
             var user = this.Context.Users.First(x => x.Nickname == nickname);
-            var result = Mapper.Map<UserOutputModel>(user);
+            var result = Mapper.Map<UserOutputViewModel>(user);
 
             return result;
         }

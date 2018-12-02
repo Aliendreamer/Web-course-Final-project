@@ -11,7 +11,7 @@
         {
             this.Ratings = new List<double>();
             this.Comments = new List<CommentOutputModel>();
-            this.Followers = new List<UserOutputModel>();
+            this.Followers = new List<UserOutputViewModel>();
             this.Chapters = new List<ChapterOutputModel>();
         }
 
@@ -31,7 +31,7 @@
 
         public ICollection<ChapterOutputModel> Chapters { get; set; }
 
-        public ICollection<UserOutputModel> Followers { get; set; }
+        public ICollection<UserOutputViewModel> Followers { get; set; }
 
         public ICollection<CommentOutputModel> Comments { get; set; }
 
@@ -39,6 +39,6 @@
 
         public StoryTypeOutputModel Type { get; set; }
 
-        public UserOutputModel Author { get; set; }
+        public UserOutputViewModel Author { get; set; }
     }
 }

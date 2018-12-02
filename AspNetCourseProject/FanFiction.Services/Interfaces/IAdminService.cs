@@ -10,7 +10,7 @@
 
     public interface IAdminService
     {
-        Task<IEnumerable<UserAdminViewModel>> AllUsers();
+        Task<IEnumerable<UserOutputViewModel>> AllUsers();
 
         Task DeleteUser(string Id);
 

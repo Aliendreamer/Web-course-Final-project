@@ -18,6 +18,6 @@
 
         void Logout();
 
-        UserOutputModel GetUser(string nickName);
+        UserOutputViewModel GetUser(string nickName);
     }
 }

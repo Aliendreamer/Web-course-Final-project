@@ -1,4 +1,4 @@
-﻿@model IEnumerable<UserAdminViewModel>
+﻿@model IEnumerable<UserOutputViewModel>
 @{
     ViewData["Title"] = "AllUsers";
     int count = 0;
@@ -33,12 +33,12 @@
                     <td class="text-center">@m.Role</td>
                     <td class="text-center">@m.Comments</td>
                     <td class="text-center">@m.Stories</td>
-                    <td class="text-center">@m.Messages</td>
+                    <td class="text-center">@m.MessagesCount</td>
                     <td>
                         <div class=" d-flex justify-content-around ">
                             <a asp-action="EditRole" asp-controller="Admins" asp-area="Administration" asp-route-id="@m.Id" class="btn btn-info">Change Role</a>
                             <a class="btn btn-danger js-delete" data-customer-id="@m.Id">Delete</a>
-                            <a asp-action="Profile" asp-controller="Users" asp-area="" asp-route-id="@m.Username" class="btn btn-dark ">Profile</a>
+                            <a asp-action="Profile" asp-controller="Users" asp-area="" asp-route-id="@m.NickName" class="btn btn-dark ">Profile</a>
                         </div>
                     </td>
                 </tr>

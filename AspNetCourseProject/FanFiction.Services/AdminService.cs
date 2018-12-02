@@ -29,7 +29,7 @@
 
         protected RoleManager<IdentityRole> RoleManager { get; }
 
-        public async Task<IEnumerable<UserAdminViewModel>> AllUsers()
+        public async Task<IEnumerable<UserOutputViewModel>> AllUsers()
         {
             var users = this.Context.Users.Include(x => x.FanFictionStories)
                 .Include(x => x.Comments)
@@ -37,7 +37,7 @@
                 .Include(x => x.ReceivedMessages)
                 .ToList();
 
-            var modelUsers = users.AsQueryable().ProjectTo<UserAdminViewModel>().ToList();
+            var modelUsers = users.AsQueryable().ProjectTo<UserOutputViewModel>().ToList();
 
             for (int i = 0; i < users.Count; i++)
             {

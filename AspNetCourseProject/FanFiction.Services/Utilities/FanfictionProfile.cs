@@ -33,15 +33,19 @@
                 .ForMember(opt => opt.PublishedOn, cfg => cfg.MapFrom(x => x.PublshedOn.ToShortDateString()))
                 .ForMember(opt => opt.Id, cfg => cfg.MapFrom(x => x.Id));
 
-            CreateMap<FanFictionUser, UserAdminViewModel>()
+            CreateMap<FanFictionUser, UserOutputViewModel>()
                 .ForMember(x => x.Id, cfg => cfg.MapFrom(x => x.Id))
                 .ForMember(x => x.Username, cfg => cfg.MapFrom(x => x.UserName))
                 .ForMember(x => x.NickName, cfg => cfg.MapFrom(x => x.Nickname))
                 .ForMember(x => x.Email, cfg => cfg.MapFrom(x => x.Email))
                 .ForMember(x => x.Role, cfg => cfg.Ignore())
                 .ForMember(x => x.Comments, opt => opt.MapFrom(x => x.Comments.Count))
-                .ForMember(x => x.Messages, opt => opt.MapFrom(x => x.SendMessages.Count + x.SendMessages.Count))
-                .ForMember(x => x.Stories, opt => opt.MapFrom(x => x.FanFictionStories.Count));
+                .ForMember(x => x.MessagesCount, opt => opt.MapFrom(x => x.SendMessages.Count + x.SendMessages.Count))
+                .ForMember(x => x.Stories, opt => opt.MapFrom(x => x.FanFictionStories.Count))
+                .ForMember(x => x.Messages, opt => opt.MapFrom(x => x.SendMessages.Concat(x.ReceivedMessages)))
+                .ForMember(x => x.Notifications, o => o.MapFrom(x => x.Notifications))
+                .ForMember(x => x.UserStories, o => o.MapFrom(x => x.FanFictionStories))
+                .ForMember(x => x.FollowedStories, o => o.MapFrom(x => x.FollowedStories));
 
             CreateMap<FanFictionUser, ChangingRoleModel>()
                 .ForMember(x => x.Id, cfg => cfg.MapFrom(x => x.Id))
