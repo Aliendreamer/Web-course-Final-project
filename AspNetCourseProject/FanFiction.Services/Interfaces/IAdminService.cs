@@ -26,6 +26,8 @@
 
         void DeleteAllAnnouncements();
 
-        IEnumerable<StoryOutputModel> CurrentStories();
+        string AddGenre(string type);
+
+        ICollection<StoryTypeOutputModel> Genres();
     }
 }

@@ -19,11 +19,6 @@
                 .HasForeignKey(x => x.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasMany(x => x.Comments)
-                .WithOne(x => x.Chapter)
-                .HasForeignKey(x => x.ChapterId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.Property(x => x.CreatedOn)
                 .IsRequired();
 

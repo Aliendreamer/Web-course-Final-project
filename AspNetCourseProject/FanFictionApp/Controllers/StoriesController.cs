@@ -35,9 +35,14 @@
         }
 
         [HttpGet]
-        public IActionResult DeleteStory()
+        public IActionResult DeleteStory(int id)
         {
-            return this.View();
+            return this.AllStories();
+        }
+
+        public IActionResult Details()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

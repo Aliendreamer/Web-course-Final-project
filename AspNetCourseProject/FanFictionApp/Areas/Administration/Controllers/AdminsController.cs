@@ -1,5 +1,6 @@
 ﻿namespace FanFictionApp.Areas.Administration.Controllers
 {
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Identity;
     using FanFiction.Services.Utilities;
@@ -12,12 +13,14 @@
     [Authorize(Roles = "admin,moderator")]
     public class AdminsController : Controller
     {
-        protected IAdminService AdminService { get; }
-
-        public AdminsController(IAdminService adminService)
+        public AdminsController(IAdminService adminService, IStoryService storyService)
         {
             this.AdminService = adminService;
+            this.StoryService = storyService;
         }
+
+        protected IAdminService AdminService { get; }
+        protected IStoryService StoryService { get; }
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.Admin)]
@@ -31,7 +34,7 @@
         [HttpGet]
         public IActionResult AllStories()
         {
-            var model = this.AdminService.CurrentStories();
+            var model = this.StoryService.CurrentStories();
 
             return View(model);
         }
@@ -73,9 +76,9 @@
 
         [HttpGet]
         [Authorize(Roles = GlobalConstants.Admin)]
-        public IActionResult DeleteUSer(string id)
+        public async Task<IActionResult> DeleteUSer(string id)
         {
-            this.AdminService.DeleteUser(id);
+            await this.AdminService.DeleteUser(id);
 
             return RedirectToAction("AllUsers");
         }
@@ -109,6 +112,51 @@
         public IActionResult Details(string username)
         {
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteStory(int Id)
+        {
+            if (!this.User.IsInRole(GlobalConstants.Admin) && !this.User.IsInRole(GlobalConstants.Moderator))
+            {
+                return RedirectToAction("Error", "Home", "");
+            }
+
+            string username = this.User.Identity.Name;
+
+            await this.StoryService.DeleteStory(Id, username);
+
+            return RedirectToAction("AllStories");
+        }
+
+        [HttpGet]
+        public IActionResult CurrentGenres()
+        {
+            var model = this.AdminService.Genres();
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public IActionResult CurrentGenres(string name)
+        {
+            var genres = this.AdminService.Genres();
+
+            if (string.IsNullOrEmpty(name))
+            {
+                this.ViewData[GlobalConstants.Error] = GlobalConstants.NullName;
+                return this.View(genres);
+            }
+
+            var result = this.AdminService.AddGenre(name);
+
+            if (result != GlobalConstants.Success)
+            {
+                this.ViewData[GlobalConstants.Error] = GlobalConstants.AlreadyExist;
+                return this.View(genres);
+            }
+
+            return RedirectToAction("CurrentGenres");
         }
     }
 }

@@ -19,17 +19,16 @@
             builder.HasMany<Chapter>()
                 .WithOne(x => x.FanFictionStory)
                 .HasForeignKey(x => x.FanFictionStoryId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasMany<Comment>()
-                .WithOne(x => x.FanFictionStory)
-                .HasForeignKey(x => x.StoryId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(x => x.Type)
                 .WithMany(x => x.Stories)
                 .HasForeignKey(x => x.StoryTypeId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(x => x.Comments)
+                .WithOne(x => x.FanFictionStory)
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.Property(x => x.Summary)
                 .IsRequired(false)

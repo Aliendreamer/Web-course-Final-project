@@ -12,7 +12,19 @@
 
         public const string NoSummary = "No summary included";
 
+        public const string NullName = "Name can't be empty";
+
+        public const string Success = "Success";
+
+        public const string Failed = "Failed the task";
+
+        public const string AlreadyExist = "The entry already exists";
+
         public const string TooShortAnnouncement = "Your announcement has to be at least 5 characters long";
+
+        public const string UserLackRights = "User don't have rights to make this action";
+
+        public const string NoRecordInDb = "No such record!";
 
         public const string Admin = "admin";
 

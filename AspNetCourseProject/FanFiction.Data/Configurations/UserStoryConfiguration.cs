@@ -8,7 +8,7 @@
     {
         public void Configure(EntityTypeBuilder<UserStory> builder)
         {
-            builder.HasKey(x => new { x.FanfictionUserId, x.StoryId });
+            builder.HasKey(x => new { x.FanfictionUserId, x.FanFictionStoryId });
         }
     }
 }

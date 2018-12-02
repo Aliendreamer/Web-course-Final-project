@@ -76,11 +76,23 @@
             this.Context.SaveChanges();
         }
 
-        public IEnumerable<StoryOutputModel> CurrentStories()
+        public string AddGenre(string newType)
         {
-            var stories = this.Context.FictionStories.ProjectTo<StoryOutputModel>().ToArray();
+            bool notExisting = this.Context.StoryTypes.Select(x => x.Name).All(x => x != newType);
 
-            return stories;
+            if (notExisting)
+            {
+                var newGenre = new StoryType
+                {
+                    Name = newType
+                };
+                this.Context.StoryTypes.Add(newGenre);
+                this.Context.SaveChanges();
+
+                return GlobalConstants.Success;
+            }
+
+            return GlobalConstants.Failed;
         }
 
         public async Task<IdentityResult> ChangeRole(ChangingRoleModel model)
@@ -147,6 +159,11 @@
             this.Context.Announcements.Add(announce);
 
             this.Context.SaveChanges();
+        }
+
+        public ICollection<StoryTypeOutputModel> Genres()
+        {
+            return this.Context.StoryTypes.ProjectTo<StoryTypeOutputModel>().ToArray();
         }
 
         private ICollection<string> AppRoles()

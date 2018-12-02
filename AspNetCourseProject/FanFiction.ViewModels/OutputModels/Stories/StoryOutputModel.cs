@@ -27,7 +27,7 @@
 
         public DateTime LastEditedOn { get; set; }
 
-        public double Rating => this.Ratings.Average();
+        public double Rating => this.Ratings.Any() ? this.Ratings.Average() : 0;
 
         public ICollection<ChapterOutputModel> Chapters { get; set; }
 

@@ -73,6 +73,7 @@
                 .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
                 .ForMember(x => x.Content, opt => opt.MapFrom(x => x.Content))
                 .ForMember(x => x.Length, o => o.MapFrom(x => x.Content.Length))
+                .ForMember(x => x.CreatedOn, opt => opt.MapFrom(x => x.CreatedOn.Date))
                 .ForMember(x => x.Author, o => o.MapFrom(x => x.FanFictionUser.Nickname));
 
             CreateMap<Comment, CommentOtputModel>()

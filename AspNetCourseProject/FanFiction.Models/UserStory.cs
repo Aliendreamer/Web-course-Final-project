@@ -5,7 +5,7 @@
         public string FanfictionUserId { get; set; }
         public FanFictionUser FanFictionUser { get; set; }
 
-        public int StoryId { get; set; }
+        public int FanFictionStoryId { get; set; }
         public FanFictionStory FanFictionStory { get; set; }
     }
 }

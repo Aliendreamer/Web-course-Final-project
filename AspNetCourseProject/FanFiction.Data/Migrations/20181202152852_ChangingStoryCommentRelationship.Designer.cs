@@ -4,14 +4,16 @@ using FanFiction.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FanFiction.Data.Migrations
 {
     [DbContext(typeof(FanFictionContext))]
-    partial class FanFictionContextModelSnapshot : ModelSnapshot
+    [Migration("20181202152852_ChangingStoryCommentRelationship")]
+    partial class ChangingStoryCommentRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -306,9 +308,11 @@ namespace FanFiction.Data.Migrations
                 {
                     b.Property<string>("FanfictionUserId");
 
-                    b.Property<int>("FanFictionStoryId");
+                    b.Property<int>("StoryId");
 
-                    b.HasKey("FanfictionUserId", "FanFictionStoryId");
+                    b.Property<int?>("FanFictionStoryId");
+
+                    b.HasKey("FanfictionUserId", "StoryId");
 
                     b.HasIndex("FanFictionStoryId");
 
@@ -532,8 +536,7 @@ namespace FanFiction.Data.Migrations
                 {
                     b.HasOne("FanFiction.Models.FanFictionStory", "FanFictionStory")
                         .WithMany("Followers")
-                        .HasForeignKey("FanFictionStoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("FanFictionStoryId");
 
                     b.HasOne("FanFiction.Models.FanFictionUser", "FanFictionUser")
                         .WithMany("FollowedStories")
