@@ -10,6 +10,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Models;
+    using Utilities;
     using ViewModels.InputModels;
     using ViewModels.OutputModels;
     using ViewModels.OutputModels.Announcements;
@@ -94,10 +95,16 @@
             await this.SingInManager.SignOutAsync();
         }
 
-        public UserOutputViewModel GetUser(string nickname)
+        public UserOutputViewModel GetUser(string username)
         {
-            var user = this.Context.Users.First(x => x.Nickname == nickname);
+            var user = this.UserManager.FindByNameAsync(username).Result;
+            var stories = this.Context.FictionStories.ProjectTo<StoryOutputModel>().ToArray();
+
             var result = Mapper.Map<UserOutputViewModel>(user);
+            result.FollowedStories = stories.Where(x => x.Followers.Any(xz => xz.NickName == result.NickName)).ToList();
+            result.UserStories = stories.Where(x => x.Author.NickName == result.NickName).ToList();
+            result.Stories = result.UserStories.Count;
+            result.Role = this.UserManager.GetRolesAsync(user).Result.FirstOrDefault() ?? GlobalConstants.DefaultRole;
 
             return result;
         }

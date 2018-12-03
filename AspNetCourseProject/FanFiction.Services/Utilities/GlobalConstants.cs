@@ -40,7 +40,7 @@
 
         public class RouteConstants
         {
-            public const string UserProfileRoute = "/Users/Profile/{nickname}";
+            public const string UserProfileRoute = "/Users/Profile/{username}";
 
             public const string Administration = "Administration";
         }

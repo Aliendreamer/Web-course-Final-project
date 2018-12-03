@@ -72,9 +72,16 @@
 
         [HttpGet]
         [Route(GlobalConstants.RouteConstants.UserProfileRoute)]
-        public IActionResult Profile(string nickName)
+        public IActionResult Profile(string username)
         {
-            var user = this.UserService.GetUser(nickName);
+            bool fullAccess = this.User.Identity.Name == username || this.User.IsInRole(GlobalConstants.Admin);
+
+            var user = this.UserService.GetUser(username);
+
+            if (fullAccess)
+            {
+                return this.View("UserDetails", user);
+            }
 
             return this.View(user);
         }
@@ -83,6 +90,11 @@
         public IActionResult UserFriends(string name)
         {
             return this.View();
+        }
+
+        public IActionResult BlockedUsers(string name)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20181125154040_InitalModels.cs" />
+    <Compile Remove="Migrations\20181203194253_addedFriendsPropertyToUserModel.cs" />
   </ItemGroup>
 
   <ItemGroup>

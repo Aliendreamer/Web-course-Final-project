@@ -18,6 +18,7 @@
             this.StoryRatings = new HashSet<StoryRating>();
             this.Announcements = new HashSet<Announcement>();
             this.ReceivedMessages = new HashSet<Message>();
+            this.Friends = new HashSet<FanFictionUser>();
         }
 
         [Required]
@@ -34,6 +35,8 @@
         public ICollection<Chapter> Chapters { get; set; }
 
         public virtual ICollection<FanFictionUser> BlockedUsers { get; set; }
+
+        public virtual ICollection<FanFictionUser> Friends { get; set; }
 
         public ICollection<Message> ReceivedMessages { get; set; }
 

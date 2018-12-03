@@ -33,6 +33,10 @@
 
         public int Comments { get; set; }
 
+        public int BlockedUsers { get; set; }
+
+        public int Friends { get; set; }
+
         public int MessagesCount { get; set; }
 
         public string Email { get; set; }

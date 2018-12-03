@@ -41,11 +41,13 @@
                 .ForMember(x => x.Role, cfg => cfg.Ignore())
                 .ForMember(x => x.Comments, opt => opt.MapFrom(x => x.Comments.Count))
                 .ForMember(x => x.MessagesCount, opt => opt.MapFrom(x => x.SendMessages.Count + x.SendMessages.Count))
-                .ForMember(x => x.Stories, opt => opt.MapFrom(x => x.FanFictionStories.Count))
+                .ForMember(x => x.Stories, opt => opt.Ignore())
                 .ForMember(x => x.Messages, opt => opt.MapFrom(x => x.SendMessages.Concat(x.ReceivedMessages)))
                 .ForMember(x => x.Notifications, o => o.MapFrom(x => x.Notifications))
-                .ForMember(x => x.UserStories, o => o.MapFrom(x => x.FanFictionStories))
-                .ForMember(x => x.FollowedStories, o => o.MapFrom(x => x.FollowedStories));
+                .ForMember(x => x.UserStories, o => o.Ignore())
+                .ForMember(x => x.FollowedStories, o => o.Ignore())
+                .ForMember(x => x.Friends, opt => opt.MapFrom(x => x.Friends.Count))
+                .ForMember(x => x.BlockedUsers, o => o.MapFrom(x => x.BlockedUsers.Count));
 
             CreateMap<FanFictionUser, ChangingRoleModel>()
                 .ForMember(x => x.Id, cfg => cfg.MapFrom(x => x.Id))
