@@ -22,6 +22,8 @@
 
         public DbSet<Announcement> Announcements { get; set; }
 
+        public DbSet<BlockedUsers> BlockedUsers { get; set; }
+
         public DbSet<DbLog> Logs { get; set; }
 
         public DbSet<StoryRating> StoryRatings { get; set; }
@@ -45,6 +47,7 @@
             builder.ApplyConfiguration(new StoryRatingConfiguration());
             builder.ApplyConfiguration(new FanFictionRatingConfiguration());
             builder.ApplyConfiguration(new FanFictionStoryConfiguration());
+            builder.ApplyConfiguration(new BlockedUsersConfiguration());
             base.OnModelCreating(builder);
         }
     }

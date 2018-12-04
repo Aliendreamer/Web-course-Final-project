@@ -3,3 +3,66 @@
 @{
     ViewData["Title"] = "Profile";
 }
+
+<div class="container d-flex col-md-12">
+
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100">
+            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a href="#">Item Six</a>
+                </h4>
+                <h5>$24.99</h5>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+            </div>
+        </div>
+    </div>
+
+    <div class=" col-md-4 mx-auto">
+        <div class="col-xs-6 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0">
+
+            <div class="panel panel-info ">
+                <div class="panel-heading   ">
+                    <h3 class="text-capitalize text-white">User Details</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+
+                        <div class=" col-md-9 col-lg-9">
+                            <table class="table  border border-dark" style="background-color:deepskyblue">
+                                <tbody>
+                                    <tr>
+                                        <td>Name:</td>
+                                        <td>@Model.Username</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nickname:</td>
+                                        <td>@Model.NickName</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Id:</td>
+                                        <td>@Model.Id</td>
+                                    </tr>
+
+                                    <tr>
+                                    <tr>
+                                        <td>User role:</td>
+                                        <td>@Model.Role</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email:</td>
+                                        <td>@Model.Email</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

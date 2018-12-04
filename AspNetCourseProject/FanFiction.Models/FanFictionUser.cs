@@ -9,7 +9,7 @@
         public FanFictionUser()
         {
             this.Notifications = new HashSet<Notification>();
-            this.BlockedUsers = new HashSet<FanFictionUser>();
+            this.BlockedUsers = new HashSet<BlockedUsers>();
             this.Comments = new HashSet<Comment>();
             this.SendMessages = new HashSet<Message>();
             this.FollowedStories = new HashSet<UserStory>();
@@ -18,7 +18,7 @@
             this.StoryRatings = new HashSet<StoryRating>();
             this.Announcements = new HashSet<Announcement>();
             this.ReceivedMessages = new HashSet<Message>();
-            this.Friends = new HashSet<FanFictionUser>();
+            this.BLockedBy = new HashSet<BlockedUsers>();
         }
 
         [Required]
@@ -26,17 +26,15 @@
         [RegularExpression(@"[A-Za-z]+")]
         public string Nickname { get; set; }
 
-        public bool? IsDeleted { get; set; }
-
         public ICollection<StoryRating> StoryRatings { get; set; }
 
         public ICollection<FanFictionStory> FanFictionStories { get; set; }
 
         public ICollection<Chapter> Chapters { get; set; }
 
-        public virtual ICollection<FanFictionUser> BlockedUsers { get; set; }
+        public ICollection<BlockedUsers> BlockedUsers { get; set; }
 
-        public virtual ICollection<FanFictionUser> Friends { get; set; }
+        public ICollection<BlockedUsers> BLockedBy { get; set; }
 
         public ICollection<Message> ReceivedMessages { get; set; }
 

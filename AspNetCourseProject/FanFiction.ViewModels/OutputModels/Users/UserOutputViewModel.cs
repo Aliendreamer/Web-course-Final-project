@@ -35,7 +35,7 @@
 
         public int BlockedUsers { get; set; }
 
-        public int Friends { get; set; }
+        public int BlockedBy { get; set; }
 
         public int MessagesCount { get; set; }
 

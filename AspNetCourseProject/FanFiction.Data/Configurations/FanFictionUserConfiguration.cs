@@ -9,12 +9,8 @@
         public void Configure(EntityTypeBuilder<FanFictionUser> builder)
         {
             builder.HasMany(x => x.BlockedUsers)
-                .WithOne(x => x).HasForeignKey(x => x.Id)
-                .OnDelete(DeleteBehavior.ClientSetNull);
-
-            builder.HasMany(x => x.Friends)
-                .WithOne(x => x).HasForeignKey(x => x.Id)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .WithOne(x => x.FanFictionUser).HasForeignKey(x => x.FanfictionUserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(x => x.Notifications)
                 .WithOne(x => x.FanFictionUser)

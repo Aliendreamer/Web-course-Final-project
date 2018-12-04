@@ -69,7 +69,7 @@
                 .Include(x => x.Ratings)
                 .Include(x => x.Author)
                 .OrderByDescending(x => x.CreatedOn)
-                .Take(3).ProjectTo<StoryHomeOutputModel>().ToList(),
+                .Take(2).ProjectTo<StoryHomeOutputModel>().ToList(),
 
                 Announcements = this.Context.Announcements
                     .Where(x => x.PublshedOn.AddMonths(1) >= DateTime.Now.Date)
@@ -97,15 +97,17 @@
 
         public UserOutputViewModel GetUser(string username)
         {
+            //TODO try to see if i can do this with context.Users in one query? should be better and then automapper will work!probably
             var user = this.UserManager.FindByNameAsync(username).Result;
             var stories = this.Context.FictionStories.ProjectTo<StoryOutputModel>().ToArray();
-
+            var users = this.Context.BlockedUsers.ToList();
             var result = Mapper.Map<UserOutputViewModel>(user);
             result.FollowedStories = stories.Where(x => x.Followers.Any(xz => xz.NickName == result.NickName)).ToList();
             result.UserStories = stories.Where(x => x.Author.NickName == result.NickName).ToList();
             result.Stories = result.UserStories.Count;
             result.Role = this.UserManager.GetRolesAsync(user).Result.FirstOrDefault() ?? GlobalConstants.DefaultRole;
-
+            result.BlockedUsers = users.Where(x => x.FanfictionUserId == user.Id).ToList().Count;
+            result.BlockedBy = users.Where(x => x.BlockedUserId == user.Id).ToList().Count;
             return result;
         }
     }

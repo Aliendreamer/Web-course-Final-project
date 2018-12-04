@@ -71,6 +71,7 @@
         }
 
         [HttpGet]
+        // [ResponseCache(Duration = 1200)]
         [Route(GlobalConstants.RouteConstants.UserProfileRoute)]
         public IActionResult Profile(string username)
         {
@@ -84,12 +85,6 @@
             }
 
             return this.View(user);
-        }
-
-        [HttpGet]
-        public IActionResult UserFriends(string name)
-        {
-            return this.View();
         }
 
         public IActionResult BlockedUsers(string name)

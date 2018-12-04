@@ -46,8 +46,8 @@
                 .ForMember(x => x.Notifications, o => o.MapFrom(x => x.Notifications))
                 .ForMember(x => x.UserStories, o => o.Ignore())
                 .ForMember(x => x.FollowedStories, o => o.Ignore())
-                .ForMember(x => x.Friends, opt => opt.MapFrom(x => x.Friends.Count))
-                .ForMember(x => x.BlockedUsers, o => o.MapFrom(x => x.BlockedUsers.Count));
+                .ForMember(x => x.BlockedUsers, x => x.Ignore())
+                .ForMember(x => x.BlockedBy, o => o.Ignore());
 
             CreateMap<FanFictionUser, ChangingRoleModel>()
                 .ForMember(x => x.Id, cfg => cfg.MapFrom(x => x.Id))
