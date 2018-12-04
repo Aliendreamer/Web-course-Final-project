@@ -18,11 +18,11 @@
 
         public const string Failed = "Failed the task";
 
-        public const string AlreadyExist = "The entry already exists";
-
         public const string TooShortAnnouncement = "Your announcement has to be at least 5 characters long";
 
         public const string UserLackRights = "User don't have rights to make this action";
+
+        public const string AlreadyExistsInDb = "this {0} entity already exists";
 
         public const string NoRecordInDb = "No such record!";
 
@@ -41,6 +41,8 @@
         public class RouteConstants
         {
             public const string UserProfileRoute = "/Users/Profile/{username}";
+
+            public const string UserBlockRoute = "/Users/BlockUser/{username}";
 
             public const string Administration = "Administration";
         }

@@ -19,5 +19,7 @@
         void Logout();
 
         UserOutputViewModel GetUser(string nickName);
+
+        Task BlockUser(string currentUser, string name);
     }
 }

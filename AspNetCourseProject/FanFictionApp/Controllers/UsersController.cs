@@ -1,5 +1,6 @@
 ﻿namespace FanFictionApp.Controllers
 {
+    using System.Threading.Tasks;
     using FanFiction.Services.Interfaces;
     using FanFiction.Services.Utilities;
     using FanFiction.ViewModels.InputModels;
@@ -79,6 +80,7 @@
 
             var user = this.UserService.GetUser(username);
 
+            //temporarily only
             if (fullAccess)
             {
                 return this.View("UserDetails", user);
@@ -87,9 +89,15 @@
             return this.View(user);
         }
 
-        public IActionResult BlockedUsers(string name)
+        [HttpGet]
+        [Route(GlobalConstants.RouteConstants.UserBlockRoute)]
+        public async Task<IActionResult> BlockUser(string username)
         {
-            throw new System.NotImplementedException();
+            var currentUser = this.User.Identity.Name;
+
+            await this.UserService.BlockUser(currentUser, username);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

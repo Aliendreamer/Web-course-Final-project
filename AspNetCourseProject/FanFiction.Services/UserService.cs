@@ -110,5 +110,29 @@
             result.BlockedBy = users.Where(x => x.BlockedUserId == user.Id).ToList().Count;
             return result;
         }
+
+        public async Task BlockUser(string currentUser, string name)
+        {
+            var blockingUser = await this.UserManager.FindByNameAsync(currentUser);
+            var userTobeBlocked = await this.UserManager.FindByNameAsync(name);
+
+            var Blocked = new BlockedUsers
+            {
+                FanFictionUser = blockingUser,
+                BlockedUser = userTobeBlocked
+            };
+
+            bool alreadyBlocked = this.Context.BlockedUsers.Any(x =>
+                x.BlockedUser == userTobeBlocked && x.FanFictionUser == blockingUser);
+
+            if (alreadyBlocked)
+            {
+                throw new InvalidOperationException(string.Format(GlobalConstants.AlreadyExistsInDb,
+                    typeof(BlockedUsers).Name));
+            }
+
+            this.Context.BlockedUsers.Add(Blocked);
+            this.Context.SaveChanges();
+        }
     }
 }
