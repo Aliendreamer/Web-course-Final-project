@@ -49,6 +49,11 @@
                 .ForMember(x => x.BlockedUsers, x => x.Ignore())
                 .ForMember(x => x.BlockedBy, o => o.Ignore());
 
+            CreateMap<FanFictionUser, BlockedUserOutputModel>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
+                .ForMember(x => x.Username, opt => opt.MapFrom(x => x.UserName))
+                .ForMember(x => x.Nickname, opt => opt.MapFrom(x => x.Nickname));
+
             CreateMap<FanFictionUser, ChangingRoleModel>()
                 .ForMember(x => x.Id, cfg => cfg.MapFrom(x => x.Id))
                 .ForMember(x => x.Nickname, cfg => cfg.MapFrom(x => x.Nickname))

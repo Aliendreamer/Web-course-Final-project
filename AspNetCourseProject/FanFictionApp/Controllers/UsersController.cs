@@ -1,5 +1,6 @@
 ﻿namespace FanFictionApp.Controllers
 {
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using FanFiction.Services.Interfaces;
     using FanFiction.Services.Utilities;
@@ -98,6 +99,24 @@
             await this.UserService.BlockUser(currentUser, username);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult BlockedUsers()
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var model = this.UserService.BlockedUsers(userId);
+
+            return this.View(model);
+        }
+
+        public IActionResult UnblockUser(string id)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            this.UserService.UnblockUser(userId, id);
+
+            return RedirectToAction("BlockedUsers", "Users");
         }
     }
 }

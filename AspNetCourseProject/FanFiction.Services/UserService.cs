@@ -1,7 +1,9 @@
 ﻿namespace FanFiction.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
@@ -82,13 +84,21 @@
             return homeViewModel;
         }
 
-        public string GetUserNickname(string username)
+        public IEnumerable<BlockedUserOutputModel> BlockedUsers(string userId)
         {
-            var user = this.Context.Users.First(x => x.UserName == username);
-            var nick = user.Nickname;
+            var blockedUsers = this.Context.BlockedUsers
+                .Where(x => x.FanfictionUserId == userId).Select(x => x.BlockedUser).ProjectTo<BlockedUserOutputModel>().ToArray();
 
-            return nick;
+            return blockedUsers;
         }
+
+        //public string GetUserNickname(string username)
+        //{
+        //    var user = this.Context.Users.First(x => x.UserName == username);
+        //    var nick = user.Nickname;
+
+        //    return nick;
+        //}
 
         public async void Logout()
         {
@@ -132,6 +142,21 @@
             }
 
             this.Context.BlockedUsers.Add(Blocked);
+            this.Context.SaveChanges();
+        }
+
+        public void UnblockUser(string userId, string id)
+        {
+            var blocked =
+                this.Context.BlockedUsers.FirstOrDefault(x =>
+                    x.FanfictionUserId == userId && x.BlockedUserId == id);
+
+            if (blocked == null)
+            {
+                throw new InvalidOperationException(GlobalConstants.NoRecordInDb);
+            }
+
+            this.Context.Remove(blocked);
             this.Context.SaveChanges();
         }
     }

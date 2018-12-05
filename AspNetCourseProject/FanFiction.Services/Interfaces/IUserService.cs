@@ -1,5 +1,6 @@
 ﻿namespace FanFiction.Services.Interfaces
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Identity;
     using ViewModels.InputModels;
@@ -14,12 +15,14 @@
 
         HomeLoggedModel GetHomeViewDetails();
 
-        string GetUserNickname(string username);
+        IEnumerable<BlockedUserOutputModel> BlockedUsers(string username);
 
         void Logout();
 
         UserOutputViewModel GetUser(string nickName);
 
         Task BlockUser(string currentUser, string name);
+
+        void UnblockUser(string username, string id);
     }
 }
