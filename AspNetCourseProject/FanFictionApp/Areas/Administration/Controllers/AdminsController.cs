@@ -34,7 +34,7 @@
         [HttpGet]
         public IActionResult AllStories()
         {
-            var model = this.StoryService.CurrentStories();
+            var model = this.StoryService.CurrentStories(null);
 
             return View(model);
         }
@@ -100,18 +100,11 @@
             if (result == IdentityResult.Success)
             {
                 var username = this.User.Identity.Name;
-                return RedirectToAction("Details", new { username });
+                return RedirectToAction("Profile", "Users", new { username });
             }
 
             this.ViewData[GlobalConstants.Error] = GlobalConstants.RoleChangeError;
             return this.EditRole(inputModel.Id);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = GlobalConstants.Admin)]
-        public IActionResult Details(string username)
-        {
-            return View();
         }
 
         [HttpGet]
@@ -132,7 +125,7 @@
         [HttpGet]
         public IActionResult CurrentGenres()
         {
-            var model = this.AdminService.Genres();
+            var model = this.StoryService.Genres();
 
             return this.View(model);
         }
@@ -140,7 +133,7 @@
         [HttpPost]
         public IActionResult CurrentGenres(string name)
         {
-            var genres = this.AdminService.Genres();
+            var genres = this.StoryService.Genres();
 
             if (string.IsNullOrEmpty(name))
             {

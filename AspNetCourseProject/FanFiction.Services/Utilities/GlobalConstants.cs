@@ -36,6 +36,8 @@
 
         public const string ErrorOnDeleteUser = "User was not deleted.Something went wrong!";
 
+        public const string ReturnAllStories = "All";
+
         public const string RoleChangeError = "User already has no role make another choice!";
 
         public class RouteConstants
@@ -43,6 +45,8 @@
             public const string UserProfileRoute = "/Users/Profile/{username}";
 
             public const string UserBlockRoute = "/Users/BlockUser/{username}";
+
+            public const string UserStories = "/Stories/UserStories/{username}";
 
             public const string Administration = "Administration";
         }

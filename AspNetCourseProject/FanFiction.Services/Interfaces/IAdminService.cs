@@ -5,7 +5,6 @@
     using Microsoft.AspNetCore.Identity;
     using ViewModels.InputModels;
     using ViewModels.OutputModels.Announcements;
-    using ViewModels.OutputModels.Stories;
     using ViewModels.OutputModels.Users;
 
     public interface IAdminService
@@ -27,7 +26,5 @@
         void DeleteAllAnnouncements();
 
         string AddGenre(string type);
-
-        ICollection<StoryTypeOutputModel> Genres();
     }
 }

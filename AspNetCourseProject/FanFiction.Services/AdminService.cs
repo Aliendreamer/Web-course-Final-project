@@ -161,11 +161,6 @@
             this.Context.SaveChanges();
         }
 
-        public ICollection<StoryTypeOutputModel> Genres()
-        {
-            return this.Context.StoryTypes.ProjectTo<StoryTypeOutputModel>().ToArray();
-        }
-
         private ICollection<string> AppRoles()
         {
             var result = this.RoleManager.Roles.Select(x => x.Name).ToArray();

@@ -23,11 +23,29 @@
         {
         }
 
-        public ICollection<StoryOutputModel> CurrentStories()
+        public ICollection<StoryOutputModel> CurrentStories(string type = null)
         {
-            var stories = this.Context.FictionStories.ProjectTo<StoryOutputModel>().ToArray();
+            if (string.IsNullOrEmpty(type) || type == GlobalConstants.ReturnAllStories)
+            {
+                return this.Context.FictionStories.ProjectTo<StoryOutputModel>().ToArray();
+            }
+            var stories = this.Context.FictionStories.Where(x => x.Type.Name == type).ProjectTo<StoryOutputModel>().ToArray();
 
             return stories;
+        }
+
+        public ICollection<StoryOutputModel> UserStories(string username)
+        {
+            var user = this.UserManager.Users.FirstOrDefault(x => x.UserName == username);
+            var userStories = this.Context.FictionStories.Where(x => x.Author.Nickname == user.Nickname)
+                .ProjectTo<StoryOutputModel>().ToArray();
+
+            return userStories;
+        }
+
+        public ICollection<StoryTypeOutputModel> Genres()
+        {
+            return this.Context.StoryTypes.ProjectTo<StoryTypeOutputModel>().ToArray();
         }
 
         public async Task DeleteStory(int id, string username)

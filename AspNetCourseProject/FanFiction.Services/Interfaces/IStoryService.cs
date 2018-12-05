@@ -6,8 +6,12 @@
 
     public interface IStoryService
     {
-        ICollection<StoryOutputModel> CurrentStories();
+        ICollection<StoryOutputModel> CurrentStories(string type);
+
+        ICollection<StoryOutputModel> UserStories(string username);
 
         Task DeleteStory(int id, string username);
+
+        ICollection<StoryTypeOutputModel> Genres();
     }
 }

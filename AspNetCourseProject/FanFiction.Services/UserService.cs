@@ -92,6 +92,7 @@
             return blockedUsers;
         }
 
+        //TODO: probably depriciated? should delete it maybe at the refactoring part!
         //public string GetUserNickname(string username)
         //{
         //    var user = this.Context.Users.First(x => x.UserName == username);

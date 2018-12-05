@@ -36,6 +36,13 @@
     <Content Update="Areas\Administration\Views\_ViewStart.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Stories\UserStories.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Notifications\" />
   </ItemGroup>
 
 </Project>

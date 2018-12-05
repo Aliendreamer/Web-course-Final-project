@@ -1,0 +1,62 @@
+﻿@model IEnumerable<StoryOutputModel>
+@inject IStoryService Service
+@{
+    ViewData["Title"] = "AllStories";
+    var genres = this.Service.Genres();
+}
+
+<div class="container-fluid">
+    <div class="row mt-5 col-md-3">
+        <form id="myForm" asp-action="AllStories" asp-controller="Stories">
+            <div class="form-row align-items-center">
+                <div class="col-auto">
+                    <select class="custom-select mr-sm-2" name="type" onchange="this.form.submit">
+                        <option selected>Choose...</option>
+                        @foreach (var g in genres)
+                        {
+                            <option value="@g.Type">@g.Type</option>
+                        }
+                        <option value="All">All</option>
+                    </select>
+
+                </div>
+            </div>
+          </form>
+    </div>
+
+    <div class="row mt-5 mb-5" style="overflow-y: auto;">
+
+        @foreach (var s in Model)
+        {
+            <div class="col-lg-4 col-md-4 mb-4">
+                <div class="card h-100">
+                    <img class="card-img-top" src="@s.ImageUrl" alt="@s.Title">
+                    <div class="card-body">
+                        <h4 class="card-title d-flex justify-content-between">
+                            <small>Title: @s.Title</small>
+                            <small>Genre: @s.Type.Type</small>
+                        </h4>
+                        <h5>Author: @s.Author.NickName</h5>
+                        <hr />
+                        <p class="card-text">@s.Summary</p>
+                    </div>
+                    <div class="card-footer">
+                        <a small class="text-muted card-link" asp-controller="Stories" asp-action="Details" asp-route-id="@s.Id" as>Go to Story</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="mt-5">
+    </div>
+</div>
+@section scripts{
+    @{ await Html.RenderPartialAsync("_MyScriptsPartial"); }
+    
+    <script>
+        $("select").change(function() {
+            $("#myForm").submit();
+        });
+    </script>
+  
+}
