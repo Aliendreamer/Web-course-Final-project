@@ -38,6 +38,8 @@
 
         public const string ReturnAllStories = "All";
 
+        public const string DefaultNoImage = "https://res.cloudinary.com/dbwuk5rsq/image/upload/v1544052092/noimagedefault.jpg";
+
         public const string RoleChangeError = "User already has no role make another choice!";
 
         public class RouteConstants
@@ -49,6 +51,13 @@
             public const string UserStories = "/Stories/UserStories/{username}";
 
             public const string Administration = "Administration";
+        }
+
+        public class CLoudinarySetup
+        {
+            public const string AccCloudinarySecret = "mWiphHpa4VxGBv1Ftzcv63Bzv-w";
+            public const string AccCloudinaryApiKey = "963367669286161";
+            public const string CloudinaryCloudName = "dbwuk5rsq";
         }
     }
 }

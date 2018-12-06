@@ -2,17 +2,23 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
     using Data;
     using Interfaces;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using Utilities;
+    using ViewModels.InputModels;
     using ViewModels.OutputModels.Stories;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.EntityFrameworkCore.Migrations.Design;
 
     public class StoryService : BaseService, IStoryService
     {
@@ -48,6 +54,22 @@
             return this.Context.StoryTypes.ProjectTo<StoryTypeOutputModel>().ToArray();
         }
 
+        public async Task CreateStory(StoryInputModel inputModel)
+        {
+            var accloudinary = SetCloudinary();
+
+            var url = await UploadImage(accloudinary, inputModel.StoryImage, inputModel.Title);
+
+            var newStory = Mapper.Map<FanFictionStory>(inputModel);
+
+            newStory.Author = await this.UserManager.FindByNameAsync(inputModel.Author);
+            newStory.Type = this.Context.StoryTypes.First(x => x.Name == inputModel.Genre);
+            newStory.ImageUrl = url ?? GlobalConstants.DefaultNoImage;
+
+            this.Context.FictionStories.Add(newStory);
+            await this.Context.SaveChangesAsync();
+        }
+
         public async Task DeleteStory(int id, string username)
         {
             var story = this.Context.FictionStories.Include(x => x.Author).Include(x => x.Chapters).FirstOrDefaultAsync(x => x.Id == id).Result;
@@ -64,6 +86,46 @@
 
             this.Context.FictionStories.Remove(story ?? throw new InvalidOperationException(GlobalConstants.NoRecordInDb));
             this.Context.SaveChanges();
+        }
+
+        private async Task<string> UploadImage(Cloudinary cloudinary, IFormFile fileform, string storyName)
+        {
+            if (fileform == null)
+            {
+                return null;
+            }
+
+            byte[] storyImage;
+
+            using (var memoryStream = new MemoryStream())
+            {
+                await fileform.CopyToAsync(memoryStream);
+                storyImage = memoryStream.ToArray();
+            }
+
+            var ms = new MemoryStream(storyImage);
+
+            var uploadParams = new ImageUploadParams()
+            {
+                File = new FileDescription(storyName, ms)
+            };
+
+            var uploadResult = cloudinary.Upload(uploadParams);
+            var url = uploadResult.Uri.AbsolutePath;
+            ms.Dispose();
+            return url;
+        }
+
+        private Cloudinary SetCloudinary()
+        {
+            Account account = new Account(
+                GlobalConstants.CLoudinarySetup.CloudinaryCloudName,
+                GlobalConstants.CLoudinarySetup.AccCloudinaryApiKey,
+                GlobalConstants.CLoudinarySetup.AccCloudinarySecret);
+
+            Cloudinary cloudinary = new Cloudinary(account);
+
+            return cloudinary;
         }
     }
 }

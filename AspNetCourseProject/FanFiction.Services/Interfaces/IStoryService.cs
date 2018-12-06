@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using ViewModels.InputModels;
     using ViewModels.OutputModels.Stories;
 
     public interface IStoryService
@@ -13,5 +14,7 @@
         Task DeleteStory(int id, string username);
 
         ICollection<StoryTypeOutputModel> Genres();
+
+        Task CreateStory(StoryInputModel inputModel);
     }
 }

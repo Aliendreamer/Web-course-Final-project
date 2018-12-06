@@ -1,9 +1,11 @@
 ﻿namespace FanFictionApp.Controllers
 {
-    using System.Linq;
     using FanFiction.Services.Interfaces;
     using FanFiction.Services.Utilities;
+    using FanFiction.ViewModels.InputModels;
     using Microsoft.AspNetCore.Mvc;
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
 
     public class StoriesController : Controller
     {
@@ -34,6 +36,18 @@
         {
             var userStories = this.StoryService.UserStories(username);
             return this.View(userStories);
+        }
+
+        [HttpGet]
+        public IActionResult CreateStory()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateStory(StoryInputModel inputModel)
+        {
+            return this.View();
         }
 
         [HttpGet]

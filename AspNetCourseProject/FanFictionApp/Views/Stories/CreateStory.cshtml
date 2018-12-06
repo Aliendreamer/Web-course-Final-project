@@ -1,0 +1,67 @@
+﻿@model StoryInputModel
+@{
+    ViewData["Title"] = "CreateStory";
+}
+
+<div class="container-fluid mt-5">
+    <div class="col-md-8">
+
+        <h2 class="d-flex justify-content-center">@ViewData["Title"] </h2>
+        <hr class="h2" />
+
+        <form role="form" class="justify-content-around" enctype="multipart/form-data" method="post" asp-controller="Stories" asp-action="CreateStory">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Title" class="d-flex justify-content-center "></label>
+                        <input asp-for="Title" class="form-control" placeholder="Title..." />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Summary" class="d-flex justify-content-center "></label>
+                        <input asp-for="Summary" class="form-control" placeholder="Email..." />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input asp-for="Author" class="form-control" placeholder="Password..." name="Author" value="@this.User.Identity.Name" type="hidden" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Genre" class="d-flex justify-content-center "></label>
+                        <input asp-for="Genre" class="form-control" placeholder="Firstname..." />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="StoryImage" class="d-flex justify-content-center "></label>
+                        <input type="file" asp-for="StoryImage" class="form-control" name="StoryImage" />
+                    </div>
+                </div>
+            </div>
+
+            <hr class="h2 " />
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-info">Login</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section scripts{
+
+    @{ await Html.RenderPartialAsync("_MyScriptsPartial"); }
+
+}

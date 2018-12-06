@@ -66,6 +66,12 @@
                 .ForMember(opt => opt.Author, cfg => cfg.Ignore())
                 .ForMember(x => x.PublshedOn, opt => opt.MapFrom(o => DateTime.UtcNow));
 
+            CreateMap<StoryInputModel, FanFictionStory>()
+                .ForMember(x => x.CreatedOn, opt => opt.MapFrom(x => DateTime.UtcNow))
+                .ForMember(x => x.LastEditedOn, opt => opt.MapFrom(x => DateTime.UtcNow))
+                .ForMember(x => x.Summary, o => o.MapFrom(x => x.Summary))
+                .ForMember(x => x.Title, o => o.MapFrom(x => x.Title));
+
             CreateMap<FanFictionStory, StoryOutputModel>()
                 .ForMember(opt => opt.Ratings, cfg => cfg.MapFrom(x => x.Ratings.Select(z => z.StoryRating.Rating)))
                 .ForMember(opt => opt.Followers, cfg => cfg.MapFrom(x => x.Followers.Select(xx => xx.FanFictionUser)))
