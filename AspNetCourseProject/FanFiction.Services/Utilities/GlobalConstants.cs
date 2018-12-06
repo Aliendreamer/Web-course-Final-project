@@ -38,6 +38,12 @@
 
         public const string ReturnAllStories = "All";
 
+        public const string JpgFormat = "jpg";
+
+        public const string PngFormat = "png";
+
+        public const string WrongFileType = "Image file should be jpg or png";
+
         public const string DefaultNoImage = "https://res.cloudinary.com/dbwuk5rsq/image/upload/v1544052092/noimagedefault.jpg";
 
         public const string RoleChangeError = "User already has no role make another choice!";

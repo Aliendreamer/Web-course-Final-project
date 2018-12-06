@@ -1,11 +1,10 @@
 ﻿namespace FanFictionApp.Controllers
 {
+    using System.Threading.Tasks;
     using FanFiction.Services.Interfaces;
     using FanFiction.Services.Utilities;
     using FanFiction.ViewModels.InputModels;
     using Microsoft.AspNetCore.Mvc;
-    using CloudinaryDotNet;
-    using CloudinaryDotNet.Actions;
 
     public class StoriesController : Controller
     {
@@ -45,13 +44,30 @@
         }
 
         [HttpPost]
-        public IActionResult CreateStory(StoryInputModel inputModel)
+        public async Task<IActionResult> CreateStory(StoryInputModel inputModel)
         {
-            return this.View();
+            var fileType = inputModel.StoryImage.ContentType.Split('/')[1];
+
+            bool wrongType = fileType == GlobalConstants.JpgFormat || fileType == GlobalConstants.PngFormat;
+
+            if (!ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            if (!wrongType)
+            {
+                this.ViewData[GlobalConstants.Error] = GlobalConstants.WrongFileType;
+                return this.View(inputModel);
+            }
+
+            var id = await this.StoryService.CreateStory(inputModel);
+
+            return RedirectToAction("StoryDetails", "Stories", new { id });
         }
 
         [HttpGet]
-        public IActionResult StoryDetails()
+        public IActionResult StoryDetails(int id)
         {
             return this.View();
         }
@@ -72,11 +88,6 @@
         public IActionResult DeleteStory(int id)
         {
             return null;
-        }
-
-        public IActionResult Details()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

@@ -18,7 +18,6 @@
     using ViewModels.InputModels;
     using ViewModels.OutputModels.Stories;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.EntityFrameworkCore.Migrations.Design;
 
     public class StoryService : BaseService, IStoryService
     {
@@ -54,7 +53,7 @@
             return this.Context.StoryTypes.ProjectTo<StoryTypeOutputModel>().ToArray();
         }
 
-        public async Task CreateStory(StoryInputModel inputModel)
+        public async Task<int> CreateStory(StoryInputModel inputModel)
         {
             var accloudinary = SetCloudinary();
 
@@ -68,6 +67,7 @@
 
             this.Context.FictionStories.Add(newStory);
             await this.Context.SaveChangesAsync();
+            return newStory.Id;
         }
 
         public async Task DeleteStory(int id, string username)
@@ -111,9 +111,9 @@
             };
 
             var uploadResult = cloudinary.Upload(uploadParams);
-            var url = uploadResult.Uri.AbsolutePath;
+
             ms.Dispose();
-            return url;
+            return uploadResult.SecureUri.AbsoluteUri;
         }
 
         private Cloudinary SetCloudinary()

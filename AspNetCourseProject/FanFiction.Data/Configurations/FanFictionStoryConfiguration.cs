@@ -42,9 +42,6 @@
             builder.Property(x => x.Title).IsRequired()
                 .HasMaxLength(100);
 
-            builder.HasIndex(x => x.Title)
-                   .IsUnique();
-
             builder.Ignore(x => x.Rating);
 
             builder.Ignore(x => x.Length);
