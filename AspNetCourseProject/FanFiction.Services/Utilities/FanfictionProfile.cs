@@ -15,7 +15,19 @@
         {
             CreateMap<RegisterInputModel, FanFictionUser>();
 
-            CreateMap<FanFictionStory, StoryOutputModel>();
+            CreateMap<FanFictionStory, StoryOutputModel>()
+                .ForMember(opt => opt.Ratings, cfg => cfg.MapFrom(x => x.Ratings.Select(z => z.StoryRating.Rating)))
+                .ForMember(opt => opt.Followers, cfg => cfg.MapFrom(x => x.Followers.Select(xx => xx.FanFictionUser)))
+                .ForMember(x => x.LastEditedOn, opt => opt.MapFrom(x => x.LastEditedOn.Date))
+                .ForMember(x => x.CreatedOn, opt => opt.MapFrom(x => x.CreatedOn.Date))
+                .ForMember(o => o.Rating, opt => opt.Ignore())
+                .ForMember(x => x.Summary, opt => opt.NullSubstitute(GlobalConstants.NoSummary))
+                .ForMember(x => x.Comments, opt => opt.MapFrom(x => x.Comments))
+                .ForMember(x => x.Chapters, opt => opt.MapFrom(x => x.Chapters))
+                .ForMember(x => x.Title, o => o.MapFrom(x => x.Title))
+                .ForMember(x => x.Type, o => o.MapFrom(x => x.Type))
+                .ForMember(x => x.Id, o => o.MapFrom(x => x.Id))
+                .ForMember(x => x.ImageUrl, o => o.AllowNull());
 
             CreateMap<FanFictionStory, StoryHomeOutputModel>()
                 .ForMember(opt => opt.Author, cfg => cfg.MapFrom(x => x.Author.Nickname))
@@ -24,8 +36,24 @@
                 .ForMember(opt => opt.Id, cfg => cfg.MapFrom(x => x.Id))
                 .ForMember(opt => opt.CreatedOn, cfg => cfg.MapFrom(x => x.CreatedOn.ToShortDateString()))
                 .ForMember(opt => opt.Summary, cfg => cfg.MapFrom(x => x.Summary != null ? x.Summary.Substring(0, 50) : GlobalConstants.NoSummary))
-                .ForMember(opt => opt.Rating, cfg => cfg.Condition(x => x.Ratings.Any()))
                 .ForMember(opt => opt.Rating, cfg => cfg.MapFrom(x => x.Ratings.Any() ? x.Ratings.Average(r => r.StoryRating.Rating) : 0));
+
+            CreateMap<StoryInputModel, FanFictionStory>()
+                .ForMember(x => x.CreatedOn, opt => opt.MapFrom(x => x.CreatedOn))
+                .ForMember(x => x.LastEditedOn, opt => opt.MapFrom(x => x.CreatedOn))
+                .ForMember(x => x.Summary, o => o.MapFrom(x => x.Summary))
+                .ForMember(x => x.Title, o => o.MapFrom(x => x.Title))
+                .ForAllOtherMembers(x => x.Ignore());
+
+            CreateMap<FanFictionStory, StoryDetailsOutputModel>()
+                .ForMember(x => x.CreatedOn, opt => opt.MapFrom(x => x.CreatedOn.ToShortDateString()))
+                .ForMember(x => x.LastEditedOn, opt => opt.MapFrom(x => x.LastEditedOn.ToShortDateString()))
+                .ForMember(x => x.Author, opt => opt.MapFrom(x => x.Author.UserName))
+                .ForMember(x => x.Title, opt => opt.MapFrom(x => x.Title))
+                .ForMember(x => x.StoryType, opt => opt.MapFrom(x => x.Type.Name))
+                .ForMember(x => x.Rating, cfg => cfg.MapFrom(x => x.Ratings.Any() ? x.Ratings.Average(r => r.StoryRating.Rating) : 0))
+                .ForMember(x => x.ImageUrl, o => o.MapFrom(x => x.ImageUrl))
+                .ForMember(opt => opt.Summary, cfg => cfg.NullSubstitute(GlobalConstants.NoSummary));
 
             CreateMap<Announcement, AnnouncementOutputModel>()
                 .ForMember(opt => opt.Author, cfg => cfg.MapFrom(x => x.Author.UserName))
@@ -66,27 +94,6 @@
                 .ForMember(opt => opt.Author, cfg => cfg.Ignore())
                 .ForMember(x => x.PublshedOn, opt => opt.MapFrom(o => DateTime.UtcNow));
 
-            CreateMap<StoryInputModel, FanFictionStory>()
-                .ForMember(x => x.CreatedOn, opt => opt.MapFrom(x => x.CreatedOn))
-                .ForMember(x => x.LastEditedOn, opt => opt.MapFrom(x => x.CreatedOn))
-                .ForMember(x => x.Summary, o => o.MapFrom(x => x.Summary))
-                .ForMember(x => x.Title, o => o.MapFrom(x => x.Title))
-                .ForAllOtherMembers(x => x.Ignore());
-
-            CreateMap<FanFictionStory, StoryOutputModel>()
-                .ForMember(opt => opt.Ratings, cfg => cfg.MapFrom(x => x.Ratings.Select(z => z.StoryRating.Rating)))
-                .ForMember(opt => opt.Followers, cfg => cfg.MapFrom(x => x.Followers.Select(xx => xx.FanFictionUser)))
-                .ForMember(x => x.LastEditedOn, opt => opt.MapFrom(x => x.LastEditedOn.Date))
-                .ForMember(x => x.CreatedOn, opt => opt.MapFrom(x => x.CreatedOn.Date))
-                .ForMember(o => o.Rating, opt => opt.Ignore())
-                .ForMember(x => x.Summary, opt => opt.NullSubstitute(GlobalConstants.NoSummary))
-                .ForMember(x => x.Comments, opt => opt.MapFrom(x => x.Comments))
-                .ForMember(x => x.Chapters, opt => opt.MapFrom(x => x.Chapters))
-                .ForMember(x => x.Title, o => o.MapFrom(x => x.Title))
-                .ForMember(x => x.Type, o => o.MapFrom(x => x.Type))
-                .ForMember(x => x.Id, o => o.MapFrom(x => x.Id))
-                .ForMember(x => x.ImageUrl, o => o.AllowNull());
-
             CreateMap<Chapter, ChapterOutputModel>()
                 .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
                 .ForMember(x => x.Content, opt => opt.MapFrom(x => x.Content))
@@ -94,7 +101,7 @@
                 .ForMember(x => x.CreatedOn, opt => opt.MapFrom(x => x.CreatedOn.Date))
                 .ForMember(x => x.Author, o => o.MapFrom(x => x.FanFictionUser.Nickname));
 
-            CreateMap<Comment, CommentOtputModel>()
+            CreateMap<Comment, CommentOutputModel>()
                 .ForMember(x => x.Id, o => o.MapFrom(x => x.Id))
                 .ForMember(x => x.Author, o => o.MapFrom(x => x.FanFictionUser.UserName))
                 .ForMember(x => x.CommentedOn, o => o.MapFrom(x => x.CommentedOn.Date))

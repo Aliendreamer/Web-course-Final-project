@@ -16,5 +16,7 @@
         ICollection<StoryTypeOutputModel> Genres();
 
         Task<int> CreateStory(StoryInputModel inputModel);
+
+        StoryDetailsOutputModel GetStoryById(int id);
     }
 }

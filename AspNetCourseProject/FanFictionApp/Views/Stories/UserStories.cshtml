@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
     <div class="row mt-5 col-md-3">
-       <a class="btn btn-dark" asp-action="CreateStory" asp-controller="Stories">Add Story</a>
+        <a class="btn btn-dark" asp-action="CreateStory" asp-controller="Stories">Add Story</a>
     </div>
     <div class="row mt-5 mb-5" style="overflow-y: auto;">
 
@@ -14,14 +14,14 @@
         {
             <div class="col-lg-4 col-md-4 mb-4">
                 <div class="card h-100">
-                    <img class="card-img-top" src="@s.ImageUrl" alt="@s.Title">
+                    <img class="card-img-top w-100" src="@s.ImageUrl" alt="@s.Title" style="height: 250px;">
                     <div class="card-body">
                         <h4 class="card-title d-flex justify-content-between">
                             <small>Title: @s.Title</small>
                             <small>Genre: @s.Type.Type</small>
                         </h4>
 
-                        <hr/>
+                        <hr />
                         <p class="card-text">@s.Summary</p>
                     </div>
                     <div class="card-footer">

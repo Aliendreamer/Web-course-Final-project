@@ -1,0 +1,29 @@
+﻿@model StoryDetailsOutputModel
+@{
+    ViewData["Title"] = "Details";
+    //int id = int.Parse(this.Context.Request.Path.Value.Last().ToString);
+    int id = Model.Id;
+}
+
+<div class="row col-md-12">
+
+    <div class="col-md-4">
+        <div class="card w-100">
+            <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Title</h5>
+                <h6 class="card-subtitle mb-2 text-muted">@Model.Author</h6>
+                <p class="card-text">@Model.Summary</p>
+                <div class="btn-group-justified">
+                    <a href="#" class="btn btn-primary">Follow</a>
+                    <a href="#" class="btn btn-primary">UnFollow </a>
+                    <a href="#" class="btn btn-primary">Delete </a>
+                </div>
+            </div>
+        </div>     
+        
+        <partial name="AddChapterPartial"
+                 model="new ChapterInputModel { StoryId = @id}" />
+    </div>
+  
+</div>

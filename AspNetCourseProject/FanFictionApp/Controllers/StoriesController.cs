@@ -1,10 +1,10 @@
 ﻿namespace FanFictionApp.Controllers
 {
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
     using FanFiction.Services.Interfaces;
     using FanFiction.Services.Utilities;
     using FanFiction.ViewModels.InputModels;
-    using Microsoft.AspNetCore.Mvc;
 
     public class StoriesController : Controller
     {
@@ -67,9 +67,10 @@
         }
 
         [HttpGet]
-        public IActionResult StoryDetails(int id)
+        public IActionResult Details(int id)
         {
-            return this.View();
+            var fictionStory = this.StoryService.GetStoryById(id);
+            return this.View(fictionStory);
         }
 
         [HttpGet]
@@ -87,7 +88,11 @@
         [HttpGet]
         public IActionResult DeleteStory(int id)
         {
-            return null;
+            string username = this.User.Identity.Name;
+
+            this.StoryService.DeleteStory(id, username);
+
+            return RedirectToAction("UserStories");
         }
     }
 }

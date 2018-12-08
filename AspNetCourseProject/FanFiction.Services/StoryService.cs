@@ -70,6 +70,15 @@
             return newStory.Id;
         }
 
+        public StoryDetailsOutputModel GetStoryById(int id)
+        {
+            var story = this.Context.FictionStories.Find(id);
+
+            var storyModel = this.Mapper.Map<StoryDetailsOutputModel>(story);
+
+            return storyModel;
+        }
+
         public async Task DeleteStory(int id, string username)
         {
             var story = this.Context.FictionStories.Include(x => x.Author).Include(x => x.Chapters).FirstOrDefaultAsync(x => x.Id == id).Result;
@@ -107,7 +116,8 @@
 
             var uploadParams = new ImageUploadParams()
             {
-                File = new FileDescription(storyName, ms)
+                File = new FileDescription(storyName, ms),
+                Transformation = new Transformation().Width(200).Height(250).Crop("fit").SetHtmlWidth(250).SetHtmlHeight(100)
             };
 
             var uploadResult = cloudinary.Upload(uploadParams);

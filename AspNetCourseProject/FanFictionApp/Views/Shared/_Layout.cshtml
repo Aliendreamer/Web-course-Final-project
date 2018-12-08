@@ -12,7 +12,7 @@
 <body>
     <div class="container-flex">
         <header>
-            <nav class="navbar navbar-expand-md navbar-dark bg-dark  justify-content-between">
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark  justify-content-between w-100">
                 <a class="navbar-brand text-white" href="/">Fan FictionApp</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon text-white"></span>
@@ -22,9 +22,7 @@
                         <li class="nav-item">
                             <a class="nav-link" style="color: white" href="/">Home</a>
                         </li>
-                        <li>
-                            <a class="nav-link" style="color: white" asp-action="Contact" asp-area="" asp-controller="Home">Contact</a>
-                        </li>
+
                         <li>
 
                             <a class="nav-link" style="color: white" asp-action="About" asp-area="" asp-controller="Home">About</a>
@@ -75,17 +73,17 @@
                                 <a class="nav-link" style="color: white" asp-controller="Home" asp-action="Index">Hello @User.Identity.Name!</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" style="color: white" asp-controller="Users" asp-action="Logout" asp-area="" >Logout</a>
+                                <a class="nav-link" style="color: white" asp-controller="Users" asp-action="Logout" asp-area="">Logout</a>
                             </li>
                         </ul>
                     }
                 </div>
             </nav>
         </header>
-        <div class=" mb-5" style="padding-bottom: 50px">
+        <div style="padding-bottom: 50px;padding-top: 20px">
             @RenderBody()
         </div>
-        <footer class=" text-center  bg-dark container-fluid" style="position: fixed;bottom: 0">
+        <footer class=" text-center  bg-dark container-fluid" style="position: fixed; bottom: 0;right:0">
             <div>
                 <hr />
                 <p class="text-primary">&copy;CopyRight AlienDreamer Studios 2018. All rights reserved. </p>
