@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ChapterOutputModel>
+@{
+    bool haschapter = Model.Any();
+    bool author = Model.All(x => x.Author == this.User.Identity.Name);
+    var storyId = ViewData["storyId"].ToString();
+}
+<div class="col-md-12 border border-dark" style="overflow-y: auto; max-height: 100%;">
+    @if (Model.Any())
+    {
+        foreach (var s in Model)
+        {
+            <div class="col-md-12">
+
+                <div class="col-md-12 media-heading  justify-content-center">
+                    <h4 class="mt-0"> Chapter Title:@s.Title</h4>
+                    <h5 class="mt-0"> Added On Title:@s.CreatedOn</h5>
+                    <hr />
+                </div>
+                <div class="media-body col-md-12">
+                    <p>
+                        @s.Content
+                    </p>
+                </div>
+                @if (haschapter && author)
+                {
+                    <div class="btn-block">
+                        <a asp-action="DeleteChapter" asp-area="" asp-controller="Stories"
+                           asp-all-route-data="new Dictionary<string, string>{
+                    {GlobalConstants.StoryId,@storyId},
+                    { GlobalConstants.ChapterId,@s.Id.ToString()}};" class="btn btn-block btn-danger">Delete Chapter</a>
+                    </div>
+                }
+            </div>
+            <hr style="height: 2px" />
+        }
+    }
+    else
+    {
+        <h3 class="text-center">Story has no added chapters</h3>
+    }
+</div>

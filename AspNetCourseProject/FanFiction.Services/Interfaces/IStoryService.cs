@@ -24,5 +24,9 @@
         Task<int> CreateStory(StoryInputModel inputModel);
 
         StoryDetailsOutputModel GetStoryById(int id);
+
+        void DeleteChapter(int storyId, int chapterid, string username);
+
+        void AddChapter(ChapterInputModel inputModel);
     }
 }

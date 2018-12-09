@@ -4,14 +4,16 @@ using FanFiction.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FanFiction.Data.Migrations
 {
     [DbContext(typeof(FanFictionContext))]
-    partial class FanFictionContextModelSnapshot : ModelSnapshot
+    [Migration("20181209072536_AddedTitleToChapterRemovedCommentsFromIt")]
+    partial class AddedTitleToChapterRemovedCommentsFromIt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,6 +71,8 @@ namespace FanFiction.Data.Migrations
 
                     b.Property<int>("FanFictionStoryId");
 
+                    b.Property<int?>("FanFictionStoryId1");
+
                     b.Property<string>("Title")
                         .HasMaxLength(50);
 
@@ -77,6 +81,8 @@ namespace FanFiction.Data.Migrations
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("FanFictionStoryId");
+
+                    b.HasIndex("FanFictionStoryId1");
 
                     b.ToTable("Chapters");
                 });
@@ -452,9 +458,13 @@ namespace FanFiction.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("FanFiction.Models.FanFictionStory", "FanFictionStory")
-                        .WithMany("Chapters")
+                        .WithMany()
                         .HasForeignKey("FanFictionStoryId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FanFiction.Models.FanFictionStory")
+                        .WithMany("Chapters")
+                        .HasForeignKey("FanFictionStoryId1");
                 });
 
             modelBuilder.Entity("FanFiction.Models.Comment", b =>

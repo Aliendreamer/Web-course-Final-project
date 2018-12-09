@@ -5,7 +5,6 @@
     using FanFiction.Services.Interfaces;
     using FanFiction.Services.Utilities;
     using FanFiction.ViewModels.InputModels;
-    using FanFiction.ViewModels.OutputModels.Stories;
 
     public class StoriesController : Controller
     {
@@ -75,17 +74,35 @@
             return this.View(fictionStory);
         }
 
-        [HttpPost]
-        public IActionResult AddChapter(ChapterInputModel inputModel)
+        [HttpGet]
+        [Route(GlobalConstants.RouteConstants.AddChapterRoute)]
+        public IActionResult AddChapter(int storyId)
         {
-            var a = inputModel;
+            this.ViewData["StoryId"] = storyId;
             return this.View();
         }
 
-        [HttpGet]
-        public IActionResult DeleteChapter()
+        [HttpPost]
+        public IActionResult AddChapter(ChapterInputModel inputModel)
         {
-            return this.View();
+            if (!ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            this.StoryService.AddChapter(inputModel);
+
+            return RedirectToAction("Details", "Stories", new { id = inputModel.StoryId });
+        }
+
+        [HttpGet]
+        public IActionResult DeleteChapter([FromQuery]int storyId, [FromQuery] int chapterid)
+        {
+            string username = this.User.Identity.Name;
+            this.StoryService.DeleteChapter(storyId, chapterid, username);
+
+            this.ViewData["redirectAfterAction"] = storyId;
+            return RedirectToAction("Details", "Stories", new { id = storyId });
         }
 
         [HttpGet]

@@ -44,15 +44,27 @@
 
         public const string WrongFileType = "Image file should be jpg or png";
 
+        public const string NotValidChapterStoryConnection = "This story with id: {0} or chapter with id: {1} don't have a connection";
+
+        public const string NotAuthor = "For this action user need to be author of the fiction story";
+
+        public const string UserHasNoRights = "User need role admin or moderator for this action";
+
         public const string MissingStory = "No Fiction story with such Id";
 
         public const string UsernameHolder = "username";
+
+        public const string NoTitleAdded = "Chapter has no title";
 
         public const string UserDontFollow = "User has no following on this story";
 
         public const string DefaultNoImage = "https://res.cloudinary.com/dbwuk5rsq/image/upload/v1544052092/noimagedefault.jpg";
 
         public const string RoleChangeError = "User already has no role make another choice!";
+
+        public const string ChapterId = "chapterId";
+
+        public const string StoryId = "storyId";
 
         public class RouteConstants
         {
@@ -63,6 +75,8 @@
             public const string UserStories = "/Stories/UserStories/{username}";
 
             public const string Administration = "Administration";
+
+            public const string AddChapterRoute = "/Stories/AddChapter/{storyId}";
         }
 
         public class CLoudinarySetup

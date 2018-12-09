@@ -21,6 +21,7 @@
 
     public class StoryService : BaseService, IStoryService
     {
+        //TODO: I should probably refactor this and Create ChapterService? probably?
         public StoryService(UserManager<FanFictionUser> userManager,
             SignInManager<FanFictionUser> signInManager,
             FanFictionContext context, IMapper mapper)
@@ -133,6 +134,48 @@
             var storyModel = this.Mapper.Map<StoryDetailsOutputModel>(story);
 
             return storyModel;
+        }
+
+        public void DeleteChapter(int storyId, int chapterid, string username)
+        {
+            var story = this.Context.FictionStories.Find(storyId);
+            var chapter = this.Context.Chapters.Find(chapterid);
+
+            var user = this.UserManager.FindByNameAsync(username).GetAwaiter().GetResult();
+
+            var userRoles = UserManager.GetRolesAsync(user).GetAwaiter().GetResult();
+
+            bool roles = userRoles.All(x => x != GlobalConstants.Admin) ||
+                         userRoles.All(x => x != GlobalConstants.Moderator);
+
+            bool author = user.Id == chapter.AuthorId;
+
+            if (roles && !author)
+            {
+                throw new InvalidOperationException(GlobalConstants.UserHasNoRights);
+            }
+
+            if (!author)
+            {
+                throw new InvalidOperationException(GlobalConstants.NotAuthor);
+            }
+
+            if (story.Chapters.All(x => x.Id != chapter.Id) || chapter.FanFictionStoryId != story.Id)
+            {
+                throw new InvalidOperationException(string.Join(GlobalConstants.NotValidChapterStoryConnection, story.Id, chapter.Id));
+            }
+            this.Context.Chapters.Remove(chapter);
+            this.Context.SaveChangesAsync().GetAwaiter().GetResult();
+        }
+
+        public void AddChapter(ChapterInputModel inputModel)
+        {
+            var user = this.UserManager.FindByNameAsync(inputModel.Author).GetAwaiter().GetResult();
+            var chapter = Mapper.Map<Chapter>(inputModel);
+            chapter.AuthorId = user.Id;
+
+            this.Context.Chapters.Add(chapter);
+            this.Context.SaveChanges();
         }
 
         public async Task DeleteStory(int id, string username)

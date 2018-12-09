@@ -28,7 +28,7 @@
 
         public DateTime LastEditedOn { get; set; }
 
-        public ICollection<Chapter> Chapters { get; set; }
+        public virtual ICollection<Chapter> Chapters { get; set; }
 
         public ICollection<UserStory> Followers { get; set; }
 

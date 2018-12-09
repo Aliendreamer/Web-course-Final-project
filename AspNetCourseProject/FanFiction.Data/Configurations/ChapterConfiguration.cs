@@ -10,6 +10,10 @@
         {
             builder.HasKey(x => x.Id);
 
+            builder.Property(x => x.Title)
+                .IsRequired(false)
+                .HasMaxLength(50);
+
             builder.Property(x => x.Content)
                 .IsRequired()
                 .HasMaxLength(3000);

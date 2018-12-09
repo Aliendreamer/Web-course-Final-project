@@ -16,10 +16,10 @@
 
             builder.Property(x => x.ImageUrl).IsRequired(false);
 
-            builder.HasMany<Chapter>()
-                .WithOne(x => x.FanFictionStory)
-                .HasForeignKey(x => x.FanFictionStoryId)
-                .OnDelete(DeleteBehavior.Cascade);
+            //builder.HasMany<Chapter>()
+            //    .WithOne(x => x.FanFictionStory)
+            //    .HasForeignKey(x => x.FanFictionStoryId)
+            //    .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(x => x.Type)
                 .WithMany(x => x.Stories)

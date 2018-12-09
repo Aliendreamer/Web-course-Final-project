@@ -48,8 +48,9 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <vc:></vc:>
+    <div class="col-md-6" style="max-height:100%">
+
+        @await Component.InvokeAsync("ChapterList", new { storyId = @Model.Id })
     </div>
 </div>
 @section scripts{

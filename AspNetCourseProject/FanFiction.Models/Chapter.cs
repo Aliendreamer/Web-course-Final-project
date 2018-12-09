@@ -1,16 +1,12 @@
 ﻿namespace FanFiction.Models
 {
     using System;
-    using System.Collections.Generic;
 
     public class Chapter
     {
-        public Chapter()
-        {
-            this.Comments = new HashSet<Comment>();
-        }
-
         public int Id { get; set; }
+
+        public string Title { get; set; }
 
         public double Length => this.Content.Length;
 
@@ -23,7 +19,5 @@
         public string Content { get; set; }
 
         public DateTime CreatedOn { get; set; }
-
-        public ICollection<Comment> Comments { get; set; }
     }
 }

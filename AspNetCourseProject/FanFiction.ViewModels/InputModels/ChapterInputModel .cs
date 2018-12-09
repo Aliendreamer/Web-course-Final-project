@@ -10,6 +10,9 @@
         [Required]
         public int StoryId { get; set; }
 
+        [StringLength(50, MinimumLength = 5)]
+        public string Title { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         [Required]
