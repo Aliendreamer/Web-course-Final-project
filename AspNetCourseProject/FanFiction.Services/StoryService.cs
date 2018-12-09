@@ -53,6 +53,57 @@
             return this.Context.StoryTypes.ProjectTo<StoryTypeOutputModel>().ToArray();
         }
 
+        public async Task Follow(string username, int id)
+        {
+            var user = await this.UserManager.FindByNameAsync(username);
+
+            var userstory = new UserStory
+            {
+                FanFictionStoryId = id,
+                FanfictionUserId = user.Id
+            };
+
+            this.Context.UsersStories.Add(userstory);
+            await this.Context.SaveChangesAsync();
+        }
+
+        public async Task UnFollow(string username, int id)
+        {
+            var user = await this.UserManager.FindByNameAsync(username);
+            var entity = this.Context.UsersStories
+                .Where(st => st.FanFictionStoryId == id)
+                .Select(st => new UserStory
+                {
+                    FanFictionStoryId = id,
+                    FanfictionUserId = user.Id
+                }).FirstOrDefault();
+
+            if (entity != null)
+            {
+                this.Context.UsersStories.Remove(entity);
+                await this.Context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new ArgumentNullException(GlobalConstants.UserDontFollow);
+            }
+        }
+
+        public bool IsFollowed(string userId, int id)
+        {
+            var entity = this.Context.UsersStories
+                .Where(st => st.FanFictionStoryId == id)
+                .Select(st => new UserStory
+                {
+                    FanFictionStoryId = id,
+                    FanfictionUserId = userId
+                }).FirstOrDefault();
+
+            var result = entity != null;
+
+            return result;
+        }
+
         public async Task<int> CreateStory(StoryInputModel inputModel)
         {
             var accloudinary = SetCloudinary();
@@ -72,7 +123,12 @@
 
         public StoryDetailsOutputModel GetStoryById(int id)
         {
-            var story = this.Context.FictionStories.Find(id);
+            var story = this.Context.FictionStories.Include(x => x.Type).Include(x => x.Author).FirstOrDefault(x => x.Id == id);
+
+            if (story == null)
+            {
+                throw new ArgumentException(GlobalConstants.MissingStory);
+            }
 
             var storyModel = this.Mapper.Map<StoryDetailsOutputModel>(story);
 

@@ -44,6 +44,12 @@
 
         public const string WrongFileType = "Image file should be jpg or png";
 
+        public const string MissingStory = "No Fiction story with such Id";
+
+        public const string UsernameHolder = "username";
+
+        public const string UserDontFollow = "User has no following on this story";
+
         public const string DefaultNoImage = "https://res.cloudinary.com/dbwuk5rsq/image/upload/v1544052092/noimagedefault.jpg";
 
         public const string RoleChangeError = "User already has no role make another choice!";

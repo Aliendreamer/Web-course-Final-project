@@ -5,6 +5,7 @@
     using FanFiction.Services.Interfaces;
     using FanFiction.Services.Utilities;
     using FanFiction.ViewModels.InputModels;
+    using FanFiction.ViewModels.OutputModels.Stories;
 
     public class StoriesController : Controller
     {
@@ -33,6 +34,7 @@
         [Route(GlobalConstants.RouteConstants.UserStories)]
         public IActionResult UserStories(string username)
         {
+            this.ViewData[GlobalConstants.UsernameHolder] = username;
             var userStories = this.StoryService.UserStories(username);
             return this.View(userStories);
         }
@@ -73,9 +75,10 @@
             return this.View(fictionStory);
         }
 
-        [HttpGet]
-        public IActionResult AddChapter()
+        [HttpPost]
+        public IActionResult AddChapter(ChapterInputModel inputModel)
         {
+            var a = inputModel;
             return this.View();
         }
 
@@ -86,13 +89,31 @@
         }
 
         [HttpGet]
-        public IActionResult DeleteStory(int id)
+        public async Task<IActionResult> DeleteStory(int id)
         {
             string username = this.User.Identity.Name;
 
-            this.StoryService.DeleteStory(id, username);
+            await this.StoryService.DeleteStory(id, username);
 
-            return RedirectToAction("UserStories");
+            return RedirectToAction("UserStories", "Stories", new { username });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Follow(int id)
+        {
+            var username = this.User.Identity.Name;
+            await this.StoryService.Follow(username, id);
+
+            return RedirectToAction("Details", "Stories", new { id });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UnFollow(int id)
+        {
+            var username = this.User.Identity.Name;
+            await this.StoryService.UnFollow(username, id);
+
+            return RedirectToAction("Details", "Stories", new { id });
         }
     }
 }

@@ -1,29 +1,58 @@
 ﻿@model StoryDetailsOutputModel
+@inject IStoryService service
+@inject UserManager<FanFictionUser> manager
 @{
     ViewData["Title"] = "Details";
-    //int id = int.Parse(this.Context.Request.Path.Value.Last().ToString);
-    int id = Model.Id;
+
+    bool owner = this.User.Identity.Name == @Model.Author;
+    var user = await this.manager.FindByNameAsync(this.User.Identity.Name);
+    var followed = this.service.IsFollowed(user.Id, Model.Id);
+
 }
 
-<div class="row col-md-12">
+<div class="row col-md-12 mb-5 mt-5">
 
     <div class="col-md-4">
         <div class="card w-100">
-            <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">@Model.Title</h5>
-                <h6 class="card-subtitle mb-2 text-muted">@Model.Author</h6>
-                <p class="card-text">@Model.Summary</p>
-                <div class="btn-group-justified">
-                    <a href="#" class="btn btn-primary">Follow</a>
-                    <a href="#" class="btn btn-primary">UnFollow </a>
-                    <a href="#" class="btn btn-primary">Delete </a>
-                </div>
+            <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap" style="height:250px">
+            <div class="card-body ">
+                <h5 class="card-title">Title:  @Model.Title</h5>
+                <hr />
+                <p class=" card-text">@Model.Summary</p>
             </div>
-        </div>     
-        
-        <partial name="AddChapterPartial"
-                 model="new ChapterInputModel { StoryId = @id}" />
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Author: @Model.Author</li>
+                <li class="list-group-item">Created on: @Model.CreatedOn</li>
+                <li class="list-group-item">Last edit on: @Model.LastEditedOn</li>
+                <li class="list-group-item">Rating: @Model.Rating</li>
+            </ul>
+            <div class="card-body btn-group-justified">
+                @if (owner)
+                {
+                    <div class="container d-flex justify-content-between">
+
+                        <a asp-area="" asp-action="DeleteStory" asp-controller="Stories" asp-route-id="@Model.Id" class="btn btn-primary">Delete </a>
+                        <a asp-area="" asp-action="AddChapter" asp-controller="Stories" asp-route-id="@Model.Id" class="btn btn-primary">Add Chapter </a>
+                    </div>
+                }
+                @if (followed && !owner)
+                {
+                    <a asp-area="" asp-action="UnFollow" asp-controller="Stories" asp-route-id="@Model.Id" class="btn btn-primary">UnFollow </a>
+
+                }
+                @if (!owner && !followed)
+                {
+                    <a asp-action="Follow" asp-controller="Stories" asp-area="" asp-route-id="@Model.Id" class="btn btn-primary">Follow</a>
+
+                }
+            </div>
+        </div>
     </div>
-  
+    <div class="col-md-4">
+        <vc:></vc:>
+    </div>
 </div>
+@section scripts{
+
+    @{ await Html.RenderPartialAsync("_MyScriptsPartial"); }
+}

@@ -2,11 +2,16 @@
 
 @{
     ViewData["Title"] = "AllStories";
+    string username = ViewData[GlobalConstants.UsernameHolder].ToString();
+    bool author = this.User.Identity.Name == username;
 }
 
 <div class="container-fluid">
     <div class="row mt-5 col-md-3">
-        <a class="btn btn-dark" asp-action="CreateStory" asp-controller="Stories">Add Story</a>
+        @if (author)
+        {
+            <a class="btn btn-dark" asp-action="CreateStory" asp-controller="Stories">Add Story</a>
+        }
     </div>
     <div class="row mt-5 mb-5" style="overflow-y: auto;">
 
