@@ -58,6 +58,7 @@
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IStoryService, StoryService>();
+            services.AddScoped<INotificationService, NotificationService>();
 
             services.AddAutoMapper();
 

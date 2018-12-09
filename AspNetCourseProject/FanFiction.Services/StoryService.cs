@@ -22,12 +22,15 @@
     public class StoryService : BaseService, IStoryService
     {
         //TODO: I should probably refactor this and Create ChapterService? probably?
-        public StoryService(UserManager<FanFictionUser> userManager,
+        public StoryService(INotificationService notificationService, UserManager<FanFictionUser> userManager,
             SignInManager<FanFictionUser> signInManager,
             FanFictionContext context, IMapper mapper)
             : base(userManager, signInManager, context, mapper)
         {
+            this.NotificationService = notificationService;
         }
+
+        protected INotificationService NotificationService { get; }
 
         public ICollection<StoryOutputModel> CurrentStories(string type = null)
         {
@@ -202,6 +205,8 @@
 
             this.Context.Chapters.Add(chapter);
             this.Context.SaveChanges();
+
+            this.NotificationService.AddNotification(inputModel.StoryId, inputModel.Author);
         }
 
         public bool AlreadyRated(int storyId, string username)
