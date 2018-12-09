@@ -4,7 +4,7 @@
     bool author = Model.All(x => x.Author == this.User.Identity.Name);
     var storyId = ViewData["storyId"].ToString();
 }
-<div class="col-md-12 border border-dark" style="overflow-y: auto; max-height: 100%;">
+<div class="col-md-12 w-100">
     @if (Model.Any())
     {
         foreach (var s in Model)

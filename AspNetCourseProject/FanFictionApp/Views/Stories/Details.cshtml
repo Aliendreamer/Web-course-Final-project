@@ -7,10 +7,11 @@
     bool owner = this.User.Identity.Name == @Model.Author;
     var user = await this.manager.FindByNameAsync(this.User.Identity.Name);
     var followed = this.service.IsFollowed(user.Id, Model.Id);
+    bool rated = this.service.AlreadyRated(Model.Id, this.User.Identity.Name);
 
 }
 
-<div class="row col-md-12 mb-5 mt-5">
+<div class="row col-md-12 mb-5">
 
     <div class="col-md-4">
         <div class="card w-100">
@@ -46,9 +47,34 @@
 
                 }
             </div>
+          
+            @if (!owner && !rated)
+            {
+                <hr />
+                <div class="card-body">
+                    <form asp-action="AddRating" asp-controller="Stories" method="post">
+                        <div class="form-group">
+                            <select name="Rating" class="col-md-12">
+                                <option selected class="text-center" disabled="disabled">Rate The Story!</option>
+                                @for (var r = 1; r <= 10; r++)
+                                {
+                                    <option class="text-center">@r</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" value="@Model.Id" name="storyId" hidden="hidden" />
+                        </div>
+                        <div>
+                            <button type="submit">Add Rating</button>
+                        </div>
+                    </form>
+                </div>
+
+            }
         </div>
     </div>
-    <div class="col-md-6" style="max-height:100%">
+    <div class="col-md-6 border border-dark" style="max-height:750px;overflow-y:auto">
 
         @await Component.InvokeAsync("ChapterList", new { storyId = @Model.Id })
     </div>

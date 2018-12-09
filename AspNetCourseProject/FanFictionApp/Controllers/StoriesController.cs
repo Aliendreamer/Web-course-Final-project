@@ -64,7 +64,7 @@
 
             var id = await this.StoryService.CreateStory(inputModel);
 
-            return RedirectToAction("StoryDetails", "Stories", new { id });
+            return RedirectToAction("Details", "Stories", new { id });
         }
 
         [HttpGet]
@@ -78,7 +78,7 @@
         [Route(GlobalConstants.RouteConstants.AddChapterRoute)]
         public IActionResult AddChapter(int storyId)
         {
-            this.ViewData["StoryId"] = storyId;
+            this.ViewData[GlobalConstants.StoryId] = storyId;
             return this.View();
         }
 
@@ -87,6 +87,8 @@
         {
             if (!ModelState.IsValid)
             {
+                this.ViewData[GlobalConstants.ChapterLength] = inputModel.Content.Length;
+                this.ViewData[GlobalConstants.StoryId] = inputModel.StoryId;
                 return this.View(inputModel);
             }
 
@@ -131,6 +133,16 @@
             await this.StoryService.UnFollow(username, id);
 
             return RedirectToAction("Details", "Stories", new { id });
+        }
+
+        [HttpPost]
+        public IActionResult AddRating([FromForm]int storyId, [FromForm]double rating)
+        {
+            string username = this.User.Identity.Name;
+
+            this.StoryService.AddRating(storyId, rating, username);
+
+            return RedirectToAction("Details", "Stories", new { id = storyId });
         }
     }
 }

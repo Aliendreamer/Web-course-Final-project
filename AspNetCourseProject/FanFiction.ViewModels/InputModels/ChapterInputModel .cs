@@ -16,7 +16,7 @@
         public DateTime CreatedOn { get; set; }
 
         [Required]
-        [StringLength(3000, MinimumLength = 500)]
+        [StringLength(3000, MinimumLength = 500, ErrorMessage = "Your chapter should not have more than 3000 characters")]
         public string Content { get; set; }
     }
 }

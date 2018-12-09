@@ -51,7 +51,7 @@
                 .ForMember(x => x.Author, opt => opt.MapFrom(x => x.Author.UserName))
                 .ForMember(x => x.Title, opt => opt.MapFrom(x => x.Title))
                 .ForMember(x => x.StoryType, opt => opt.MapFrom(x => x.Type.Name))
-                .ForMember(x => x.Rating, cfg => cfg.MapFrom(x => x.Ratings.Any() ? x.Ratings.Average(r => r.StoryRating.Rating) : 0))
+                .ForMember(x => x.Rating, cfg => cfg.MapFrom(x => x.Rating))
                 .ForMember(x => x.ImageUrl, o => o.MapFrom(x => x.ImageUrl))
                 .ForMember(opt => opt.Summary, cfg => cfg.NullSubstitute(GlobalConstants.NoSummary));
 

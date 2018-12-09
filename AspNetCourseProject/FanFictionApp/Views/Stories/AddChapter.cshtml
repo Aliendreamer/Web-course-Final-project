@@ -14,7 +14,7 @@
                 <input asp-for="StoryId" type="hidden" class="form-control text-center" value="@storyId" />
             </div>
             <div class="form-group">
-                <label class="control-label col-md-4 offset-4"style="text-align:center" name="Title">Title</label>
+                <label class="control-label col-md-4 offset-4" style="text-align:center" name="Title">Title</label>
                 <input asp-for="Title" type="text" class="form-control" name="Title" placeholder="Add title..." />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
@@ -22,6 +22,10 @@
                 <label class="control-label text-center">Add Content</label>
                 <textarea asp-for="Content" class="form-control" rows="20" style="min-height:400px" id="editor"></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
+                @if (this.ViewData.ContainsKey(GlobalConstants.ChapterLength))
+                {
+                    <span class="text-danger">Currently your chapter is: @ViewData[GlobalConstants.ChapterLength] long</span>
+                }
             </div>
             <div class="form-group col-md-12 text-center">
                 <input type="submit" value="Create" style="align-content: center" class="btn btn-info" />

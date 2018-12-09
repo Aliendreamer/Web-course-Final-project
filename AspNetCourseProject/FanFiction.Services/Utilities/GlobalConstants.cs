@@ -62,6 +62,8 @@
 
         public const string RoleChangeError = "User already has no role make another choice!";
 
+        public const string ChapterLength = "ChapterLength";
+
         public const string ChapterId = "chapterId";
 
         public const string StoryId = "storyId";

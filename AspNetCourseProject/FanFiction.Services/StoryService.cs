@@ -124,7 +124,11 @@
 
         public StoryDetailsOutputModel GetStoryById(int id)
         {
-            var story = this.Context.FictionStories.Include(x => x.Type).Include(x => x.Author).FirstOrDefault(x => x.Id == id);
+            var story = this.Context.FictionStories.Include(x => x.Type)
+                .Include(x => x.Author)
+                .Include(x => x.Ratings)
+                .ThenInclude(z => z.StoryRating)
+                .FirstOrDefault(x => x.Id == id);
 
             if (story == null)
             {
@@ -134,6 +138,28 @@
             var storyModel = this.Mapper.Map<StoryDetailsOutputModel>(story);
 
             return storyModel;
+        }
+
+        public void AddRating(int storyId, double rate, string username)
+        {
+            var user = this.UserManager.FindByNameAsync(username).GetAwaiter().GetResult();
+            var story = this.Context.FictionStories.Find(storyId);
+            var rating = new StoryRating
+            {
+                Rating = rate,
+                UserId = user.Id
+            };
+            this.Context.StoryRatings.Add(rating);
+
+            var storyRating = new FanFictionRating
+            {
+                FanFictionId = storyId,
+                RatingId = rating.Id
+            };
+            this.Context.FictionRatings.Add(storyRating);
+            story.Ratings.Add(storyRating);
+            this.Context.Update(story);
+            this.Context.SaveChanges();
         }
 
         public void DeleteChapter(int storyId, int chapterid, string username)
@@ -176,6 +202,15 @@
 
             this.Context.Chapters.Add(chapter);
             this.Context.SaveChanges();
+        }
+
+        public bool AlreadyRated(int storyId, string username)
+        {
+            var user = this.UserManager.FindByNameAsync(username).GetAwaiter().GetResult();
+
+            var rated = this.Context.FictionRatings.Any(x => x.FanFictionId == storyId && x.StoryRating.UserId == user.Id);
+
+            return rated;
         }
 
         public async Task DeleteStory(int id, string username)
