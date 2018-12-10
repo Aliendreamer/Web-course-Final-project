@@ -1,0 +1,47 @@
+﻿@model IEnumerable<CommentOutputModel>
+@{
+    ViewData["Title"] = "Default";
+    var storyId = ViewData["storyId"].ToString();
+}
+
+@if (!Model.Any())
+{
+
+    <div class="card-body w-100 border border-dark">
+
+        <p class="card-text">No comments for this story!</p>
+    </div>
+}
+else
+{
+    <div class="border border-dark card-text text-center text-white w-100 col-md-12 container" style="background-color: darkgreen;">Comments</div>
+
+    <div class="container w-100 col-md-12 border border-dark" style="min-height: 500px; max-height:500px;overflow-y:auto">
+        @foreach (var c in Model)
+        {
+
+            <div class="card-body w-100 border border-dark card-body mt-1">
+
+                <p class="card-text">@c.Message</p>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Author: @c.Author</li>
+                    <li class="list-group-item">Posted: @c.CommentedOn.ToShortDateString()</li>
+
+                    @if (this.User.IsInRole(GlobalConstants.Admin) || this.User.IsInRole(GlobalConstants.ModelError) || this.User.Identity.Name == c.Author)
+                    {
+                        <li class="list-group-item">
+                            <a asp-area="" asp-controller="Comments" asp-action="DeleteComment"
+                               asp-all-route-data="new Dictionary<string, string>{
+                    {GlobalConstants.StoryId,@storyId},
+                    { GlobalConstants.Id,@c.Id.ToString()}};"
+                               class="card-link">Delete Comment</a>
+                        </li>
+
+                    }
+                </ul>
+            </div>
+
+        }
+    </div>
+}
