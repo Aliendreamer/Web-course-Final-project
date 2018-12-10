@@ -7,6 +7,7 @@
     using FanFiction.ViewModels.OutputModels.Stories;
     using System.Linq;
     using AutoMapper.QueryableExtensions;
+    using FanFiction.Services.Utilities;
     using Microsoft.EntityFrameworkCore;
 
     [ViewComponent(Name = "ChapterList")]
@@ -22,7 +23,7 @@
         public async Task<IViewComponentResult> InvokeAsync(int storyId)
         {
             var chapters = await GetChaptersAsync(storyId);
-            this.ViewData["storyId"] = storyId;
+            this.ViewData[GlobalConstants.StoryId] = storyId;
             return View(chapters);
         }
 

@@ -1,11 +1,15 @@
-﻿@inject IUserService  service
+﻿@using System.Security.Claims
+@inject IUserService  service
 @inject INotificationService notificationService
+@inject IMessageService messageService
 @{
     ViewData["Title"] = "LoggedHome";
 
     var model = this.service.GetHomeViewDetails();
     bool hasAnnouncement = model.Announcements.Any();
     int newNotifications = this.notificationService.NewNotifications(this.User.Identity.Name);
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    int newMessages = this.messageService.NewMessages(userId);
 }
 
 <div class="container d-flex justify-content-around col-md-12 col-sm-6 card-group" style="margin-top: 5em;">
@@ -43,13 +47,17 @@
                 <a asp-action="Profile" asp-controller="Users" asp-route-id="@this.User.Identity.Name" class="btn btn-info btn-block">My profile</a>
                 <a asp-action="UserStories" asp-controller="Stories" asp-route-username="@this.User.Identity.Name" class="btn btn-info btn-block">My Stories</a>
                 <a asp-action="InfoHub" asp-controller="Messages" asp-route-id="@this.User.Identity.Name" class="btn btn-info btn-block">
-                    My Messages                
+                    My Messages
+                    @if (newMessages > 0)
+                    {
+                        <span class="badge badge-danger">@newMessages</span>
+                    }
                 </a>
                 <a asp-action="InfoHub" asp-controller="Messages" asp-route-id="@this.User.Identity.Name" class="btn btn-info btn-block">
                     My Notifications
                     @if (newNotifications > 0)
                     {
-                        <span class="badge badge-light">@newNotifications</span>
+                        <span class="badge badge-danger">@newNotifications</span>
                     }
                 </a>
                 <a asp-action="BlockedUsers" asp-controller="Users" asp-route-id="@this.User.Identity.Name" class="btn btn-info btn-block">Blocked Users</a>

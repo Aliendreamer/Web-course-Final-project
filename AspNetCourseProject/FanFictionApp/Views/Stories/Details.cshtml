@@ -11,7 +11,7 @@
 
 }
 
-<div class="row col-md-12 mb-5">
+<div class="row col-md-12">
 
     <div class="col-md-4">
         <div class="card w-100">
@@ -47,7 +47,7 @@
 
                 }
             </div>
-          
+
             @if (!owner && !rated)
             {
                 <hr />
@@ -74,12 +74,52 @@
             }
         </div>
     </div>
-    <div class="col-md-6 border border-dark" style="max-height:750px;overflow-y:auto">
+    <div class="col-md-6 border border-dark w-100 mb-1" style="max-height:800px;overflow-y:auto">
 
         @await Component.InvokeAsync("ChapterList", new { storyId = @Model.Id })
     </div>
+    <div class="col-md-2">
+        @await Component.InvokeAsync("CommentsList", new { storyId = @Model.Id })
+
+        <div class="card w-100 mt-1">
+            <h5 class="card-header">Leave a Comment:</h5>
+            <div class="card-body">
+                <form asp-action="AddComment" asp-controller="Comments" asp-area="" method="post">
+                    <div class="form-group">
+                        <input type="text" hidden="hidden" value="@Model.Id" name="StoryId" />
+                        <input type="datetime" hidden="hidden" value="@DateTime.UtcNow" name="CommentedOn" />
+                        <input hidden="hidden" type="text" value="@user.UserName" name="CommentAuthor" />
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" placeholder="Enter your comment" rows="4" name="message" id="my-input" maxlength="200"></textarea>
+                        <span id='remainingC'></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add comment</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
 @section scripts{
 
     @{ await Html.RenderPartialAsync("_MyScriptsPartial"); }
+    <script>
+        $(document).ready(function () {
+            var len = 0;
+            var maxchar = 100;
+
+            $('#my-input').keyup(function () {
+                len = this.value.length;
+                if (len > maxchar) {
+                    return false;
+                } else if (len > 0) {
+                    $("#remainingC").html("Remaining characters: " + (maxchar - len));
+                } else {
+                    $("#remainingC").html("Remaining characters: " + (maxchar));
+                }
+            })
+        });
+    </script>
+
 }

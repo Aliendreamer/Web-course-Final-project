@@ -62,6 +62,8 @@
 
         public const string RoleChangeError = "User already has no role make another choice!";
 
+        public const string EmptyMessage = "Message can't be empty";
+
         public const string ChapterLength = "ChapterLength";
 
         //  public const string NotificationMessage = " Story you are following just added new Chapter with id: {0}";
@@ -70,7 +72,11 @@
 
         public const string ChapterId = "chapterId";
 
+        public const string UserId = "userId";
+
         public const string StoryId = "storyId";
+
+        public const string Id = "id";
 
         public class RouteConstants
         {

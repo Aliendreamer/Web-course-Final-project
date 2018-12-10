@@ -1,6 +1,7 @@
 ﻿namespace FanFiction.ViewModels.OutputModels.Stories
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
 
     public class CommentOutputModel
     {

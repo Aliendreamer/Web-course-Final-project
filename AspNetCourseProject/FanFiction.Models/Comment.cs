@@ -10,6 +10,8 @@
         public int Id { get; set; }
 
         public string UserId { get; set; }
+
+        [ForeignKey("UserId")]
         public FanFictionUser FanFictionUser { get; set; }
 
         public int? StoryId { get; set; }
@@ -18,7 +20,7 @@
         public virtual FanFictionStory FanFictionStory { get; set; }
 
         [Required]
-        [StringLength(200, MinimumLength = 10)]
+        [StringLength(200)]
         public string Message { get; set; }
 
         [Required]

@@ -59,6 +59,8 @@
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IStoryService, StoryService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IMessageService, MessageService>();
 
             services.AddAutoMapper();
 
@@ -94,7 +96,6 @@
             app.UseSeedRolesMiddleware();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
 
             app.UseAuthentication();
 
@@ -113,6 +114,7 @@
                      name: "default",
                      template: "{controller=Home}/{action=Index}/{id?}");
             });
+            app.UseCookiePolicy();
         }
     }
 }

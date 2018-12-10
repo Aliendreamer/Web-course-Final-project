@@ -112,8 +112,14 @@
             CreateMap<Comment, CommentOutputModel>()
                 .ForMember(x => x.Id, o => o.MapFrom(x => x.Id))
                 .ForMember(x => x.Author, o => o.MapFrom(x => x.FanFictionUser.UserName))
-                .ForMember(x => x.CommentedOn, o => o.MapFrom(x => x.CommentedOn.Date))
+                .ForMember(x => x.CommentedOn, o => o.MapFrom(x => x.CommentedOn.Date.Date))
                 .ForMember(x => x.Message, o => o.MapFrom(x => x.Message));
+
+            CreateMap<CommentInputModel, Comment>()
+                .ForMember(x => x.Message, o => o.MapFrom(x => x.Message))
+                .ForMember(x => x.CommentedOn, o => o.MapFrom(x => x.CommentedOn))
+                .ForMember(x => x.StoryId, o => o.MapFrom(x => x.StoryId))
+                .ForAllOtherMembers(x => x.Ignore());
 
             CreateMap<StoryType, StoryTypeOutputModel>()
                 .ForMember(x => x.Type, opt => opt.MapFrom(z => z.Name)).ReverseMap();

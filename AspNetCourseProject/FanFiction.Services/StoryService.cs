@@ -1,23 +1,23 @@
 ﻿namespace FanFiction.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
-    using CloudinaryDotNet;
-    using CloudinaryDotNet.Actions;
     using Data;
+    using Models;
+    using System;
+    using Utilities;
+    using System.IO;
     using Interfaces;
+    using AutoMapper;
+    using System.Linq;
+    using CloudinaryDotNet;
+    using System.Threading.Tasks;
+    using ViewModels.InputModels;
+    using CloudinaryDotNet.Actions;
+    using Microsoft.AspNetCore.Http;
+    using System.Collections.Generic;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
-    using Models;
-    using Utilities;
-    using ViewModels.InputModels;
+    using AutoMapper.QueryableExtensions;
     using ViewModels.OutputModels.Stories;
-    using Microsoft.AspNetCore.Http;
 
     public class StoryService : BaseService, IStoryService
     {
@@ -202,7 +202,10 @@
             var user = this.UserManager.FindByNameAsync(inputModel.Author).GetAwaiter().GetResult();
             var chapter = Mapper.Map<Chapter>(inputModel);
             chapter.AuthorId = user.Id;
+            var story = this.Context.FictionStories.Find(inputModel.StoryId);
+            story.LastEditedOn = inputModel.CreatedOn;
 
+            this.Context.FictionStories.Update(story);
             this.Context.Chapters.Add(chapter);
             this.Context.SaveChanges();
 

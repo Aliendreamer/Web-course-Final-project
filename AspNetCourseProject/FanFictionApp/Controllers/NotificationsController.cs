@@ -1,14 +1,16 @@
 ﻿namespace FanFictionApp.Controllers
 {
+    using FanFiction.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
 
     public class NotificationsController : Controller
     {
-        [HttpGet]
-        public IActionResult UserNotifications(string nickname)
+        public NotificationsController(INotificationService notificationService)
         {
-            return this.View();
+            this.NotificationService = notificationService;
         }
+
+        protected INotificationService NotificationService { get; }
 
         public IActionResult DeleteNotification(int id)
         {
