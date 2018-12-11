@@ -24,7 +24,7 @@
                 @if (haschapter && author)
                 {
                     <div class="btn-block">
-                        <a asp-action="DeleteChapter" asp-area="" asp-controller="Stories"
+                        <a asp-action="DeleteChapter" asp-area="" asp-controller="Chapters"
                            asp-all-route-data="new Dictionary<string, string>{
                     {GlobalConstants.StoryId,@storyId},
                     { GlobalConstants.ChapterId,@s.Id.ToString()}};" class="btn btn-block btn-danger">Delete Chapter</a>

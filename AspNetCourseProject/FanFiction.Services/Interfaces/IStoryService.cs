@@ -27,10 +27,6 @@
 
         void AddRating(int storyId, double rating, string username);
 
-        void DeleteChapter(int storyId, int chapterid, string username);
-
-        void AddChapter(ChapterInputModel inputModel);
-
         bool AlreadyRated(int storyId, string username);
     }
 }

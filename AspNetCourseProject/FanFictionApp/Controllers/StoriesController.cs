@@ -75,39 +75,6 @@
         }
 
         [HttpGet]
-        [Route(GlobalConstants.RouteConstants.AddChapterRoute)]
-        public IActionResult AddChapter(int storyId)
-        {
-            this.ViewData[GlobalConstants.StoryId] = storyId;
-            return this.View();
-        }
-
-        [HttpPost]
-        public IActionResult AddChapter(ChapterInputModel inputModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                this.ViewData[GlobalConstants.ChapterLength] = inputModel.Content.Length;
-                this.ViewData[GlobalConstants.StoryId] = inputModel.StoryId;
-                return this.View(inputModel);
-            }
-
-            this.StoryService.AddChapter(inputModel);
-
-            return RedirectToAction("Details", "Stories", new { id = inputModel.StoryId });
-        }
-
-        [HttpGet]
-        public IActionResult DeleteChapter([FromQuery]int storyId, [FromQuery] int chapterid)
-        {
-            string username = this.User.Identity.Name;
-            this.StoryService.DeleteChapter(storyId, chapterid, username);
-
-            this.ViewData["redirectAfterAction"] = storyId;
-            return RedirectToAction("Details", "Stories", new { id = storyId });
-        }
-
-        [HttpGet]
         public async Task<IActionResult> DeleteStory(int id)
         {
             string username = this.User.Identity.Name;

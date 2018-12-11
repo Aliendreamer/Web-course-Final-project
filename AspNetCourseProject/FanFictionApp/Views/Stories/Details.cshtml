@@ -33,7 +33,7 @@
                     <div class="container d-flex justify-content-between">
 
                         <a asp-area="" asp-action="DeleteStory" asp-controller="Stories" asp-route-id="@Model.Id" class="btn btn-primary">Delete </a>
-                        <a asp-area="" asp-action="AddChapter" asp-controller="Stories" asp-route-id="@Model.Id" class="btn btn-primary">Add Chapter </a>
+                        <a asp-area="" asp-action="AddChapter" asp-controller="Chapters" asp-route-id="@Model.Id" class="btn btn-primary">Add Chapter </a>
                     </div>
                 }
                 @if (followed && !owner)

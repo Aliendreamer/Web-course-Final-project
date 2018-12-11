@@ -28,6 +28,12 @@
             return this.View();
         }
 
+        [HttpGet]
+        public IActionResult DeleteAllMessages(string userId)
+        {
+            return this.View();
+        }
+
         [HttpPost]
         public IActionResult SendMessage(MessageInputModel inputModel)
         {

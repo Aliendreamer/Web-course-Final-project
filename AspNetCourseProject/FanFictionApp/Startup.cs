@@ -61,6 +61,7 @@
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<IChapterService, ChapterService>();
 
             services.AddAutoMapper();
 
