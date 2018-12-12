@@ -1,6 +1,7 @@
 ﻿namespace FanFiction.ViewModels.OutputModels.Users
 {
     using System.Collections.Generic;
+    using InfoHub;
     using Stories;
 
     public class UserOutputViewModel

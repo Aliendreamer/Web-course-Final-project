@@ -17,9 +17,11 @@
         protected IMessageService MessageService { get; }
 
         [HttpGet]
-        public IActionResult InfoHub(string userNickname)
+        public IActionResult InfoHub(string username)
         {
-            return this.View();
+            var model = this.MessageService.Infohub(username);
+
+            return this.View(model);
         }
 
         [HttpGet]

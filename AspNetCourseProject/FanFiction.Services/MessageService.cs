@@ -7,7 +7,9 @@
     using System.Linq;
     using ViewModels.InputModels;
     using Microsoft.AspNetCore.Identity;
-    using Utilities;
+    using AutoMapper.QueryableExtensions;
+    using ViewModels.OutputModels.InfoHub;
+    using ViewModels.OutputModels.Stories;
 
     public class MessageService : BaseService, IMessageService
     {
@@ -58,6 +60,31 @@
             var newMessages = this.Context.Messages.Count(x => x.ReceiverId == userId);
 
             return newMessages;
+        }
+
+        public InfoHubViewModel Infohub(string username)
+        {
+            var allMessages = this.Context.Messages.Where(x => x.Receiver.Nickname == username).ProjectTo<MessageOutputModel>().ToList();
+
+            var newMessages = allMessages.Where(x => x.IsReaden == false).ToArray();
+
+            var oldMessages = allMessages.Where(x => newMessages.Any(z => z.Id != x.Id)).ToArray();
+
+            var comments = this.Context.Comments
+                .Where(x => x.FanFictionUser.UserName == username)
+                .ProjectTo<CommentOutputModel>().ToArray();
+
+            var notifications = this.Context.Notifications.Where(x => x.FanFictionUser.UserName == username).ProjectTo<NotificationOutputModel>().ToList();
+
+            var model = new InfoHubViewModel
+            {
+                NewMessages = newMessages,
+                OldMessages = oldMessages,
+                Notifications = notifications,
+                UserComments = comments
+            };
+
+            return model;
         }
     }
 }

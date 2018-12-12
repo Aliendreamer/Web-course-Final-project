@@ -8,6 +8,7 @@
     using ViewModels.OutputModels.Users;
     using ViewModels.OutputModels.Stories;
     using ViewModels.OutputModels.Announcements;
+    using ViewModels.OutputModels.InfoHub;
 
     public class FanfictionProfile : Profile
     {
@@ -112,7 +113,7 @@
             CreateMap<Comment, CommentOutputModel>()
                 .ForMember(x => x.Id, o => o.MapFrom(x => x.Id))
                 .ForMember(x => x.Author, o => o.MapFrom(x => x.FanFictionUser.UserName))
-                .ForMember(x => x.CommentedOn, o => o.MapFrom(x => x.CommentedOn.Date.Date))
+                .ForMember(x => x.CommentedOn, o => o.MapFrom(x => x.CommentedOn.Date))
                 .ForMember(x => x.Message, o => o.MapFrom(x => x.Message));
 
             CreateMap<CommentInputModel, Comment>()
@@ -123,6 +124,12 @@
 
             CreateMap<StoryType, StoryTypeOutputModel>()
                 .ForMember(x => x.Type, opt => opt.MapFrom(z => z.Name)).ReverseMap();
+
+            CreateMap<Notification, NotificationOutputModel>()
+                .ForMember(x => x.Id, o => o.MapFrom(x => x.Id))
+                .ForMember(x => x.Message, o => o.MapFrom(x => x.Message))
+                .ForMember(x => x.Seen, o => o.MapFrom(x => x.Seen))
+                .ForMember(x => x.Username, o => o.MapFrom(x => x.FanFictionUser.UserName));
         }
     }
 }

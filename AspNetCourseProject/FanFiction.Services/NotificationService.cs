@@ -1,14 +1,14 @@
 ﻿namespace FanFiction.Services
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using AutoMapper;
     using Data;
-    using Interfaces;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
     using Models;
     using Utilities;
+    using Interfaces;
+    using AutoMapper;
+    using System.Linq;
+    using System.Collections.Generic;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
 
     public class NotificationService : BaseService, INotificationService
     {

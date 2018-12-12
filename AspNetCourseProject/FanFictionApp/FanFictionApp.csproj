@@ -35,6 +35,9 @@
     <Content Update="Areas\Administration\Views\_ViewStart.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Shared\OldMessagesPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Stories\UserStories.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

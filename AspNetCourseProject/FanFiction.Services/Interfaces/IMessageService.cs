@@ -1,6 +1,7 @@
 ﻿namespace FanFiction.Services.Interfaces
 {
     using ViewModels.InputModels;
+    using ViewModels.OutputModels.InfoHub;
 
     public interface IMessageService
     {
@@ -9,5 +10,7 @@
         bool CanSendMessage(string senderName, string receiverName);
 
         int NewMessages(string userId);
+
+        InfoHubViewModel Infohub(string username);
     }
 }
