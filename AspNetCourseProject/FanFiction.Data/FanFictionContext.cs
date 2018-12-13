@@ -48,6 +48,8 @@
             builder.ApplyConfiguration(new FanFictionRatingConfiguration());
             builder.ApplyConfiguration(new FanFictionStoryConfiguration());
             builder.ApplyConfiguration(new BlockedUsersConfiguration());
+            builder.ApplyConfiguration(new NotificationConfiguration());
+
             base.OnModelCreating(builder);
         }
     }

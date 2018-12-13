@@ -4,6 +4,8 @@
     {
         public int Id { get; set; }
 
+        public int UpdatedStoryId { get; set; }
+
         public bool Seen { get; set; }
 
         public string Message { get; set; }

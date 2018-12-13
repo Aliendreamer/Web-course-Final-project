@@ -57,18 +57,18 @@
 
         public int NewMessages(string userId)
         {
-            var newMessages = this.Context.Messages.Count(x => x.ReceiverId == userId);
+            var newMessages = this.Context.Messages.Count(x => x.ReceiverId == userId && x.IsReaden == false);
 
             return newMessages;
         }
 
         public InfoHubViewModel Infohub(string username)
         {
-            var allMessages = this.Context.Messages.Where(x => x.Receiver.Nickname == username).ProjectTo<MessageOutputModel>().ToList();
+            var allMessages = this.Context.Messages.Where(x => x.Receiver.UserName == username).ProjectTo<MessageOutputModel>().ToList();
 
             var newMessages = allMessages.Where(x => x.IsReaden == false).ToArray();
 
-            var oldMessages = allMessages.Where(x => newMessages.Any(z => z.Id != x.Id)).ToArray();
+            var oldMessages = allMessages.Where(x => newMessages.All(z => z.Id != x.Id)).ToArray();
 
             var comments = this.Context.Comments
                 .Where(x => x.FanFictionUser.UserName == username)
@@ -85,6 +85,46 @@
             };
 
             return model;
+        }
+
+        public void AllMessagesSeen(string username)
+        {
+            var messages = this.Context.Messages
+                .Where(x => x.Receiver.UserName == username && x.IsReaden == false)
+                .ToList();
+
+            messages.ForEach(x => x.IsReaden = true);
+
+            this.Context.UpdateRange(messages);
+            this.Context.SaveChanges();
+        }
+
+        public void DeleteAllMessages(string userId)
+        {
+            var messages = this.Context.Messages.Where(x => x.Receiver.Id == userId).ToArray();
+
+            this.Context.Messages.RemoveRange(messages);
+
+            this.Context.SaveChanges();
+        }
+
+        public void MessageSeen(int id)
+        {
+            var message = this.Context.Messages.Find(id);
+            message.IsReaden = true;
+
+            this.Context.Messages.Update(message);
+
+            this.Context.SaveChanges();
+        }
+
+        public void DeleteMessage(int id)
+        {
+            var message = this.Context.Messages.Find(id);
+
+            this.Context.Messages.Remove(message);
+
+            this.Context.SaveChanges();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<NotificationOutputModel>
+@inject INotificationService notificationService
 @{
     ViewData["Title"] = "AllStories";
     int count = 0;
@@ -24,19 +25,27 @@
                 <tr>
                     <th scope="row" class="text-center">@count</th>
                     <td class="text-center">@m.Message</td>
-                   
 
                     <td>
                         <div class=" d-flex justify-content-around ">
-                            <a class="btn btn-danger js-delete" data-customer-id="@m.Id">Delete</a>
-
-                            <a asp-action="Details" asp-controller="Stories" asp-area="" asp-route-id="@m.Id" class="btn btn-dark ">Details</a>
+                            @if (!m.Seen)
+                            {
+                                <a asp-action="MarkNotificationAsSeen" asp-controller="Notifications" asp-area="" asp-route-id="@m.Id" class="btn btn-dark ">Mark as Seen</a>
+                            }
+                            <a asp-action="DeleteNotification" asp-controller="Notifications" asp-area="" asp-route-id="@m.Id" class="btn btn-dark ">Delete Notification</a>
+                            @if (this.notificationService.StoryExists(m.UpdatedStoryId))
+                            {
+                                <a asp-action="Details" asp-controller="Stories" asp-area="" asp-route-id="@m.UpdatedStoryId" class="btn btn-dark ">Story Details</a>
+                            }
                         </div>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+    <div class="btn-group-justified">
+        <a class="card-link text-dark" asp-action="DeleteAllNotifications" asp-controller="Notifications" asp-route-username="@this.User.Identity.Name">Delete All Notifications</a>
+    </div>
 </div>
 
 @section scripts{

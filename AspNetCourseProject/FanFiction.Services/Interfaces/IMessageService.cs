@@ -12,5 +12,13 @@
         int NewMessages(string userId);
 
         InfoHubViewModel Infohub(string username);
+
+        void AllMessagesSeen(string username);
+
+        void DeleteAllMessages(string userId);
+
+        void MessageSeen(int id);
+
+        void DeleteMessage(int id);
     }
 }

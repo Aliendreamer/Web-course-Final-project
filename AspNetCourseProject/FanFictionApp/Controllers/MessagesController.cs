@@ -1,10 +1,11 @@
 ﻿namespace FanFictionApp.Controllers
 {
-    using FanFiction.Services.Interfaces;
+    using System.Security.Claims;
+    using Microsoft.AspNetCore.Mvc;
     using FanFiction.Services.Utilities;
+    using FanFiction.Services.Interfaces;
     using FanFiction.ViewModels.InputModels;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
 
     [Authorize]
     public class MessagesController : Controller
@@ -27,13 +28,25 @@
         [HttpGet]
         public IActionResult DeleteMessage(int id)
         {
-            return this.View();
+            this.MessageService.DeleteMessage(id);
+
+            return RedirectToAction("Infohub", "Messages", new { username = this.User.Identity.Name });
         }
 
         [HttpGet]
-        public IActionResult DeleteAllMessages(string userId)
+        public IActionResult DeleteAllMessages(string username)
         {
-            return this.View();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            this.MessageService.DeleteAllMessages(userId);
+
+            return RedirectToAction("Infohub", "Messages", new { username = this.User.Identity.Name });
+        }
+
+        public IActionResult MarkAllMessagesAsSeen(string username)
+        {
+            this.MessageService.AllMessagesSeen(username);
+
+            return RedirectToAction("Infohub", "Messages", new { username = username });
         }
 
         [HttpPost]
@@ -50,16 +63,11 @@
             return RedirectToAction("Profile", "Users", new { username = inputModel.ReceiverName });
         }
 
-        [HttpGet]
-        public IActionResult DeleteNotification()
+        public IActionResult MessageSeen(int id)
         {
-            return this.View();
-        }
+            this.MessageService.MessageSeen(id);
 
-        [HttpGet]
-        public IActionResult DeleteAllNotification()
-        {
-            return this.View();
+            return RedirectToAction("Infohub", "Messages", new { username = this.User.Identity.Name });
         }
     }
 }

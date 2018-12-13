@@ -14,12 +14,29 @@
 
         public IActionResult DeleteNotification(int id)
         {
-            return RedirectToAction("UserNotifications");
+            this.NotificationService.DeleteNotification(id);
+
+            return RedirectToInfohub();
         }
 
-        public IActionResult DeleteAllNotifications(int id)
+        public IActionResult DeleteAllNotifications(string username)
         {
-            return RedirectToAction("UserNotifications");
+            this.NotificationService.DeleteAllNotifications(username);
+            return RedirectToInfohub();
+        }
+
+        public IActionResult MarkNotificationAsSeen(int id)
+        {
+            this.NotificationService.MarkNotificationAsSeen(id);
+
+            return RedirectToInfohub();
+        }
+
+        private IActionResult RedirectToInfohub()
+        {
+            var username = this.User.Identity.Name;
+
+            return RedirectToAction("Infohub", "Messages", new { username });
         }
     }
 }

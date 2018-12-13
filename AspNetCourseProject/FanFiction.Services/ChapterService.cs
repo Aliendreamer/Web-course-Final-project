@@ -68,7 +68,7 @@
             this.Context.Chapters.Add(chapter);
             this.Context.SaveChanges();
 
-            this.NotificationService.AddNotification(inputModel.StoryId, inputModel.Author);
+            this.NotificationService.AddNotification(inputModel.StoryId, inputModel.Author, story.Title);
         }
     }
 }

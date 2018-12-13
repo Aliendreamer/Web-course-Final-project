@@ -68,7 +68,7 @@
 
         //  public const string NotificationMessage = " Story you are following just added new Chapter with id: {0}";
 
-        public const string NotificationMessage = " Story you are following just added new Chapter" + " <a small class=\"text-muted card-link\" asp-controller=\"Stories\" asp-action=\"Details\" asp-route-id=\"{0}" + "\">Go to Story</a>/";
+        public const string NotificationMessage = "{0} Story you are following just added new Chapter";
 
         public const string ChapterId = "chapterId";
 

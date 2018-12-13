@@ -6,6 +6,8 @@
 
         public bool Seen { get; set; }
 
+        public int UpdatedStoryId { get; set; }
+
         public string Message { get; set; }
 
         public string Username { get; set; }

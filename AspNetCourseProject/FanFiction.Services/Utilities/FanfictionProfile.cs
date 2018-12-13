@@ -129,6 +129,7 @@
                 .ForMember(x => x.Id, o => o.MapFrom(x => x.Id))
                 .ForMember(x => x.Message, o => o.MapFrom(x => x.Message))
                 .ForMember(x => x.Seen, o => o.MapFrom(x => x.Seen))
+                .ForMember(x => x.UpdatedStoryId, o => o.MapFrom(x => x.UpdatedStoryId))
                 .ForMember(x => x.Username, o => o.MapFrom(x => x.FanFictionUser.UserName));
         }
     }
