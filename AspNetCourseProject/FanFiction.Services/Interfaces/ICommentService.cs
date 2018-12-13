@@ -7,5 +7,7 @@
         void AddComment(CommentInputModel inputModel);
 
         void DeleteComment(int id);
+
+        void DeleteAllComments(string username);
     }
 }

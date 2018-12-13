@@ -4,7 +4,7 @@
     int count = 0;
 }
 
-<div class="container  col-md-12  table-responsive" style="background: #007b5e">
+<div class="container  col-md-12  table-responsive">
 
     <table class="table table-bordered table-hover" id="dataFromDb4">
         <thead class="thead-dark">
@@ -15,7 +15,7 @@
                 <th scope="col" class="text-center">Author</th>
             </tr>
         </thead>
-        <tbody class="text-white" >
+        <tbody class="text-white">
             @foreach (var m in Model)
             {
 
@@ -29,15 +29,17 @@
 
                     <td>
                         <div class=" d-flex justify-content-around ">
-                            <a class="btn btn-danger js-delete" data-customer-id="@m.Id">Delete</a>
 
-                            <a asp-action="Details" asp-controller="Stories" asp-area="" asp-route-id="@m.Id" class="btn btn-dark ">Details</a>
+                            <a asp-action="DeleteCommentFromInfoHub" asp-controller="Comments" asp-area="" asp-route-id="@m.Id" class="btn btn-dark ">Delete Comment</a>
                         </div>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+    <div class="btn-group-justified">
+        <a class="card-link text-dark" asp-action="DeleteAllComments" asp-controller="Comments" asp-area="" asp-route-username="@this.User.Identity.Name">Delete All Comments</a>
+    </div>
 </div>
 
 @section scripts{

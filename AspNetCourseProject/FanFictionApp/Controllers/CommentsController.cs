@@ -28,5 +28,28 @@
 
             return RedirectToAction("Details", "Stories", new { id = inputModel.StoryId });
         }
+
+        [HttpGet]
+        public IActionResult DeleteCommentFromInfoHub(int id)
+        {
+            this.CommentService.DeleteComment(id);
+
+            return RedirectToInfohub();
+        }
+
+        [HttpGet]
+        public IActionResult DeleteAllComments(string username)
+        {
+            this.CommentService.DeleteAllComments(username);
+
+            return RedirectToInfohub();
+        }
+
+        private IActionResult RedirectToInfohub()
+        {
+            var username = this.User.Identity.Name;
+
+            return RedirectToAction("Infohub", "Messages", new { username });
+        }
     }
 }

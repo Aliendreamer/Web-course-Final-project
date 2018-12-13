@@ -1,11 +1,12 @@
 ﻿namespace FanFiction.Services
 {
-    using AutoMapper;
     using Data;
-    using Interfaces;
-    using Microsoft.AspNetCore.Identity;
     using Models;
+    using Interfaces;
+    using AutoMapper;
+    using System.Linq;
     using ViewModels.InputModels;
+    using Microsoft.AspNetCore.Identity;
 
     public class CommentService : BaseService, ICommentService
     {
@@ -34,6 +35,15 @@
         {
             var comment = this.Context.Comments.Find(id);
             this.Context.Comments.Remove(comment);
+            this.Context.SaveChanges();
+        }
+
+        public void DeleteAllComments(string username)
+        {
+            var comments = this.Context.Comments.Where(x => x.FanFictionUser.UserName == username).ToList();
+
+            this.Context.Comments.RemoveRange(comments);
+
             this.Context.SaveChanges();
         }
     }

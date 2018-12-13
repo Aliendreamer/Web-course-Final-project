@@ -22,7 +22,7 @@
                 <p class=" card-text">@Model.Summary</p>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Author: @Model.Author</li>
+                <li><a class="list-group-item card-link" asp-action="Profile" asp-controller="Users" asp-area="" asp-route-username="@Model.Author">Author: @Model.Author</a></li>
                 <li class="list-group-item">Created on: @Model.CreatedOn</li>
                 <li class="list-group-item">Last edit on: @Model.LastEditedOn</li>
                 <li class="list-group-item">Rating: @Model.Rating</li>
