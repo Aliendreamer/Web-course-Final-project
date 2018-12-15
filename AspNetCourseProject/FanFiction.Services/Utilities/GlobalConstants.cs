@@ -66,8 +66,6 @@
 
         public const string ChapterLength = "ChapterLength";
 
-        //  public const string NotificationMessage = " Story you are following just added new Chapter with id: {0}";
-
         public const string NotificationMessage = "{0} Story you are following just added new Chapter";
 
         public const string ChapterId = "chapterId";
@@ -77,6 +75,8 @@
         public const string StoryId = "storyId";
 
         public const string Id = "id";
+
+        public const int Zero = 0;
 
         public class RouteConstants
         {

@@ -2,13 +2,13 @@
 {
     using System;
     using Models;
-    using System.Linq;
     using AutoMapper;
+    using System.Linq;
     using ViewModels.InputModels;
     using ViewModels.OutputModels.Users;
     using ViewModels.OutputModels.Stories;
-    using ViewModels.OutputModels.Announcements;
     using ViewModels.OutputModels.InfoHub;
+    using ViewModels.OutputModels.Announcements;
 
     public class FanfictionProfile : Profile
     {
@@ -36,8 +36,8 @@
                 .ForMember(opt => opt.StoryType, cfg => cfg.MapFrom(x => x.Type.Name))
                 .ForMember(opt => opt.Id, cfg => cfg.MapFrom(x => x.Id))
                 .ForMember(opt => opt.CreatedOn, cfg => cfg.MapFrom(x => x.CreatedOn.ToShortDateString()))
-                .ForMember(opt => opt.Summary, cfg => cfg.MapFrom(x => x.Summary != null ? x.Summary.Substring(0, 50) : GlobalConstants.NoSummary))
-                .ForMember(opt => opt.Rating, cfg => cfg.MapFrom(x => x.Ratings.Any() ? x.Ratings.Average(r => r.StoryRating.Rating) : 0));
+                .ForMember(opt => opt.Summary, cfg => cfg.MapFrom(x => x.Summary ?? GlobalConstants.NoSummary))
+                .ForMember(opt => opt.Rating, cfg => cfg.MapFrom(x => x.Ratings.Any() ? x.Ratings.Average(r => r.StoryRating.Rating) : GlobalConstants.Zero));
 
             CreateMap<StoryInputModel, FanFictionStory>()
                 .ForMember(x => x.CreatedOn, opt => opt.MapFrom(x => x.CreatedOn))
