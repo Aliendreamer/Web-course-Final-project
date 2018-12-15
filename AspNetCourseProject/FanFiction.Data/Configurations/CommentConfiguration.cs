@@ -14,7 +14,7 @@
 
             builder.Property(x => x.Message)
                 .IsRequired(true)
-                .HasMaxLength(300);
+                .HasMaxLength(ConfigurationConstants.CommentContentLength);
 
             builder.HasOne(x => x.FanFictionUser)
                 .WithMany(x => x.Comments)

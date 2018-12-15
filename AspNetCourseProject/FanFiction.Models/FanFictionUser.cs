@@ -21,9 +21,6 @@
             this.BLockedBy = new HashSet<BlockedUsers>();
         }
 
-        [Required]
-        [StringLength(100, MinimumLength = 5)]
-        [RegularExpression(@"[A-Za-z]+")]
         public string Nickname { get; set; }
 
         public ICollection<StoryRating> StoryRatings { get; set; }

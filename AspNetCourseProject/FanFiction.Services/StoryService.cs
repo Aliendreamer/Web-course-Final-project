@@ -21,7 +21,6 @@
 
     public class StoryService : BaseService, IStoryService
     {
-        //TODO: I should probably refactor this and Create ChapterService? probably?
         public StoryService(INotificationService notificationService, UserManager<FanFictionUser> userManager,
             SignInManager<FanFictionUser> signInManager,
             FanFictionContext context, IMapper mapper)

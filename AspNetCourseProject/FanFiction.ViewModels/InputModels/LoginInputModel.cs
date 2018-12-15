@@ -1,12 +1,13 @@
 ﻿namespace FanFiction.ViewModels.InputModels
 {
+    using Utilities;
     using System.ComponentModel.DataAnnotations;
 
     public class LoginInputModel
     {
         [Required]
-        [StringLength(100, MinimumLength = 5)]
-        [RegularExpression(@"[A-Za-z]+")]
+        [StringLength(ViewModelsConstants.UserModelNicknameMaxLength, MinimumLength = ViewModelsConstants.UserModelNicknameMinLength)]
+        [RegularExpression(ViewModelsConstants.RegexForValidationNicknameOrUsername)]
         public string Nickname { get; set; }
 
         [Required]

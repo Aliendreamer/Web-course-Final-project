@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Security.Claims;
     using System.Threading.Tasks;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
@@ -91,15 +90,6 @@
 
             return blockedUsers;
         }
-
-        //TODO: probably depriciated? should delete it maybe at the refactoring part!
-        //public string GetUserNickname(string username)
-        //{
-        //    var user = this.Context.Users.First(x => x.UserName == username);
-        //    var nick = user.Nickname;
-
-        //    return nick;
-        //}
 
         public async void Logout()
         {

@@ -1,6 +1,7 @@
 ﻿namespace FanFiction.ViewModels.InputModels
 {
     using System;
+    using Utilities;
     using System.ComponentModel.DataAnnotations;
 
     public class ChapterInputModel
@@ -10,13 +11,13 @@
         [Required]
         public int StoryId { get; set; }
 
-        [StringLength(50, MinimumLength = 5)]
+        [StringLength(ViewModelsConstants.TitleMaxLength, MinimumLength = ViewModelsConstants.TitleMinLength)]
         public string Title { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
         [Required]
-        [StringLength(3000, ErrorMessage = "Your chapter should not have more than 3000 characters")]
+        [StringLength(ViewModelsConstants.ChapterLength, ErrorMessage = ViewModelsConstants.ChapterInputContentError)]
         public string Content { get; set; }
     }
 }

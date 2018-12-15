@@ -1,12 +1,13 @@
 ﻿namespace FanFiction.ViewModels.InputModels
 {
     using System;
+    using Utilities;
     using System.ComponentModel.DataAnnotations;
 
     public class MessageInputModel
     {
         [Required]
-        [StringLength(400)]
+        [StringLength(ViewModelsConstants.MessageLength)]
         public string Message { get; set; }
 
         public DateTime SendDate { get; set; }

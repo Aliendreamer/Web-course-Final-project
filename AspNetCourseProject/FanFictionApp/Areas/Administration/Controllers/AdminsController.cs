@@ -69,7 +69,7 @@
                 this.AdminService.AddAnnouncement(inputModel);
                 return RedirectToAction("AllAnnouncements");
             }
-            //TODO: if i have enough time i may fix the validation problem here but is it worth it?
+
             this.ViewData[GlobalConstants.Error] = GlobalConstants.TooShortAnnouncement;
             return RedirectToAction("AllAnnouncements");
         }

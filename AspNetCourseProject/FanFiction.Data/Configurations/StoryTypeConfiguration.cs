@@ -12,7 +12,7 @@
 
             builder.Property(x => x.Name)
                 .IsRequired()
-                .HasMaxLength(200);
+                .HasMaxLength(ConfigurationConstants.TitleLength);
 
             builder.HasMany(x => x.Stories)
                 .WithOne(x => x.Type)

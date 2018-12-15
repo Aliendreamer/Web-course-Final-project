@@ -1,16 +1,17 @@
 ﻿namespace FanFiction.ViewModels.InputModels
 {
     using System.ComponentModel.DataAnnotations;
+    using Utilities;
 
     public class RegisterInputModel
     {
         [Required]
-        [StringLength(100, MinimumLength = 5)]
-        [RegularExpression(@"[A-Za-z]+", ErrorMessage = "Your nickname should contain only alphabet symbols")]
+        [StringLength(ViewModelsConstants.UserModelNicknameMaxLength, MinimumLength = ViewModelsConstants.UserModelNicknameMinLength)]
+        [RegularExpression(ViewModelsConstants.RegexForValidationNicknameOrUsername, ErrorMessage = ViewModelsConstants.ErrorMessageInRegisterModel)]
         public string Nickname { get; set; }
 
         [Required]
-        [RegularExpression(@"[A-Za-z]+", ErrorMessage = "Your username should contain only alphabet symbols")]
+        [RegularExpression(ViewModelsConstants.RegexForValidationNicknameOrUsername, ErrorMessage = ViewModelsConstants.ErrorMessageInRegisterModel)]
         public string Username { get; set; }
 
         [Required]
@@ -18,13 +19,12 @@
         public string Password { get; set; }
 
         [Required]
-        [Compare("Password")]
-        [Display(Name = "Confirm Password")]
+        [Compare(nameof(Password))]
+        [Display(Name = ViewModelsConstants.ConfirmPasswordDisplay)]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [Display(Name = "Email")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
     }

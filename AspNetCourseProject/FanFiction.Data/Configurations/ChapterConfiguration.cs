@@ -12,11 +12,11 @@
 
             builder.Property(x => x.Title)
                 .IsRequired(false)
-                .HasMaxLength(50);
+                .HasMaxLength(ConfigurationConstants.TitleLength);
 
             builder.Property(x => x.Content)
                 .IsRequired()
-                .HasMaxLength(3000);
+                .HasMaxLength(ConfigurationConstants.ChapterContentLength);
 
             builder.HasOne(x => x.FanFictionUser)
                 .WithMany(x => x.Chapters)

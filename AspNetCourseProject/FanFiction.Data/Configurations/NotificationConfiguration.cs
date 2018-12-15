@@ -15,7 +15,7 @@
 
             builder.Property(x => x.Message)
                 .IsRequired(true)
-                .HasMaxLength(200);
+                .HasMaxLength(ConfigurationConstants.NotificationContentLength);
 
             builder.Property(x => x.UpdatedStoryId)
                 .IsRequired();

@@ -1,6 +1,7 @@
 ﻿namespace FanFiction.ViewModels.InputModels
 {
     using System;
+    using Utilities;
     using System.ComponentModel.DataAnnotations;
 
     public class CommentInputModel
@@ -12,7 +13,7 @@
         public DateTime CommentedOn { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(ViewModelsConstants.CommentLength)]
         public string Message { get; set; }
     }
 }

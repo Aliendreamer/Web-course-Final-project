@@ -12,7 +12,7 @@
 
             builder.Property(x => x.Content)
                 .IsRequired()
-                .HasMaxLength(500);
+                .HasMaxLength(ConfigurationConstants.AnnouncementLength);
 
             builder.HasOne(x => x.Author)
                 .WithMany(x => x.Announcements)

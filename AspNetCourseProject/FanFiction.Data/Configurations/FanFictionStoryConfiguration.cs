@@ -32,7 +32,7 @@
 
             builder.Property(x => x.Summary)
                 .IsRequired(false)
-                .HasMaxLength(200);
+                .HasMaxLength(ConfigurationConstants.FictionStorySymmary);
 
             builder.HasOne(x => x.Author)
                 .WithMany(x => x.FanFictionStories)
@@ -40,7 +40,7 @@
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(x => x.Title).IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(ConfigurationConstants.TitleLength);
 
             builder.Ignore(x => x.Rating);
 

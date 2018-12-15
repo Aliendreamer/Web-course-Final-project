@@ -1,18 +1,19 @@
 ﻿namespace FanFiction.ViewModels.InputModels
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
+    using Utilities;
     using Microsoft.AspNetCore.Http;
+    using System.ComponentModel.DataAnnotations;
 
     public class StoryInputModel
     {
         [Required]
-        [StringLength(100, MinimumLength = 5)]
+        [StringLength(ViewModelsConstants.TitleMaxLength, MinimumLength = ViewModelsConstants.TitleMinLength)]
         [DataType(DataType.Text)]
         public string Title { get; set; }
 
         [DataType(DataType.MultilineText)]
-        [StringLength(200)]
+        [StringLength(ViewModelsConstants.StorySummaryLength)]
         public string Summary { get; set; }
 
         [Required]
@@ -23,7 +24,7 @@
 
         public string Author { get; set; }
 
-        [Display(Name = "Story Image")]
+        [Display(Name = ViewModelsConstants.StoryImageDisplay)]
         [DataType(DataType.Upload)]
         public IFormFile StoryImage { get; set; }
     }

@@ -17,7 +17,6 @@
 
         public int Id { get; set; }
 
-        [StringLength(200, MinimumLength = 5)]
         public string Title { get; set; }
 
         public string ImageUrl { get; set; }

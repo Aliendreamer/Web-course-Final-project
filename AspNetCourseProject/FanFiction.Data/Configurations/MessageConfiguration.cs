@@ -23,7 +23,7 @@
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(x => x.Text).IsRequired()
-                .HasMaxLength(400);
+                .HasMaxLength(ConfigurationConstants.MessageContentLength);
         }
     }
 }
