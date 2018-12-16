@@ -22,6 +22,7 @@
                 .ForMember(x => x.LastEditedOn, opt => opt.MapFrom(x => x.LastEditedOn.Date))
                 .ForMember(x => x.CreatedOn, opt => opt.MapFrom(x => x.CreatedOn.Date))
                 .ForMember(o => o.Rating, opt => opt.Ignore())
+                .ForMember(o => o.Author, opt => opt.MapFrom(x => x.Author))
                 .ForMember(x => x.Summary, opt => opt.NullSubstitute(GlobalConstants.NoSummary))
                 .ForMember(x => x.Comments, opt => opt.MapFrom(x => x.Comments))
                 .ForMember(x => x.Chapters, opt => opt.MapFrom(x => x.Chapters))
@@ -31,7 +32,7 @@
                 .ForMember(x => x.ImageUrl, o => o.AllowNull());
 
             CreateMap<FanFictionStory, StoryHomeOutputModel>()
-                .ForMember(opt => opt.Author, cfg => cfg.MapFrom(x => x.Author.Nickname))
+                .ForMember(opt => opt.Author, cfg => cfg.MapFrom(x => x.Author.UserName))
                 .ForMember(opt => opt.Title, cfg => cfg.MapFrom(x => x.Title))
                 .ForMember(opt => opt.StoryType, cfg => cfg.MapFrom(x => x.Type.Name))
                 .ForMember(opt => opt.Id, cfg => cfg.MapFrom(x => x.Id))
@@ -89,6 +90,11 @@
                 .ForMember(x => x.Role, cfg => cfg.Ignore())
                 .ForMember(x => x.NewRole, cfg => cfg.Ignore())
                 .ForMember(x => x.AppRoles, cfg => cfg.Ignore());
+
+            CreateMap<FanFictionUser, UserOutputStoryModel>()
+                .ForMember(x => x.Username, o => o.MapFrom(z => z.UserName))
+                .ForMember(x => x.Nickname, o => o.MapFrom(z => z.Nickname))
+                .ForMember(x => x.Id, o => o.MapFrom(z => z.Id));
 
             CreateMap<AnnouncementInputModel, Announcement>()
                 .ForMember(opt => opt.Content, cfg => cfg.MapFrom(x => x.Content))

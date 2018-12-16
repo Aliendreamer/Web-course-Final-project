@@ -104,7 +104,7 @@
             var users = this.Context.BlockedUsers.ToList();
             var result = Mapper.Map<UserOutputViewModel>(user);
             result.FollowedStories = stories.Where(x => x.Followers.Any(xz => xz.NickName == result.NickName)).ToList();
-            result.UserStories = stories.Where(x => x.Author.NickName == result.NickName).ToList();
+            result.UserStories = stories.Where(x => x.Author.Nickname == result.NickName).ToList();
             result.Stories = result.UserStories.Count;
             result.Role = this.UserManager.GetRolesAsync(user).Result.FirstOrDefault() ?? GlobalConstants.DefaultRole;
             result.BlockedUsers = users.Where(x => x.FanfictionUserId == user.Id).ToList().Count;

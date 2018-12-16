@@ -45,7 +45,7 @@
         public ICollection<StoryOutputModel> UserStories(string username)
         {
             var userStories = this.Context.FictionStories.Include(x => x.Author)
-                .Where(x => x.Author.UserName == username)
+                .Where(x => x.Author.UserName.ToLower() == username.ToLower())
                 .ProjectTo<StoryOutputModel>().ToArray();
 
             return userStories;

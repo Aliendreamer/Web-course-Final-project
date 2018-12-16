@@ -39,6 +39,6 @@
 
         public StoryTypeOutputModel Type { get; set; }
 
-        public UserOutputViewModel Author { get; set; }
+        public UserOutputStoryModel Author { get; set; }
     }
 }

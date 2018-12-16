@@ -3,7 +3,6 @@
     using Base;
     using Models;
     using System;
-    using System.Collections.Generic;
     using NUnit.Framework;
     using FluentAssertions;
     using Services.Utilities;
@@ -176,7 +175,68 @@
         }
 
         [Test]
-        public void UserStoriesShouldMatchUserName()
+        public void GetStoryById_Throw_Exception_with_NonExistant_Id()
+        {
+            //arrange
+
+            var story = new FanFictionStory
+            {
+                Title = "One",
+                Id = 1,
+                CreatedOn = DateTime.Now,
+                Summary = null,
+                ImageUrl = GlobalConstants.DefaultNoImage,
+                Type = new StoryType
+                {
+                    Id = 1,
+                    Name = "Fantasy"
+                },
+                AuthorId = "1111"
+            };
+
+            this.Context.FictionStories.Add(story);
+            this.Context.SaveChanges();
+
+            //act
+            var storyService = this.Provider.GetRequiredService<IStoryService>();
+            Action act = () => storyService.GetStoryById(2);
+
+            act.Should().Throw<ArgumentException>().WithMessage(GlobalConstants.MissingStory);
+        }
+
+        [Test]
+        public void GetStoryById_Should_Return_StoryDetailsModel_With_Correct_Id()
+        {
+            //arrange
+
+            var story = new FanFictionStory
+            {
+                Title = "One",
+                Id = 1,
+                CreatedOn = DateTime.Now,
+                Summary = null,
+                ImageUrl = GlobalConstants.DefaultNoImage,
+                Type = new StoryType
+                {
+                    Id = 1,
+                    Name = "Fantasy"
+                },
+                AuthorId = "1111"
+            };
+
+            this.Context.FictionStories.Add(story);
+            this.Context.SaveChanges();
+
+            //act
+            var storyService = this.Provider.GetRequiredService<IStoryService>();
+
+            var result = storyService.GetStoryById(1);
+
+            result.Should().BeOfType<StoryDetailsOutputModel>().And.Should().NotBeNull();
+        }
+
+        [Test]
+        public void UserStories_Should_Return_The_Stories_for_Unique_Username()
         {
             //arrange
 
