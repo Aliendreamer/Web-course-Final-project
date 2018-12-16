@@ -37,15 +37,15 @@
             {
                 return this.Context.FictionStories.ProjectTo<StoryOutputModel>().ToArray();
             }
-            var stories = this.Context.FictionStories.Where(x => x.Type.Name == type).ProjectTo<StoryOutputModel>().ToArray();
+            var stories = this.Context.FictionStories.Where(x => string.Equals(x.Type.Name, type, StringComparison.CurrentCultureIgnoreCase)).ProjectTo<StoryOutputModel>().ToArray();
 
             return stories;
         }
 
         public ICollection<StoryOutputModel> UserStories(string username)
         {
-            var user = this.UserManager.Users.FirstOrDefault(x => x.UserName == username);
-            var userStories = this.Context.FictionStories.Where(x => x.Author.Nickname == user.Nickname)
+            var userStories = this.Context.FictionStories.Include(x => x.Author)
+                .Where(x => x.Author.UserName == username)
                 .ProjectTo<StoryOutputModel>().ToArray();
 
             return userStories;
