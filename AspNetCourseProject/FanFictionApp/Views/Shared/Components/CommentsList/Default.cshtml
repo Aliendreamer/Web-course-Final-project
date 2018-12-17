@@ -22,10 +22,10 @@ else
 
             <div class="card-body w-100 border border-dark card-body mt-1">
 
-                <p class="card-text">@c.Message</p>
+                <p class="card-text" style="word-wrap:break-word">@c.Message</p>
 
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Author: @c.Author</li>
+                    <li class="list-group-item" style="word-wrap:break-word">Author: @c.Author</li>
                     <li class="list-group-item">Posted: @c.CommentedOn.ToShortDateString()</li>
 
                     @if (this.User.IsInRole(GlobalConstants.Admin) || this.User.IsInRole(GlobalConstants.ModelError) || this.User.Identity.Name == c.Author)
