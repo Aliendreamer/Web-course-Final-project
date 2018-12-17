@@ -66,18 +66,24 @@
                 FanfictionUserId = user.Id
             };
 
+            bool followed = IsFollowed(user.Id, id);
+            if (followed)
+            {
+                throw new InvalidOperationException(string.Join(GlobalConstants.UserFollowAlready, user.UserName));
+            }
+
             this.Context.UsersStories.Add(userstory);
             await this.Context.SaveChangesAsync();
         }
 
-        public async Task UnFollow(string username, int id)
+        public async Task UnFollow(string username, int storyId)
         {
             var user = await this.UserManager.FindByNameAsync(username);
             var entity = this.Context.UsersStories
-                .Where(st => st.FanFictionStoryId == id)
+                .Where(st => st.FanFictionStoryId == storyId)
                 .Select(st => new UserStory
                 {
-                    FanFictionStoryId = id,
+                    FanFictionStoryId = storyId,
                     FanfictionUserId = user.Id
                 }).FirstOrDefault();
 
@@ -146,6 +152,14 @@
         {
             var user = this.UserManager.FindByNameAsync(username).GetAwaiter().GetResult();
             var story = this.Context.FictionStories.Find(storyId);
+
+            bool rated = AlreadyRated(story.Id, user.UserName);
+
+            if (rated)
+            {
+                throw new InvalidOperationException(GlobalConstants.AlreadyRated);
+            }
+
             var rating = new StoryRating
             {
                 Rating = rate,
@@ -179,7 +193,7 @@
             var user = await this.UserManager.FindByNameAsync(username);
             var roles = await this.UserManager.GetRolesAsync(user);
 
-            bool hasRights = roles.All(x => x != GlobalConstants.Admin || x != GlobalConstants.Moderator);
+            bool hasRights = roles.Any(x => x == GlobalConstants.Admin || x == GlobalConstants.Moderator);
             bool author = user.Nickname == story?.Author.Nickname;
 
             if (!hasRights && !author)

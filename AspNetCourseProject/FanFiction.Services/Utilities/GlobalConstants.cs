@@ -68,6 +68,10 @@
 
         public const string NotificationMessage = "{0} Story you are following just added new Chapter";
 
+        public const string UserFollowAlready = "{0} already is following this story";
+
+        public const string AlreadyRated = "User already rated this story";
+
         public const string ChapterId = "chapterId";
 
         public const string UserId = "userId";
