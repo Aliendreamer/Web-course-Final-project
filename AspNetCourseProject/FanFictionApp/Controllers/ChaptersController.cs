@@ -4,6 +4,7 @@
     using FanFiction.Services.Utilities;
     using FanFiction.Services.Interfaces;
     using FanFiction.ViewModels.InputModels;
+    using FanFiction.ViewModels.OutputModels.Chapters;
 
     public class ChaptersController : Controller
     {
@@ -45,6 +46,33 @@
 
             this.ViewData["redirectAfterAction"] = storyId;
             return RedirectToAction("Details", "Stories", new { id = storyId });
+        }
+
+        [HttpGet]
+        public IActionResult EditChapter(int id)
+        {
+            var model = this.ChapterService.GetChapterToEditById(id);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EditChapter(ChapterEditModel editModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                this.ViewData[GlobalConstants.ChapterLength] = editModel.Content?.Length ?? 0;
+                return this.View(editModel);
+            }
+
+            this.ChapterService.EditChapter(editModel);
+
+            return RedirectToAction("Details", "Stories", new { id = editModel.StoryId });
         }
     }
 }

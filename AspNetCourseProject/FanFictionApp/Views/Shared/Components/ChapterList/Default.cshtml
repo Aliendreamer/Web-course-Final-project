@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ChapterOutputModel>
+﻿@model IEnumerable<FanFiction.ViewModels.OutputModels.Chapters.ChapterOutputModel>
 @{
     bool haschapter = Model.Any();
     bool author = Model.All(x => x.Author == this.User.Identity.Name);
@@ -13,7 +13,7 @@
 
                 <div class="col-md-12 media-heading  justify-content-center">
                     <h4 class="mt-0"> Chapter Title:@s.Title</h4>
-                    <h5 class="mt-0"> Added On Title:@s.CreatedOn</h5>
+                    <h5 class="mt-0"> Added On: @s.CreatedOn</h5>
                     <hr />
                 </div>
                 <div class="media-body col-md-12">
@@ -28,6 +28,9 @@
                            asp-all-route-data="new Dictionary<string, string>{
                     {GlobalConstants.StoryId,@storyId},
                     { GlobalConstants.ChapterId,@s.Id.ToString()}};" class="btn btn-block btn-danger">Delete Chapter</a>
+
+                        <a asp-action="EditChapter" asp-area="" asp-controller="Chapters"
+                           asp-route-id="@s.Id" class="btn btn-block btn-info">Edit Chapter</a>
                     </div>
                 }
             </div>

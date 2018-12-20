@@ -8,6 +8,7 @@
     using System.Linq;
     using AutoMapper.QueryableExtensions;
     using FanFiction.Services.Utilities;
+    using FanFiction.ViewModels.OutputModels.Chapters;
     using Microsoft.EntityFrameworkCore;
 
     [ViewComponent(Name = "ChapterList")]

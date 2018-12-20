@@ -9,6 +9,7 @@
     using ViewModels.OutputModels.Stories;
     using ViewModels.OutputModels.InfoHub;
     using ViewModels.OutputModels.Announcements;
+    using ViewModels.OutputModels.Chapters;
 
     public class FanfictionProfile : Profile
     {
@@ -105,9 +106,18 @@
                 .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
                 .ForMember(x => x.Content, opt => opt.MapFrom(x => x.Content))
                 .ForMember(x => x.Length, o => o.MapFrom(x => x.Content.Length))
-                .ForMember(x => x.CreatedOn, opt => opt.MapFrom(x => x.CreatedOn.Date))
+                .ForMember(x => x.CreatedOn, opt => opt.MapFrom(x => x.CreatedOn))
                 .ForMember(x => x.Author, o => o.MapFrom(x => x.FanFictionUser.UserName))
                 .ForMember(x => x.Title, o => o.MapFrom(x => x.Title ?? GlobalConstants.NoTitleAdded));
+
+            CreateMap<Chapter, ChapterEditModel>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
+                .ForMember(x => x.Content, opt => opt.MapFrom(x => x.Content))
+                .ForMember(x => x.Length, o => o.MapFrom(x => x.Content.Length))
+                .ForMember(x => x.CreatedOn, opt => opt.MapFrom(x => x.CreatedOn.Date))
+                .ForMember(x => x.Author, o => o.MapFrom(x => x.FanFictionUser.UserName))
+                .ForMember(x => x.Title, o => o.MapFrom(x => x.Title ?? GlobalConstants.NoTitleAdded))
+                .ForMember(x => x.StoryId, o => o.MapFrom(x => x.FanFictionStoryId)).ReverseMap();
 
             CreateMap<ChapterInputModel, Chapter>()
                 .ForMember(x => x.FanFictionStoryId, opt => opt.MapFrom(x => x.StoryId))

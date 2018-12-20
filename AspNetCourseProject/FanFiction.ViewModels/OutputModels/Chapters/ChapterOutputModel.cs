@@ -1,4 +1,4 @@
-﻿namespace FanFiction.ViewModels.OutputModels.Stories
+﻿namespace FanFiction.ViewModels.OutputModels.Chapters
 {
     using System;
 

@@ -6,9 +6,12 @@
     using Data;
     using Interfaces;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
     using Models;
     using Utilities;
     using ViewModels.InputModels;
+    using ViewModels.OutputModels.Chapters;
+    using AutoMapper.QueryableExtensions;
 
     public class ChapterService : BaseService, IChapterService
     {
@@ -21,6 +24,16 @@
         }
 
         public INotificationService NotificationService { get; }
+
+        public ChapterEditModel GetChapterToEditById(int id)
+        {
+            var result = this.Context.Chapters
+                .Include(x => x.FanFictionUser)
+                .Include(x => x.FanFictionStory).ProjectTo<ChapterEditModel>()
+                .FirstOrDefault(x => x.Id == id);
+
+            return result;
+        }
 
         public void DeleteChapter(int storyId, int chapterid, string username)
         {
@@ -69,6 +82,18 @@
             this.Context.SaveChanges();
 
             this.NotificationService.AddNotification(inputModel.StoryId, inputModel.Author, story.Title);
+        }
+
+        public void EditChapter(ChapterEditModel editModel)
+        {
+            var chapter = this.Context.Chapters.Find(editModel.Id);
+
+            chapter.Content = editModel.Content;
+            chapter.Title = editModel.Title;
+            chapter.CreatedOn = editModel.CreatedOn;
+
+            this.Context.Chapters.Update(chapter);
+            this.Context.SaveChanges();
         }
     }
 }

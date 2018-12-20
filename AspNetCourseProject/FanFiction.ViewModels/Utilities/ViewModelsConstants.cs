@@ -12,9 +12,11 @@
 
         public const string ConfirmPasswordDisplay = "Confirm Password";
 
-        public const string ChapterInputContentError = "Your chapter should not have more than 3000 characters";
+        public const string ChapterInputContentError = "Your chapter should not have less than 500 charaters or  more than 3000 characters";
 
         public const int ChapterLength = 3000;
+
+        public const int ChapterMinLength = 500;
 
         public const int TitleMaxLength = 100;
 
