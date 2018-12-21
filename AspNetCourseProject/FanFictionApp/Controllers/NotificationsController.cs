@@ -1,8 +1,10 @@
 ﻿namespace FanFictionApp.Controllers
 {
-    using FanFiction.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
+    using FanFiction.Services.Interfaces;
+    using Microsoft.AspNetCore.Authorization;
 
+    [Authorize]
     public class NotificationsController : Controller
     {
         public NotificationsController(INotificationService notificationService)

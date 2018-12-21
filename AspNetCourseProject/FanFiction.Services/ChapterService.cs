@@ -1,17 +1,17 @@
 ﻿namespace FanFiction.Services
 {
-    using System;
-    using System.Linq;
-    using AutoMapper;
     using Data;
+    using Models;
+    using System;
+    using Utilities;
+    using AutoMapper;
     using Interfaces;
+    using System.Linq;
+    using ViewModels.InputModels;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
-    using Models;
-    using Utilities;
-    using ViewModels.InputModels;
-    using ViewModels.OutputModels.Chapters;
     using AutoMapper.QueryableExtensions;
+    using ViewModels.OutputModels.Chapters;
 
     public class ChapterService : BaseService, IChapterService
     {
@@ -44,24 +44,21 @@
 
             var userRoles = UserManager.GetRolesAsync(user).GetAwaiter().GetResult();
 
-            bool roles = userRoles.All(x => x != GlobalConstants.Admin) ||
-                         userRoles.All(x => x != GlobalConstants.Moderator);
-
+            bool admin = userRoles.Any(x => x == GlobalConstants.Admin);
+            bool moderator = userRoles.Any(x => x == GlobalConstants.Moderator);
             bool author = user.Id == chapter.AuthorId;
 
-            if (roles && !author)
+            if (!admin && !moderator && !author)
             {
-                throw new InvalidOperationException(GlobalConstants.UserHasNoRights);
+                throw new InvalidOperationException(GlobalConstants.UserHasNoRights + " " + GlobalConstants.NotAuthor);
             }
 
-            if (!author)
-            {
-                throw new InvalidOperationException(GlobalConstants.NotAuthor);
-            }
+            bool nochapterInStory = story.Chapters.All(x => x.Id != chapter.Id);
+            bool storyIdForThischapter = chapter.FanFictionStoryId != story.Id;
 
-            if (story.Chapters.All(x => x.Id != chapter.Id) || chapter.FanFictionStoryId != story.Id)
+            if (nochapterInStory || storyIdForThischapter)
             {
-                throw new InvalidOperationException(string.Join(GlobalConstants.NotValidChapterStoryConnection,
+                throw new ArgumentException(string.Join(GlobalConstants.NotValidChapterStoryConnection,
                     story.Id, chapter.Id));
             }
 

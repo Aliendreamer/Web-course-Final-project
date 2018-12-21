@@ -5,7 +5,9 @@
     using FanFiction.Services.Interfaces;
     using FanFiction.ViewModels.InputModels;
     using FanFiction.ViewModels.OutputModels.Chapters;
+    using Microsoft.AspNetCore.Authorization;
 
+    [Authorize]
     public class ChaptersController : Controller
     {
         public ChaptersController(IChapterService chapterService)

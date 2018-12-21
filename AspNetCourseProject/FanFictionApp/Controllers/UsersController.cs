@@ -5,9 +5,11 @@
     using FanFiction.Services.Interfaces;
     using FanFiction.Services.Utilities;
     using FanFiction.ViewModels.InputModels;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
+    [Authorize]
     public class UsersController : Controller
     {
         public UsersController(IUserService userService)
@@ -18,12 +20,14 @@
         protected IUserService UserService { get; }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return this.View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Login(LoginInputModel loginModel)
         {
             if (!ModelState.IsValid)
@@ -43,12 +47,14 @@
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return this.View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Register(RegisterInputModel registerModel)
         {
             if (!ModelState.IsValid)

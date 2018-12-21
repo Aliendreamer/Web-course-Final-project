@@ -67,11 +67,11 @@
             if (ModelState.IsValid)
             {
                 this.AdminService.AddAnnouncement(inputModel);
-                return RedirectToAction("AllAnnouncements");
+                return RedirectToAction(nameof(AllAnnouncements));
             }
 
             this.ViewData[GlobalConstants.Error] = GlobalConstants.TooShortAnnouncement;
-            return RedirectToAction("AllAnnouncements");
+            return RedirectToAction(nameof(AllAnnouncements));
         }
 
         [HttpGet]
@@ -149,7 +149,7 @@
                 return this.View(genres);
             }
 
-            return RedirectToAction("CurrentGenres");
+            return RedirectToAction(nameof(CurrentGenres));
         }
     }
 }

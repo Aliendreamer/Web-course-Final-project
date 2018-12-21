@@ -2,10 +2,12 @@
 {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using FanFiction.Services.Interfaces;
     using FanFiction.Services.Utilities;
+    using FanFiction.Services.Interfaces;
     using FanFiction.ViewModels.InputModels;
+    using Microsoft.AspNetCore.Authorization;
 
+    [Authorize]
     public class StoriesController : Controller
     {
         public StoriesController(IStoryService storyService)
