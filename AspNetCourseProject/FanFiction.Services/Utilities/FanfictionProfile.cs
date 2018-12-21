@@ -147,6 +147,14 @@
                 .ForMember(x => x.Seen, o => o.MapFrom(x => x.Seen))
                 .ForMember(x => x.UpdatedStoryId, o => o.MapFrom(x => x.UpdatedStoryId))
                 .ForMember(x => x.Username, o => o.MapFrom(x => x.FanFictionUser.UserName));
+
+            CreateMap<Message, MessageOutputModel>()
+                .ForMember(x => x.Id, o => o.MapFrom(x => x.Id))
+                .ForMember(x => x.IsReaden, o => o.MapFrom(x => x.IsReaden))
+                .ForMember(x => x.Sender, o => o.MapFrom(x => x.Sender.UserName))
+                .ForMember(x => x.Receiver, o => o.MapFrom(x => x.Receiver.UserName))
+                .ForMember(x => x.SendOn, o => o.MapFrom(x => x.SendOn))
+                .ForMember(x => x.Text, o => o.MapFrom(x => x.Text));
         }
     }
 }

@@ -47,7 +47,7 @@
             var notBlocked =
                 this.Context.BlockedUsers.Any(x => x.BlockedUserId == receiver.Id && x.FanfictionUserId == sender.Id);
 
-            if (notBlocked)
+            if (!notBlocked)
             {
                 return true;
             }

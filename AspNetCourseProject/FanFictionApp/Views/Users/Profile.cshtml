@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Profile";
     var error = TempData[GlobalConstants.Error];
-    bool blocked = this.service.CanSendMessage(this.User.Identity.Name, Model.Username);
+    bool notblocked = this.service.CanSendMessage(this.User.Identity.Name, Model.Username);
     var user = this.userManager.FindByNameAsync(this.User.Identity.Name).GetAwaiter().GetResult();
     var hasRole = this.userManager.GetRolesAsync(user).GetAwaiter().GetResult().Any(x => x == GlobalConstants.Admin);
 
@@ -68,7 +68,7 @@
                         </table>
                     </div>
                 </div>
-                @if (!blocked)
+                @if (notblocked)
                 {
                     <a class="btn btn-block btn-danger" asp-action="BlockUser" asp-controller="Users" asp-route-username="@Model.Username">Block User</a>
                 }
@@ -78,7 +78,7 @@
                 }
             </div>
         </div>
-        @if (!blocked || hasRole)
+        @if (notblocked || hasRole)
         {
             <div class=" panel panel-info w-100 mt-2 border border-dark">
                 <h5 class="card-header">Leave a Message:</h5>
