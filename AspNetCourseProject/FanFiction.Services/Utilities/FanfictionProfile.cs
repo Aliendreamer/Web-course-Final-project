@@ -92,6 +92,14 @@
                 .ForMember(x => x.NewRole, cfg => cfg.Ignore())
                 .ForMember(x => x.AppRoles, cfg => cfg.Ignore());
 
+            CreateMap<FanFictionUser, UserAdminViewOutputModel>()
+                .ForMember(x => x.Id, cfg => cfg.MapFrom(x => x.Id))
+                .ForMember(x => x.Nickname, cfg => cfg.MapFrom(x => x.Nickname))
+                .ForMember(x => x.Role, cfg => cfg.Ignore())
+                .ForMember(x => x.Stories, cfg => cfg.MapFrom(x => x.FanFictionStories.Count))
+                .ForMember(x => x.Comments, cfg => cfg.MapFrom(x => x.Comments.Count))
+                .ForMember(x => x.MessageCount, cfg => cfg.MapFrom(x => x.SendMessages.Concat(x.ReceivedMessages).Count()));
+
             CreateMap<FanFictionUser, UserOutputStoryModel>()
                 .ForMember(x => x.Username, o => o.MapFrom(z => z.UserName))
                 .ForMember(x => x.Nickname, o => o.MapFrom(z => z.Nickname))
