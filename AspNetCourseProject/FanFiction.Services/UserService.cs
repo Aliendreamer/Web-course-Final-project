@@ -1,154 +1,154 @@
 ﻿namespace FanFiction.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
-    using Data;
-    using Interfaces;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
-    using Models;
-    using Utilities;
-    using ViewModels.InputModels;
-    using ViewModels.OutputModels;
-    using ViewModels.OutputModels.Announcements;
-    using ViewModels.OutputModels.Stories;
-    using ViewModels.OutputModels.Users;
+	using Data;
+	using Models;
+	using System;
+	using Utilities;
+	using Interfaces;
+	using AutoMapper;
+	using System.Linq;
+	using System.Threading.Tasks;
+	using ViewModels.InputModels;
+	using ViewModels.OutputModels;
+	using System.Collections.Generic;
+	using Microsoft.AspNetCore.Identity;
+	using ViewModels.OutputModels.Users;
+	using Microsoft.EntityFrameworkCore;
+	using AutoMapper.QueryableExtensions;
+	using ViewModels.OutputModels.Stories;
+	using ViewModels.OutputModels.Announcements;
 
-    public class UserService : BaseService, IUserService
-    {
-        public UserService(UserManager<FanFictionUser> userManager,
-            SignInManager<FanFictionUser> signInManager,
-            FanFictionContext context,
-            IMapper mapper)
-            : base(userManager, signInManager, context, mapper)
-        {
-        }
+	public class UserService : BaseService, IUserService
+	{
+		public UserService(UserManager<FanFictionUser> userManager,
+			SignInManager<FanFictionUser> signInManager,
+			FanFictionContext context,
+			IMapper mapper)
+			: base(userManager, signInManager, context, mapper)
+		{
+		}
 
-        public SignInResult LogUser(LoginInputModel loginModel)
-        {
-            var user = this.Context.Users.FirstOrDefault(x => x.Nickname == loginModel.Nickname);
+		public SignInResult LogUser(LoginInputModel loginModel)
+		{
+			var user = this.Context.Users.FirstOrDefault(x => x.Nickname == loginModel.Nickname);
 
-            if (user == null)
-            {
-                return SignInResult.Failed;
-            }
+			if (user == null)
+			{
+				return SignInResult.Failed;
+			}
 
-            var password = loginModel.Password;
-            var result = this.SingInManager.PasswordSignInAsync(user, password, true, false).Result;
+			var password = loginModel.Password;
+			var result = this.SingInManager.PasswordSignInAsync(user, password, true, false).Result;
 
-            return result;
-        }
+			return result;
+		}
 
-        public async Task<SignInResult> RegisterUser(RegisterInputModel registerModel)
-        {
-            bool uniqueNickname = this.Context.Users.All(x => x.Nickname != registerModel.Nickname);
+		public async Task<SignInResult> RegisterUser(RegisterInputModel registerModel)
+		{
+			bool uniqueNickname = this.Context.Users.All(x => x.Nickname != registerModel.Nickname);
 
-            if (!uniqueNickname)
-            {
-                return SignInResult.Failed;
-            }
+			if (!uniqueNickname)
+			{
+				return SignInResult.Failed;
+			}
 
-            var user = Mapper.Map<FanFictionUser>(registerModel);
+			var user = Mapper.Map<FanFictionUser>(registerModel);
 
-            await this.UserManager.CreateAsync(user);
-            await this.UserManager.AddPasswordAsync(user, registerModel.Password);
-            var result = await this.SingInManager.PasswordSignInAsync(user, registerModel.Password, true, false);
+			await this.UserManager.CreateAsync(user);
+			await this.UserManager.AddPasswordAsync(user, registerModel.Password);
+			var result = await this.SingInManager.PasswordSignInAsync(user, registerModel.Password, true, false);
 
-            return result;
-        }
+			return result;
+		}
 
-        // because i didn't want to inject other services in the view
-        public HomeLoggedModel GetHomeViewDetails()
-        {
-            var homeViewModel = new HomeLoggedModel
-            {
-                Stories = this.Context.FictionStories
-                .Include(x => x.Ratings)
-                .Include(x => x.Author)
-                .OrderByDescending(x => x.CreatedOn)
-                .Take(2).ProjectTo<StoryHomeOutputModel>().ToList(),
+		// because i didn't want to inject other services in the view
+		public HomeLoggedModel GetHomeViewDetails()
+		{
+			var homeViewModel = new HomeLoggedModel
+			{
+				Stories = this.Context.FictionStories
+				.Include(x => x.Ratings)
+				.Include(x => x.Author)
+				.OrderByDescending(x => x.CreatedOn)
+				.Take(2).ProjectTo<StoryHomeOutputModel>().ToList(),
 
-                Announcements = this.Context.Announcements
-                    .Where(x => x.PublshedOn.AddMonths(1) >= DateTime.Now.Date)
-                    .OrderByDescending(x => x.PublshedOn)
-                    .Take(3)
-                    .ProjectTo<AnnouncementOutputModel>()
-                    .ToList()
-            };
+				Announcements = this.Context.Announcements
+					.Where(x => x.PublshedOn.AddMonths(1) >= DateTime.Now.Date)
+					.OrderByDescending(x => x.PublshedOn)
+					.Take(3)
+					.ProjectTo<AnnouncementOutputModel>()
+					.ToList()
+			};
 
-            return homeViewModel;
-        }
+			return homeViewModel;
+		}
 
-        public IEnumerable<BlockedUserOutputModel> BlockedUsers(string userId)
-        {
-            var blockedUsers = this.Context.BlockedUsers
-                .Where(x => x.FanfictionUserId == userId).Select(x => x.BlockedUser).ProjectTo<BlockedUserOutputModel>().ToArray();
+		public IEnumerable<BlockedUserOutputModel> BlockedUsers(string userId)
+		{
+			var blockedUsers = this.Context.BlockedUsers
+				.Where(x => x.FanfictionUserId == userId).Select(x => x.BlockedUser).ProjectTo<BlockedUserOutputModel>().ToArray();
 
-            return blockedUsers;
-        }
+			return blockedUsers;
+		}
 
-        public async void Logout()
-        {
-            await this.SingInManager.SignOutAsync();
-        }
+		public async void Logout()
+		{
+			await this.SingInManager.SignOutAsync();
+		}
 
-        public UserOutputViewModel GetUser(string username)
-        {
-            //TODO try to see if i can do this with context.Users in one query? should be better and then automapper will work!probably
-            var user = this.UserManager.FindByNameAsync(username).Result;
-            var stories = this.Context.FictionStories.ProjectTo<StoryOutputModel>().ToArray();
-            var users = this.Context.BlockedUsers.ToList();
-            var result = Mapper.Map<UserOutputViewModel>(user);
-            result.FollowedStories = stories.Where(x => x.Followers.Any(xz => xz.NickName == result.NickName)).ToList();
-            result.UserStories = stories.Where(x => x.Author.Nickname == result.NickName).ToList();
-            result.Stories = result.UserStories.Count;
-            result.Role = this.UserManager.GetRolesAsync(user).Result.FirstOrDefault() ?? GlobalConstants.DefaultRole;
-            result.BlockedUsers = users.Where(x => x.FanfictionUserId == user.Id).ToList().Count;
-            result.BlockedBy = users.Where(x => x.BlockedUserId == user.Id).ToList().Count;
-            return result;
-        }
+		public UserOutputViewModel GetUser(string username)
+		{
+			//TODO try to see if i can do this with context.Users in one query? should be better and then automapper will work!probably
+			var user = this.UserManager.FindByNameAsync(username).Result;
+			var stories = this.Context.FictionStories.ProjectTo<StoryOutputModel>().ToArray();
+			var users = this.Context.BlockedUsers.ToList();
+			var result = Mapper.Map<UserOutputViewModel>(user);
+			result.FollowedStories = stories.Where(x => x.Followers.Any(xz => xz.NickName == result.NickName)).ToList();
+			result.UserStories = stories.Where(x => x.Author.Nickname == result.NickName).ToList();
+			result.Stories = result.UserStories.Count;
+			result.Role = this.UserManager.GetRolesAsync(user).Result.FirstOrDefault() ?? GlobalConstants.DefaultRole;
+			result.BlockedUsers = users.Where(x => x.FanfictionUserId == user.Id).ToList().Count;
+			result.BlockedBy = users.Where(x => x.BlockedUserId == user.Id).ToList().Count;
+			return result;
+		}
 
-        public async Task BlockUser(string currentUser, string name)
-        {
-            var blockingUser = await this.UserManager.FindByNameAsync(currentUser);
-            var userTobeBlocked = await this.UserManager.FindByNameAsync(name);
+		public async Task BlockUser(string currentUser, string name)
+		{
+			var blockingUser = await this.UserManager.FindByNameAsync(currentUser);
+			var userTobeBlocked = await this.UserManager.FindByNameAsync(name);
 
-            var Blocked = new BlockedUsers
-            {
-                FanFictionUser = blockingUser,
-                BlockedUser = userTobeBlocked
-            };
+			var Blocked = new BlockedUsers
+			{
+				FanFictionUser = blockingUser,
+				BlockedUser = userTobeBlocked
+			};
 
-            bool alreadyBlocked = this.Context.BlockedUsers.Any(x =>
-                x.BlockedUser == userTobeBlocked && x.FanFictionUser == blockingUser);
+			bool alreadyBlocked = this.Context.BlockedUsers.Any(x =>
+				x.BlockedUser == userTobeBlocked && x.FanFictionUser == blockingUser);
 
-            if (alreadyBlocked)
-            {
-                throw new InvalidOperationException(string.Format(GlobalConstants.AlreadyExistsInDb,
-                    typeof(BlockedUsers).Name));
-            }
+			if (alreadyBlocked)
+			{
+				throw new InvalidOperationException(string.Format(GlobalConstants.AlreadyExistsInDb,
+					typeof(BlockedUsers).Name));
+			}
 
-            this.Context.BlockedUsers.Add(Blocked);
-            this.Context.SaveChanges();
-        }
+			this.Context.BlockedUsers.Add(Blocked);
+			this.Context.SaveChanges();
+		}
 
-        public void UnblockUser(string userId, string id)
-        {
-            var blocked =
-                this.Context.BlockedUsers.FirstOrDefault(x =>
-                    x.FanfictionUserId == userId && x.BlockedUserId == id);
+		public void UnblockUser(string userId, string id)
+		{
+			var blocked =
+				this.Context.BlockedUsers.FirstOrDefault(x =>
+					x.FanfictionUserId == userId && x.BlockedUserId == id);
 
-            if (blocked == null)
-            {
-                throw new InvalidOperationException(GlobalConstants.NoRecordInDb);
-            }
+			if (blocked == null)
+			{
+				throw new InvalidOperationException(GlobalConstants.NoRecordInDb);
+			}
 
-            this.Context.Remove(blocked);
-            this.Context.SaveChanges();
-        }
-    }
+			this.Context.Remove(blocked);
+			this.Context.SaveChanges();
+		}
+	}
 }
