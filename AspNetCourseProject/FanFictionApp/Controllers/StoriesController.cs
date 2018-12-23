@@ -54,7 +54,7 @@
 
 			if (imageNotNull)
 			{
-				var fileType = inputModel.StoryImage.ContentType.Split('/')[1] ?? null;
+				var fileType = inputModel.StoryImage.ContentType.Split('/')[1];
 
 				wrongType = fileType == GlobalConstants.JpgFormat || fileType == GlobalConstants.PngFormat;
 			}
