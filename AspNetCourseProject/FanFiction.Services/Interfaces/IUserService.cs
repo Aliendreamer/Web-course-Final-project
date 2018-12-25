@@ -1,28 +1,28 @@
 ﻿namespace FanFiction.Services.Interfaces
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Identity;
-    using ViewModels.InputModels;
-    using ViewModels.OutputModels;
-    using ViewModels.OutputModels.Users;
+	using System.Collections.Generic;
+	using System.Threading.Tasks;
+	using Microsoft.AspNetCore.Identity;
+	using ViewModels.InputModels;
+	using ViewModels.OutputModels;
+	using ViewModels.OutputModels.Users;
 
-    public interface IUserService
-    {
-        SignInResult LogUser(LoginInputModel loginModel);
+	public interface IUserService
+	{
+		SignInResult LogUser(LoginInputModel loginModel);
 
-        Task<SignInResult> RegisterUser(RegisterInputModel registerModel);
+		Task<SignInResult> RegisterUser(RegisterInputModel registerModel);
 
-        HomeLoggedModel GetHomeViewDetails();
+		HomeLoggedModel GetHomeViewDetails();
 
-        IEnumerable<BlockedUserOutputModel> BlockedUsers(string username);
+		IEnumerable<BlockedUserOutputModel> BlockedUsers(string userId);
 
-        void Logout();
+		void Logout();
 
-        UserOutputViewModel GetUser(string nickName);
+		UserOutputViewModel GetUser(string nickName);
 
-        Task BlockUser(string currentUser, string name);
+		Task BlockUser(string currentUser, string name);
 
-        void UnblockUser(string username, string id);
-    }
+		void UnblockUser(string userId, string id);
+	}
 }

@@ -98,17 +98,22 @@
 
 		public UserOutputViewModel GetUser(string username)
 		{
-			//TODO try to see if i can do this with context.Users in one query? should be better and then automapper will work!probably
-			var user = this.UserManager.FindByNameAsync(username).Result;
-			var stories = this.Context.FictionStories.ProjectTo<StoryOutputModel>().ToArray();
-			var users = this.Context.BlockedUsers.ToList();
+			var user = this.Context.Users
+				.Include(x => x.FanFictionStories)
+				.Include(x => x.FollowedStories)
+				.ThenInclude(x => x.FanFictionStory)
+				.Include(x => x.BlockedUsers)
+				.Include(x => x.BLockedBy)
+				.Include(x => x.Comments)
+				.Include(x => x.Notifications)
+				.Include(x => x.SendMessages)
+				.Include(x => x.ReceivedMessages)
+				.Include(x => x.StoryRatings)
+				.FirstOrDefault(x => x.UserName == username);
+
 			var result = Mapper.Map<UserOutputViewModel>(user);
-			result.FollowedStories = stories.Where(x => x.Followers.Any(xz => xz.NickName == result.NickName)).ToList();
-			result.UserStories = stories.Where(x => x.Author.Nickname == result.NickName).ToList();
-			result.Stories = result.UserStories.Count;
 			result.Role = this.UserManager.GetRolesAsync(user).Result.FirstOrDefault() ?? GlobalConstants.DefaultRole;
-			result.BlockedUsers = users.Where(x => x.FanfictionUserId == user.Id).ToList().Count;
-			result.BlockedBy = users.Where(x => x.BlockedUserId == user.Id).ToList().Count;
+
 			return result;
 		}
 
