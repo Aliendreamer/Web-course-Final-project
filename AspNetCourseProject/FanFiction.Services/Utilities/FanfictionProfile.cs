@@ -8,8 +8,8 @@
 	using ViewModels.OutputModels.Users;
 	using ViewModels.OutputModels.Stories;
 	using ViewModels.OutputModels.InfoHub;
-	using ViewModels.OutputModels.Announcements;
 	using ViewModels.OutputModels.Chapters;
+	using ViewModels.OutputModels.Announcements;
 
 	public class FanfictionProfile : Profile
 	{

@@ -1,55 +1,57 @@
 ﻿namespace FanFictionApp.Controllers
 {
-    using FanFiction.Services.Interfaces;
-    using FanFiction.ViewModels.InputModels;
-    using Microsoft.AspNetCore.Mvc;
+	using Microsoft.AspNetCore.Mvc;
+	using FanFiction.Services.Interfaces;
+	using FanFiction.ViewModels.InputModels;
+	using Microsoft.AspNetCore.Authorization;
 
-    public class CommentsController : Controller
-    {
-        public CommentsController(ICommentService commentService)
-        {
-            this.CommentService = commentService;
-        }
+	[Authorize]
+	public class CommentsController : Controller
+	{
+		public CommentsController(ICommentService commentService)
+		{
+			this.CommentService = commentService;
+		}
 
-        protected ICommentService CommentService { get; set; }
+		protected ICommentService CommentService { get; set; }
 
-        [HttpGet]
-        public IActionResult DeleteComment(int storyId, int id)
-        {
-            this.CommentService.DeleteComment(id);
+		[HttpGet]
+		public IActionResult DeleteComment(int storyId, int id)
+		{
+			this.CommentService.DeleteComment(id);
 
-            return RedirectToAction("Details", "Stories", new { id = storyId });
-        }
+			return RedirectToAction("Details", "Stories", new { id = storyId });
+		}
 
-        [HttpPost]
-        public IActionResult AddComment(CommentInputModel inputModel)
-        {
-            this.CommentService.AddComment(inputModel);
+		[HttpPost]
+		public IActionResult AddComment(CommentInputModel inputModel)
+		{
+			this.CommentService.AddComment(inputModel);
 
-            return RedirectToAction("Details", "Stories", new { id = inputModel.StoryId });
-        }
+			return RedirectToAction("Details", "Stories", new { id = inputModel.StoryId });
+		}
 
-        [HttpGet]
-        public IActionResult DeleteCommentFromInfoHub(int id)
-        {
-            this.CommentService.DeleteComment(id);
+		[HttpGet]
+		public IActionResult DeleteCommentFromInfoHub(int id)
+		{
+			this.CommentService.DeleteComment(id);
 
-            return RedirectToInfohub();
-        }
+			return RedirectToInfohub();
+		}
 
-        [HttpGet]
-        public IActionResult DeleteAllComments(string username)
-        {
-            this.CommentService.DeleteAllComments(username);
+		[HttpGet]
+		public IActionResult DeleteAllComments(string username)
+		{
+			this.CommentService.DeleteAllComments(username);
 
-            return RedirectToInfohub();
-        }
+			return RedirectToInfohub();
+		}
 
-        private IActionResult RedirectToInfohub()
-        {
-            var username = this.User.Identity.Name;
+		private IActionResult RedirectToInfohub()
+		{
+			var username = this.User.Identity.Name;
 
-            return RedirectToAction("Infohub", "Messages", new { username });
-        }
-    }
+			return RedirectToAction("Infohub", "Messages", new { username });
+		}
+	}
 }
