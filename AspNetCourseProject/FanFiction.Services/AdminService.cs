@@ -56,7 +56,7 @@
 
 			try
 			{
-				await RemovingFromDbByUserToDeleteId(user.Id);
+				await RemovingEntitiesFromDbByUserToDeleteId(user.Id);
 				await this.UserManager.DeleteAsync(user);
 				await this.Context.SaveChangesAsync();
 			}
@@ -172,13 +172,15 @@
 			return result;
 		}
 
-		private async Task RemovingFromDbByUserToDeleteId(string id)
+		private async Task RemovingEntitiesFromDbByUserToDeleteId(string id)
 		{
 			var blockedEntitiesWithUserId =
 				this.Context.BlockedUsers.Where(x => x.BlockedUserId == id || x.BlockedUserId == id);
 
+			var notifications = this.Context.Notifications.Where(x => x.FanFictionUserId == id);
 			var messages = this.Context.Messages.Where(x => x.ReceiverId == id || x.SenderId == id);
 
+			this.Context.Notifications.RemoveRange(notifications);
 			this.Context.Messages.RemoveRange(messages);
 			this.Context.BlockedUsers.RemoveRange(blockedEntitiesWithUserId);
 			await this.Context.SaveChangesAsync();
