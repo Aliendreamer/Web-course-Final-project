@@ -34,7 +34,15 @@
                     <th scope="row" class="text-center">@count</th>
                     <td class="text-center">@m.Title</td>
                     <td class="text-center">@m.Type.Type</td>
-                    <td class="text-center">@m.Author.Nickname</td>
+                    @if (m.Author == null)
+                    {
+                        <td class="text-center">@GlobalConstants.DeletedUser</td>
+                    }
+                    else
+                    {
+                        <td class="text-center">@m.Author.Nickname</td>
+                    }
+
                     <td class="text-center">@m.Comments.Count</td>
                     <td class="text-center">@m.Rating</td>
                     <td class="text-center">@m.Ratings.Count</td>
