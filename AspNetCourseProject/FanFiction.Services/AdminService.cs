@@ -56,6 +56,7 @@
 
 			try
 			{
+				await RemovingFromDbByUserToDeleteId(user.Id);
 				await this.UserManager.DeleteAsync(user);
 				await this.Context.SaveChangesAsync();
 			}
@@ -169,6 +170,18 @@
 			var result = this.RoleManager.Roles.Select(x => x.Name).ToArray();
 
 			return result;
+		}
+
+		private async Task RemovingFromDbByUserToDeleteId(string id)
+		{
+			var blockedEntitiesWithUserId =
+				this.Context.BlockedUsers.Where(x => x.BlockedUserId == id || x.BlockedUserId == id);
+
+			var messages = this.Context.Messages.Where(x => x.ReceiverId == id || x.SenderId == id);
+
+			this.Context.Messages.RemoveRange(messages);
+			this.Context.BlockedUsers.RemoveRange(blockedEntitiesWithUserId);
+			await this.Context.SaveChangesAsync();
 		}
 	}
 }

@@ -22,7 +22,16 @@
                 <p class=" card-text">@Model.Summary</p>
             </div>
             <ul class="list-group list-group-flush">
-                <li><a class="list-group-item card-link" asp-action="Profile" asp-controller="Users" asp-area="" asp-route-username="@Model.Author">Author: @Model.Author</a></li>
+                @if (Model.Author == null)
+                {
+                    <li><a class="list-group-item">Author: @GlobalConstants.DeletedUser</a></li>
+
+                }
+                else
+                {
+                    <li><a class="list-group-item card-link" asp-action="Profile" asp-controller="Users" asp-area="" asp-route-username="@Model.Author">Author: @Model.Author</a></li>
+
+                }
                 <li class="list-group-item">Created on: @Model.CreatedOn</li>
                 <li class="list-group-item">Last edit on: @Model.LastEditedOn</li>
                 <li class="list-group-item">Rating: @Model.Rating</li>
@@ -93,6 +102,10 @@
                     <div class="form-group">
                         <textarea class="form-control" placeholder="Enter your comment" rows="4" name="message" id="my-input" maxlength="100"></textarea>
                         <span id='remainingC'></span>
+                        @if (this.TempData.ContainsKey(GlobalConstants.Error))
+                        {
+                            <span>@TempData[GlobalConstants.Error]</span>
+                        }
                     </div>
                     <button type="submit" class="btn btn-primary">Add comment</button>
                 </form>

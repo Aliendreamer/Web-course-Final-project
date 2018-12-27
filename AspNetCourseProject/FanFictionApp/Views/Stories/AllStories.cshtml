@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "AllStories";
     var genres = this.Service.Genres();
+    var nullAuthor = GlobalConstants.DeletedUser;
 }
 
 <div class="container-fluid">
@@ -35,7 +36,14 @@
                             <small>Title: @s.Title</small>
                             <small>Genre: @s.Type.Type</small>
                         </h4>
-                        <h5>Author: @s.Author.Username</h5>
+                        @if (s.Author==null)
+                        {
+                            <h5>Author: @nullAuthor</h5>
+                        }
+                        else
+                        {
+                            <h5>Author: @s.Author.Username</h5>
+                        }
                         <hr />
                         <p class="card-text">@s.Summary</p>
                     </div>
