@@ -17,7 +17,7 @@
 			builder.HasOne(x => x.FanFictionUser)
 				.WithMany(x => x.Comments)
 				.HasForeignKey(x => x.UserId)
-				.OnDelete(DeleteBehavior.Restrict);
+				.OnDelete(DeleteBehavior.SetNull);
 		}
 	}
 }

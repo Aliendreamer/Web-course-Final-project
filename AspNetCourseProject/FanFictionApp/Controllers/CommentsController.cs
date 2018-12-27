@@ -2,6 +2,7 @@
 {
 	using Microsoft.AspNetCore.Mvc;
 	using FanFiction.Services.Interfaces;
+	using FanFiction.Services.Utilities;
 	using FanFiction.ViewModels.InputModels;
 	using Microsoft.AspNetCore.Authorization;
 
@@ -26,6 +27,11 @@
 		[HttpPost]
 		public IActionResult AddComment(CommentInputModel inputModel)
 		{
+			if (!ModelState.IsValid)
+			{
+				this.TempData[GlobalConstants.Error] = GlobalConstants.CommentsLength;
+				return RedirectToAction("Details", "Stories", new { id = inputModel.StoryId });
+			}
 			this.CommentService.AddComment(inputModel);
 
 			return RedirectToAction("Details", "Stories", new { id = inputModel.StoryId });

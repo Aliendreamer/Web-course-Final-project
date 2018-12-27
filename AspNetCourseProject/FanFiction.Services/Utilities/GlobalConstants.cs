@@ -76,6 +76,10 @@
 
 		public const string ChapterId = "chapterId";
 
+		public const string CommentsLength = "Comment should not be empty";
+
+		public const string DeletedUser = "Deleted Author";
+
 		public const string UserId = "userId";
 
 		public const string StoryId = "storyId";

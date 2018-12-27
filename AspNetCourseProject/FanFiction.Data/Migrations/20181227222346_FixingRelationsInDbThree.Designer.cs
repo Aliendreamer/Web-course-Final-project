@@ -4,14 +4,16 @@ using FanFiction.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FanFiction.Data.Migrations
 {
     [DbContext(typeof(FanFictionContext))]
-    partial class FanFictionContextModelSnapshot : ModelSnapshot
+    [Migration("20181227222346_FixingRelationsInDbThree")]
+    partial class FixingRelationsInDbThree
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -472,7 +474,7 @@ namespace FanFiction.Data.Migrations
                     b.HasOne("FanFiction.Models.FanFictionUser", "FanFictionUser")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("FanFiction.Models.FanFictionRating", b =>

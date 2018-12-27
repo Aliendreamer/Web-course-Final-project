@@ -8,6 +8,7 @@
     <Compile Remove="Migrations\20181125154040_InitalModels.cs" />
     <Compile Remove="Migrations\20181203194253_addedFriendsPropertyToUserModel.cs" />
     <Compile Remove="Migrations\20181212233458_AddedNotificationConfiguration.cs" />
+    <Compile Remove="Migrations\20181227221630_fixingFanFictionUserConfigFour.cs" />
   </ItemGroup>
 
   <ItemGroup>

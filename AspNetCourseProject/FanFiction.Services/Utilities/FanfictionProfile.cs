@@ -138,7 +138,7 @@
 
 			CreateMap<Comment, CommentOutputModel>()
 				.ForMember(x => x.Id, o => o.MapFrom(x => x.Id))
-				.ForMember(x => x.Author, o => o.MapFrom(x => x.FanFictionUser.UserName))
+				.ForMember(x => x.Author, o => o.MapFrom(x => x.FanFictionUser.UserName ?? GlobalConstants.DeletedUser))
 				.ForMember(x => x.CommentedOn, o => o.MapFrom(x => x.CommentedOn))
 				.ForMember(x => x.Message, o => o.MapFrom(x => x.Message));
 
