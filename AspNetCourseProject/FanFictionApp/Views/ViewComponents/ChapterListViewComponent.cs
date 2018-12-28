@@ -1,38 +1,41 @@
 ﻿namespace FanFictionApp.Views.ViewComponents
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Mvc;
-    using FanFiction.Data;
-    using FanFiction.ViewModels.OutputModels.Stories;
-    using System.Linq;
-    using AutoMapper.QueryableExtensions;
-    using FanFiction.Services.Utilities;
-    using FanFiction.ViewModels.OutputModels.Chapters;
-    using Microsoft.EntityFrameworkCore;
+	using AutoMapper;
+	using System.Linq;
+	using FanFiction.Data;
+	using System.Threading.Tasks;
+	using Microsoft.AspNetCore.Mvc;
+	using System.Collections.Generic;
+	using Microsoft.EntityFrameworkCore;
+	using FanFiction.Services.Utilities;
+	using AutoMapper.QueryableExtensions;
+	using FanFiction.ViewModels.OutputModels.Chapters;
 
-    [ViewComponent(Name = "ChapterList")]
-    public class ChapterListViewComponent : ViewComponent
-    {
-        public ChapterListViewComponent(FanFictionContext context)
-        {
-            this.Context = context;
-        }
+	[ViewComponent(Name = "ChapterList")]
+	public class ChapterListViewComponent : ViewComponent
+	{
+		public ChapterListViewComponent(FanFictionContext context, IMapper mapper)
+		{
+			this.Context = context;
+			this.Mapper = mapper;
+		}
 
-        protected FanFictionContext Context { get; }
+		protected IMapper Mapper { get; set; }
 
-        public async Task<IViewComponentResult> InvokeAsync(int storyId)
-        {
-            var chapters = await GetChaptersAsync(storyId);
-            this.ViewData[GlobalConstants.StoryId] = storyId;
-            return View(chapters);
-        }
+		protected FanFictionContext Context { get; }
 
-        private async Task<List<ChapterOutputModel>> GetChaptersAsync(int id)
-        {
-            var chapters = await this.Context.Chapters.Where(x => x.FanFictionStoryId == id).ProjectTo<ChapterOutputModel>().ToListAsync();
+		public async Task<IViewComponentResult> InvokeAsync(int storyId)
+		{
+			var chapters = await GetChaptersAsync(storyId);
+			this.ViewData[GlobalConstants.StoryId] = storyId;
+			return View(chapters);
+		}
 
-            return chapters;
-        }
-    }
+		private async Task<List<ChapterOutputModel>> GetChaptersAsync(int id)
+		{
+			var chapters = await this.Context.Chapters.Where(x => x.FanFictionStoryId == id).ProjectTo<ChapterOutputModel>(Mapper.ConfigurationProvider).ToListAsync();
+
+			return chapters;
+		}
+	}
 }

@@ -35,9 +35,9 @@
 		{
 			if (string.IsNullOrEmpty(type) || type == GlobalConstants.ReturnAllStories)
 			{
-				return this.Context.FictionStories.ProjectTo<StoryOutputModel>().ToArray();
+				return this.Context.FictionStories.ProjectTo<StoryOutputModel>(Mapper.ConfigurationProvider).ToArray();
 			}
-			var stories = this.Context.FictionStories.Where(x => string.Equals(x.Type.Name, type, StringComparison.CurrentCultureIgnoreCase)).ProjectTo<StoryOutputModel>().ToArray();
+			var stories = this.Context.FictionStories.Where(x => string.Equals(x.Type.Name, type, StringComparison.CurrentCultureIgnoreCase)).ProjectTo<StoryOutputModel>(Mapper.ConfigurationProvider).ToArray();
 
 			return stories;
 		}
@@ -46,14 +46,14 @@
 		{
 			var userStories = this.Context.FictionStories.Include(x => x.Author)
 				.Where(x => x.Author.UserName.ToLower() == username.ToLower())
-				.ProjectTo<StoryOutputModel>().ToArray();
+				.ProjectTo<StoryOutputModel>(Mapper.ConfigurationProvider).ToArray();
 
 			return userStories;
 		}
 
 		public ICollection<StoryTypeOutputModel> Genres()
 		{
-			return this.Context.StoryTypes.ProjectTo<StoryTypeOutputModel>().ToArray();
+			return this.Context.StoryTypes.ProjectTo<StoryTypeOutputModel>(Mapper.ConfigurationProvider).ToArray();
 		}
 
 		public async Task Follow(string username, int id)

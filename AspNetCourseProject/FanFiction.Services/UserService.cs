@@ -70,13 +70,13 @@
 				.Include(x => x.Ratings)
 				.Include(x => x.Author)
 				.OrderByDescending(x => x.CreatedOn)
-				.Take(2).ProjectTo<StoryHomeOutputModel>().ToList(),
+				.Take(2).ProjectTo<StoryHomeOutputModel>(Mapper.ConfigurationProvider).ToList(),
 
 				Announcements = this.Context.Announcements
 					.Where(x => x.PublshedOn.AddMonths(1) >= DateTime.Now.Date)
 					.OrderByDescending(x => x.PublshedOn)
 					.Take(3)
-					.ProjectTo<AnnouncementOutputModel>()
+					.ProjectTo<AnnouncementOutputModel>(Mapper.ConfigurationProvider)
 					.ToList()
 			};
 
@@ -86,7 +86,7 @@
 		public IEnumerable<BlockedUserOutputModel> BlockedUsers(string userId)
 		{
 			var blockedUsers = this.Context.BlockedUsers
-				.Where(x => x.FanfictionUserId == userId).Select(x => x.BlockedUser).ProjectTo<BlockedUserOutputModel>().ToArray();
+				.Where(x => x.FanfictionUserId == userId).Select(x => x.BlockedUser).ProjectTo<BlockedUserOutputModel>(Mapper.ConfigurationProvider).ToArray();
 
 			return blockedUsers;
 		}

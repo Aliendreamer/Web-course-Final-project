@@ -5,15 +5,17 @@ VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanFictionApp", "FanFictionApp\FanFictionApp.csproj", "{150C380C-0A82-4894-A18A-04C02131FB96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanFiction.Data", "FanFiction.Data\FanFiction.Data.csproj", "{70F2483D-48E9-42B6-87DD-FC2526D38667}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanFiction.Data", "FanFiction.Data\FanFiction.Data.csproj", "{70F2483D-48E9-42B6-87DD-FC2526D38667}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanFiction.Models", "FanFiction.Models\FanFiction.Models.csproj", "{3677371E-B57B-43F9-BBC7-446D6DA7E134}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanFiction.Models", "FanFiction.Models\FanFiction.Models.csproj", "{3677371E-B57B-43F9-BBC7-446D6DA7E134}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanFiction.Services", "FanFiction.Services\FanFiction.Services.csproj", "{8CCCB708-1721-4CFF-A765-A9A923CAE215}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanFiction.Services", "FanFiction.Services\FanFiction.Services.csproj", "{8CCCB708-1721-4CFF-A765-A9A923CAE215}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanFiction.Tests", "FanFiction.Tests\FanFiction.Tests.csproj", "{85B261BB-904F-4A6D-9F63-606E45D89A17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanFiction.Tests", "FanFiction.Tests\FanFiction.Tests.csproj", "{85B261BB-904F-4A6D-9F63-606E45D89A17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanFiction.ViewModels", "FanFiction.ViewModels\FanFiction.ViewModels.csproj", "{D5B36F56-BFA5-4CD2-8123-4193B608B41D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FanFiction.ViewModels", "FanFiction.ViewModels\FanFiction.ViewModels.csproj", "{D5B36F56-BFA5-4CD2-8123-4193B608B41D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanFictionApp.Selenium.Tests", "FanFictionApp.Selenium.Tests\FanFictionApp.Selenium.Tests.csproj", "{CAA2056A-564B-49C2-8E98-638DFA016B09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{D5B36F56-BFA5-4CD2-8123-4193B608B41D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5B36F56-BFA5-4CD2-8123-4193B608B41D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5B36F56-BFA5-4CD2-8123-4193B608B41D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAA2056A-564B-49C2-8E98-638DFA016B09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAA2056A-564B-49C2-8E98-638DFA016B09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAA2056A-564B-49C2-8E98-638DFA016B09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAA2056A-564B-49C2-8E98-638DFA016B09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
