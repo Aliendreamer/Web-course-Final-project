@@ -25,9 +25,9 @@ else
                 <p class="card-text" style="word-wrap:break-word">@c.Message</p>
 
                 <ul class="list-group list-group-flush">
-                    @if (string.IsNullOrEmpty(c.Author))
+                    @if (c.Author.Equals(GlobalConstants.DeletedUser))
                     {
-                        <li><a class="list-group-item">Author: @GlobalConstants.DeletedUser</a></li>
+                        <li class="list-group-item">Author: @GlobalConstants.DeletedUser</li>
 
                     }
                     else
