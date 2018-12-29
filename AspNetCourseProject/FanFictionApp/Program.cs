@@ -2,12 +2,11 @@
 {
 	using System;
 	using System.Linq;
-	using System.Threading.Tasks;
 	using FanFiction.Data;
 	using FanFiction.Models;
 	using Microsoft.AspNetCore;
+	using System.Threading.Tasks;
 	using Microsoft.AspNetCore.Hosting;
-	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using Microsoft.Extensions.DependencyInjection;
 
 	public class Program
@@ -49,8 +48,8 @@
 				},
 			};
 
-			var noRoles = dbContext.StoryTypes.Any();
-			if (!noRoles)
+			var noGenres = dbContext.StoryTypes.Any();
+			if (!noGenres)
 			{
 				await dbContext.StoryTypes.AddRangeAsync(storytypes);
 				await dbContext.SaveChangesAsync();

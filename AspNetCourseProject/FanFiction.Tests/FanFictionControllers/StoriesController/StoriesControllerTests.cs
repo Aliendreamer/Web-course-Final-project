@@ -1,17 +1,16 @@
 ﻿namespace FanFiction.Tests.FanFictionControllers.StoriesController
 {
-	using System;
-	using Castle.Core.Internal;
-	using FanFictionApp.Controllers;
-	using FluentAssertions;
-	using Microsoft.AspNetCore.Authorization;
-	using Microsoft.AspNetCore.Http;
-	using Microsoft.AspNetCore.Mvc;
 	using Moq;
+	using System;
 	using NUnit.Framework;
-	using Services.Interfaces;
+	using FluentAssertions;
 	using Services.Utilities;
+	using Services.Interfaces;
 	using ViewModels.InputModels;
+	using Microsoft.AspNetCore.Mvc;
+	using FanFictionApp.Controllers;
+	using Microsoft.AspNetCore.Http;
+	using Microsoft.AspNetCore.Authorization;
 
 	[TestFixture]
 	public class StoriesControllerTests
