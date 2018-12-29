@@ -26,7 +26,16 @@
                     </div>
                     <hr style="height: 2px" />
                     <div class="container d-flex justify-content-between row">
-                        <h6 class="card-title text-center">Author: @s.Author</h6>
+                        @if (s.Author == null)
+                        {
+                            <h6 class="card-title text-center">Author: @GlobalConstants.DeletedUser</h6>
+
+                        }
+                        else
+                        {
+                            <h6 class="card-title text-center">Author: @s.Author</h6>
+
+                        }
                         <h6 class="card-subtitle text-muted">Genre: @s.StoryType</h6>
                     </div>
                     <hr />
@@ -45,7 +54,7 @@
             <div class=" card-header text-center text-dark"> User options</div>
             <div class="card-body">
                 <a asp-action="Profile" asp-controller="Users" asp-route-id="@this.User.Identity.Name" class="btn btn-info btn-block">My profile</a>
-                <a asp-action="UserStories" asp-controller="Stories" asp-route-username="@this.User.Identity.Name" class="btn btn-info btn-block">My Stories</a>
+                <a asp-action="UserStories" id="MyStories" asp-controller="Stories" asp-route-username="@this.User.Identity.Name" class="btn btn-info btn-block">My Stories</a>
                 <a asp-action="InfoHub" asp-controller="Messages" asp-route-username="@this.User.Identity.Name" class="btn btn-info btn-block">
                     My Messages
                     @if (newMessages > 0)

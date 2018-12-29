@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "UserMessages";
 }
-<div class=" container d-flex col-md-12 d-block mt-5 mb-5"style="max-height: 700px;overflow-y:auto">
+<div class=" container d-flex col-md-12 d-block mt-5 mb-5" style="max-height: 700px;overflow-y:auto">
     <section id="tabs" class="w-100">
         <div class="container w-100">
             <h6 class="section-title h1">Info Hub</h6>
@@ -39,4 +39,25 @@
 @section scripts{
 
     @{ await Html.RenderPartialAsync("_MyScriptsPartial"); }
+
+    <script>
+        $(document).ready(function () {
+            $('#dataFromDb1').DataTable({ responsive: true });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#dataFromDb2').DataTable({ responsive: true });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#dataFromDb3').DataTable({ responsive: true });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#dataFromDb4').DataTable({ responsive: true });
+        });
+    </script>
 }

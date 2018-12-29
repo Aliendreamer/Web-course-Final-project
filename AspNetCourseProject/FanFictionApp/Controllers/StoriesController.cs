@@ -1,5 +1,6 @@
 ﻿namespace FanFictionApp.Controllers
 {
+	using System.Security.Claims;
 	using System.Threading.Tasks;
 	using Microsoft.AspNetCore.Mvc;
 	using FanFiction.Services.Utilities;
@@ -35,8 +36,9 @@
 		[Route(GlobalConstants.RouteConstants.UserStories)]
 		public IActionResult UserStories(string username)
 		{
+			var id = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 			this.ViewData[GlobalConstants.UsernameHolder] = username;
-			var userStories = this.StoryService.UserStories(username);
+			var userStories = this.StoryService.UserStories(id);
 			return this.View(userStories);
 		}
 

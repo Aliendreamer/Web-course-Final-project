@@ -42,10 +42,10 @@
 			return stories;
 		}
 
-		public ICollection<StoryOutputModel> UserStories(string username)
+		public ICollection<StoryOutputModel> UserStories(string id)
 		{
 			var userStories = this.Context.FictionStories.Include(x => x.Author)
-				.Where(x => x.Author.UserName.ToLower() == username.ToLower())
+				.Where(x => x.Author.Id == id)
 				.ProjectTo<StoryOutputModel>(Mapper.ConfigurationProvider).ToArray();
 
 			return userStories;
