@@ -14,10 +14,8 @@
 	public class MessageService : BaseService, IMessageService
 	{
 		public MessageService(UserManager<FanFictionUser> userManager,
-			SignInManager<FanFictionUser> signInManager,
-			FanFictionContext context,
-			IMapper mapper)
-			: base(userManager, signInManager, context, mapper)
+			FanFictionContext context, IMapper mapper)
+			: base(userManager, context, mapper)
 		{
 		}
 

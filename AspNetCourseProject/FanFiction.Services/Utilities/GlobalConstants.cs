@@ -99,6 +99,8 @@
 			public const string Administration = "Administration";
 
 			public const string AddChapterRoute = "/Chapters/AddChapter/{storyId}";
+
+			public const string ApiRoute = "api/[controller]";
 		}
 
 		public class CLoudinarySetup

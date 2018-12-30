@@ -22,9 +22,8 @@
 	public class StoryService : BaseService, IStoryService
 	{
 		public StoryService(INotificationService notificationService, UserManager<FanFictionUser> userManager,
-			SignInManager<FanFictionUser> signInManager,
 			FanFictionContext context, IMapper mapper)
-			: base(userManager, signInManager, context, mapper)
+			: base(userManager, context, mapper)
 		{
 			this.NotificationService = notificationService;
 		}

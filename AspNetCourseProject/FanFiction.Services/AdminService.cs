@@ -19,9 +19,8 @@
 	public class AdminService : BaseService, IAdminService
 	{
 		public AdminService(UserManager<FanFictionUser> userManager,
-			SignInManager<FanFictionUser> signInManager,
 			FanFictionContext context, IMapper mapper, RoleManager<IdentityRole> roleManager)
-			: base(userManager, signInManager, context, mapper)
+			: base(userManager, context, mapper)
 		{
 			this.RoleManager = roleManager;
 		}

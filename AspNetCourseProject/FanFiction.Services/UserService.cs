@@ -20,13 +20,15 @@
 
 	public class UserService : BaseService, IUserService
 	{
-		public UserService(UserManager<FanFictionUser> userManager,
-			SignInManager<FanFictionUser> signInManager,
+		public UserService(SignInManager<FanFictionUser> signInManager, UserManager<FanFictionUser> userManager,
 			FanFictionContext context,
 			IMapper mapper)
-			: base(userManager, signInManager, context, mapper)
+			: base(userManager, context, mapper)
 		{
+			this.SignInManager = signInManager;
 		}
+
+		protected SignInManager<FanFictionUser> SignInManager { get; }
 
 		public SignInResult LogUser(LoginInputModel loginModel)
 		{
@@ -38,7 +40,7 @@
 			}
 
 			var password = loginModel.Password;
-			var result = this.SingInManager.PasswordSignInAsync(user, password, true, false).Result;
+			var result = this.SignInManager.PasswordSignInAsync(user, password, true, false).Result;
 
 			return result;
 		}
@@ -56,7 +58,7 @@
 
 			await this.UserManager.CreateAsync(user);
 			await this.UserManager.AddPasswordAsync(user, registerModel.Password);
-			var result = await this.SingInManager.PasswordSignInAsync(user, registerModel.Password, true, false);
+			var result = await this.SignInManager.PasswordSignInAsync(user, registerModel.Password, true, false);
 
 			return result;
 		}
@@ -93,7 +95,7 @@
 
 		public async void Logout()
 		{
-			await this.SingInManager.SignOutAsync();
+			await this.SignInManager.SignOutAsync();
 		}
 
 		public UserOutputViewModel GetUser(string username)

@@ -16,9 +16,8 @@
 	public class ChapterService : BaseService, IChapterService
 	{
 		public ChapterService(UserManager<FanFictionUser> userManager,
-			SignInManager<FanFictionUser> signInManager,
 			FanFictionContext context, IMapper mapper, INotificationService notificationService)
-			: base(userManager, signInManager, context, mapper)
+			: base(userManager, context, mapper)
 		{
 			this.NotificationService = notificationService;
 		}
