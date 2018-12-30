@@ -26,7 +26,6 @@
 		{
 			browser.Navigate().GoToUrl(server.RootUri);
 			Assert.StartsWith("Home Page", browser.Title);
-			browser.Close();
 		}
 
 		[Fact]

@@ -67,6 +67,7 @@
 			services.AddScoped<IMessageService, MessageService>();
 			services.AddScoped<INotificationService, NotificationService>();
 			services.AddScoped<IAuthenticationService, AuthenticationService>();
+			services.AddScoped<IApiService, ApiService>();
 
 			services.AddIdentity<FanFictionUser, IdentityRole>(opt =>
 				{

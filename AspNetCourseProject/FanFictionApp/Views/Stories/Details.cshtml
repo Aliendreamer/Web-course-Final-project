@@ -90,9 +90,9 @@
     <div class="col-md-2">
         @await Component.InvokeAsync("CommentsList", new { storyId = @Model.Id })
 
-        <div class="card w-100 mt-1">
+        <div class="card w-100 mt-1 d-flex">
             <h5 class="card-header">Leave a Comment:</h5>
-            <div class="card-body">
+            <div class="card-body container-flex">
                 <form asp-action="AddComment" asp-controller="Comments" asp-area="" method="post">
                     <div class="form-group">
                         <input type="text" hidden="hidden" value="@Model.Id" name="StoryId" />
@@ -107,7 +107,7 @@
                             <span>@TempData[GlobalConstants.Error]</span>
                         }
                     </div>
-                    <button type="submit" class="btn btn-primary">Add comment</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Add comment</button>
                 </form>
             </div>
         </div>

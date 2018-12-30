@@ -65,12 +65,14 @@
 
 		public IEnumerable<ApiFanFictionStoryOutputModel> TopStories()
 		{
+			const int countTotake = 10;
+
 			var result = this.Context.FictionStories
 				.Include(x => x.Chapters)
 				.Include(x => x.Ratings)
 				.ProjectTo<ApiFanFictionStoryOutputModel>(Mapper.ConfigurationProvider)
 				.OrderByDescending(x => x.Rating)
-				.Take(10)
+				.Take(countTotake)
 				.ToList();
 
 			return result;
