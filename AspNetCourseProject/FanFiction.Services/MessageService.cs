@@ -62,7 +62,9 @@
 
 		public InfoHubViewModel Infohub(string username)
 		{
-			var allMessages = this.Context.Messages.Where(x => x.Receiver.UserName == username).ProjectTo<MessageOutputModel>(Mapper.ConfigurationProvider).ToList();
+			var allMessages = this.Context.Messages.Where(x => x.Receiver.UserName == username || x.Sender.UserName == username)
+				.ProjectTo<MessageOutputModel>(Mapper.ConfigurationProvider)
+				.ToList();
 
 			var newMessages = allMessages.Where(x => x.IsReaden == false).ToArray();
 

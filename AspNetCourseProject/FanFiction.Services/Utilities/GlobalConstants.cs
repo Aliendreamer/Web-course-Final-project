@@ -86,6 +86,8 @@
 
 		public const string Id = "id";
 
+		public const string NoSuchGenre = "Searched {0}, does not exist";
+
 		public const int Zero = 0;
 
 		public class RouteConstants
@@ -100,7 +102,17 @@
 
 			public const string AddChapterRoute = "/Chapters/AddChapter/{storyId}";
 
-			public const string ApiRoute = "api/[controller]";
+			public const string ApiRoute = "api/fanfiction/";
+
+			public const string Authors = "Authors";
+
+			public const string Stories = "Stories";
+
+			public const string TopStories = "TopStories";
+
+			public const string StoriesByGenre = "StoriesByGenre/{genre}";
+
+			public const string GetGenre = "genre";
 		}
 
 		public class CLoudinarySetup

@@ -10,6 +10,7 @@
 	using ViewModels.OutputModels.InfoHub;
 	using ViewModels.OutputModels.Chapters;
 	using ViewModels.OutputModels.Announcements;
+	using ViewModels.OutputModels.ApiOutputModels;
 
 	public class FanfictionProfile : Profile
 	{
@@ -22,7 +23,7 @@
 				.ForMember(opt => opt.Followers, cfg => cfg.MapFrom(x => x.Followers.Select(xx => xx.FanFictionUser)))
 				.ForMember(x => x.LastEditedOn, opt => opt.MapFrom(x => x.LastEditedOn.Date))
 				.ForMember(x => x.CreatedOn, opt => opt.MapFrom(x => x.CreatedOn.Date))
-				.ForMember(o => o.Rating, opt => opt.Ignore())
+				.ForMember(opt => opt.Rating, cfg => cfg.MapFrom(x => x.Ratings.Any() ? x.Ratings.Average(r => r.StoryRating.Rating) : GlobalConstants.Zero))
 				.ForMember(o => o.Author, opt => opt.MapFrom(x => x.Author))
 				.ForMember(x => x.Summary, opt => opt.NullSubstitute(GlobalConstants.NoSummary))
 				.ForMember(x => x.Comments, opt => opt.MapFrom(x => x.Comments))
@@ -58,11 +59,28 @@
 				.ForMember(x => x.ImageUrl, o => o.MapFrom(x => x.ImageUrl))
 				.ForMember(opt => opt.Summary, cfg => cfg.NullSubstitute(GlobalConstants.NoSummary));
 
+			CreateMap<FanFictionStory, ApiFanFictionStoryOutputModel>()
+				.ForMember(x => x.Id, o => o.MapFrom(x => x.Id))
+				.ForMember(x => x.Title, o => o.MapFrom(x => x.Title))
+				.ForMember(x => x.Author, o => o.MapFrom(x => x.Author.UserName ?? GlobalConstants.DeletedUser))
+				.ForMember(x => x.Summary, o => o.NullSubstitute(GlobalConstants.NoSummary))
+				.ForMember(opt => opt.Rating, cfg => cfg.MapFrom(x => x.Ratings.Any() ? x.Ratings.Average(r => r.StoryRating.Rating) : GlobalConstants.Zero))
+				.ForMember(x => x.CreatedOn, o => o.MapFrom(x => x.CreatedOn.ToShortDateString()))
+				.ForMember(x => x.LastUpdated, o => o.MapFrom(x => x.LastEditedOn.ToShortDateString()))
+				.ForMember(x => x.ImageUrl, o => o.MapFrom(x => x.ImageUrl))
+				.ForMember(x => x.Genre, opt => opt.MapFrom(x => x.Type.Name))
+				.ForMember(x => x.Chapters, o => o.MapFrom(x => x.Chapters));
+
 			CreateMap<Announcement, AnnouncementOutputModel>()
 				.ForMember(opt => opt.Author, cfg => cfg.MapFrom(x => x.Author.UserName))
 				.ForMember(opt => opt.Content, cfg => cfg.MapFrom(x => x.Content))
 				.ForMember(opt => opt.PublishedOn, cfg => cfg.MapFrom(x => x.PublshedOn.ToShortDateString()))
 				.ForMember(opt => opt.Id, cfg => cfg.MapFrom(x => x.Id));
+
+			CreateMap<FanFictionUser, ApiUserOutputModel>()
+				.ForMember(x => x.Username, o => o.MapFrom(x => x.UserName))
+				.ForMember(x => x.Nickname, o => o.MapFrom(x => x.Nickname))
+				.ForMember(x => x.Stories, o => o.MapFrom(x => x.FanFictionStories));
 
 			CreateMap<FanFictionUser, UserOutputViewModel>()
 				.ForMember(x => x.Id, cfg => cfg.MapFrom(x => x.Id))
@@ -71,7 +89,7 @@
 				.ForMember(x => x.Email, cfg => cfg.MapFrom(x => x.Email))
 				.ForMember(x => x.Role, cfg => cfg.Ignore())
 				.ForMember(x => x.Comments, opt => opt.MapFrom(x => x.Comments.Count))
-				.ForMember(x => x.MessagesCount, opt => opt.MapFrom(x => x.SendMessages.Count + x.SendMessages.Count))
+				.ForMember(x => x.MessagesCount, opt => opt.MapFrom(x => x.ReceivedMessages.Count + x.SendMessages.Count))
 				.ForMember(x => x.Stories, opt => opt.MapFrom(x => x.FanFictionStories.Count))
 				.ForMember(x => x.Messages, opt => opt.MapFrom(x => x.SendMessages.Concat(x.ReceivedMessages)))
 				.ForMember(x => x.Notifications, o => o.MapFrom(x => x.Notifications))

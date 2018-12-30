@@ -8,8 +8,8 @@
 	using ViewModels.InputModels;
 	using Microsoft.AspNetCore.Mvc;
 	using FanFictionApp.Controllers;
-	using Microsoft.AspNetCore.Authorization;
 	using ViewModels.OutputModels.Chapters;
+	using Microsoft.AspNetCore.Authorization;
 
 	[TestFixture]
 	public class ChaptersControllerTests

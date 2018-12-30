@@ -62,6 +62,7 @@
 			services.AddScoped<ICommentService, CommentService>();
 			services.AddScoped<IMessageService, MessageService>();
 			services.AddScoped<IChapterService, ChapterService>();
+			services.AddScoped<IApiService, ApiService>();
 
 			services.AddAutoMapper(x => x.AddProfile<FanfictionProfile>());
 
@@ -74,11 +75,12 @@
 			//});
 
 			services.AddMvc(opt =>
-			{
-				opt.Filters.Add<CustomActionFilterAttribute>();
-				opt.Filters.Add<LogExceptionActionFilter>();
-				opt.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
-			}).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+				{
+					opt.Filters.Add<CustomActionFilterAttribute>();
+					opt.Filters.Add<LogExceptionActionFilter>();
+					opt.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+				})
+				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

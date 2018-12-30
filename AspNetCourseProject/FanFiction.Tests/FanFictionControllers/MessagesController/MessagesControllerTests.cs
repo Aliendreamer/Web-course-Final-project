@@ -1,17 +1,17 @@
 ﻿namespace FanFiction.Tests.FanFictionControllers.MessagesController
 {
+	using Moq;
 	using System;
 	using NUnit.Framework;
 	using FluentAssertions;
-	using FanFictionApp.Controllers;
-	using Microsoft.AspNetCore.Authorization;
-	using Microsoft.AspNetCore.Http;
-	using Microsoft.AspNetCore.Mvc;
-	using Microsoft.AspNetCore.Mvc.ViewFeatures;
-	using Moq;
 	using Services.Interfaces;
 	using Services.Utilities;
 	using ViewModels.InputModels;
+	using Microsoft.AspNetCore.Mvc;
+	using Microsoft.AspNetCore.Http;
+	using FanFictionApp.Controllers;
+	using Microsoft.AspNetCore.Authorization;
+	using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 	[TestFixture]
 	public class MessagesControllerTests
