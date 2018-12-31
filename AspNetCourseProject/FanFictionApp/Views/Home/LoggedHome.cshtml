@@ -70,6 +70,7 @@
                     }
                 </a>
                 <a asp-action="BlockedUsers" asp-controller="Users" asp-route-id="@this.User.Identity.Name" class="btn btn-info btn-block">Blocked Users</a>
+                <a asp-action="FollowedStories" asp-controller="Stories" asp-route-username="@User.Identity.Name" class="btn btn-info btn-block">Followed Stories</a>
                 <a asp-action="AllStories" asp-controller="Stories" class="btn btn-info btn-block">All Stories</a>
             </div>
         </div>

@@ -1,15 +1,17 @@
 ﻿namespace FanFiction.ViewModels.OutputModels.Stories
 {
-    using System;
+	using System;
 
-    public class CommentOutputModel
-    {
-        public int Id { get; set; }
+	public class CommentOutputModel
+	{
+		public int Id { get; set; }
 
-        public string Author { get; set; }
+		public int StoryId { get; set; }
 
-        public string Message { get; set; }
+		public string Author { get; set; }
 
-        public DateTime CommentedOn { get; set; }
-    }
+		public string Message { get; set; }
+
+		public DateTime CommentedOn { get; set; }
+	}
 }

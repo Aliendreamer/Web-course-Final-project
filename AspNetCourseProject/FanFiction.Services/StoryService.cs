@@ -36,7 +36,8 @@
 			{
 				return this.Context.FictionStories.ProjectTo<StoryOutputModel>(Mapper.ConfigurationProvider).ToArray();
 			}
-			var stories = this.Context.FictionStories.Where(x => string.Equals(x.Type.Name, type, StringComparison.CurrentCultureIgnoreCase)).ProjectTo<StoryOutputModel>(Mapper.ConfigurationProvider).ToArray();
+			var stories = this.Context.FictionStories.Where(x => string.Equals(x.Type.Name, type, StringComparison.CurrentCultureIgnoreCase))
+				.ProjectTo<StoryOutputModel>(Mapper.ConfigurationProvider).ToArray();
 
 			return stories;
 		}
@@ -127,6 +128,27 @@
 			this.Context.FictionStories.Add(newStory);
 			await this.Context.SaveChangesAsync();
 			return newStory.Id;
+		}
+
+		public ICollection<StoryOutputModel> FollowedStories(string username)
+		{
+			var stories = this.Context.FictionStories
+				.Include(x => x.Followers)
+				.Where(x => x.Followers.Any(z => z.FanFictionUser.UserName == username))
+				.ProjectTo<StoryOutputModel>(Mapper.ConfigurationProvider).ToList();
+
+			return stories;
+		}
+
+		public ICollection<StoryOutputModel> FollowedStoriesByGenre(string username, string type)
+		{
+			var stories = this.FollowedStories(username);
+
+			if (type == GlobalConstants.ReturnAllStories)
+			{
+				return stories;
+			}
+			return stories.Where(x => x.Type.Type == type).ToList();
 		}
 
 		public StoryDetailsOutputModel GetStoryById(int id)

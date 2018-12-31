@@ -121,5 +121,24 @@
 
 			return RedirectToAction("Details", "Stories", new { id = storyId });
 		}
+
+		[HttpGet]
+		public IActionResult FollowedStories()
+		{
+			string name = this.User.Identity.Name;
+
+			var model = this.StoryService.FollowedStories(name);
+
+			return this.View(model);
+		}
+
+		[HttpPost]
+		public IActionResult FollowedStories(string type)
+		{
+			string name = this.User.Identity.Name;
+
+			var model = this.StoryService.FollowedStoriesByGenre(name, type);
+			return this.View(model);
+		}
 	}
 }

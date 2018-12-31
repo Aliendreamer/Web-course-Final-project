@@ -3,6 +3,7 @@
 	using Base;
 	using Models;
 	using System;
+	using System.Collections.Generic;
 	using System.Linq;
 	using NUnit.Framework;
 	using FluentAssertions;
@@ -695,56 +696,277 @@
 			}, options => options.ExcludingMissingMembers());
 		}
 
-		//public void UserStories_Should_Return_The_Stories_for_Unique_Username()
-		//{
-		//	//arrange
+		[Test]
+		public void FollowedStories_Should_Return_Only_stories_User_Is_Following()
+		{
+			//arrange
+			var user = new FanFictionUser
+			{
+				Nickname = "SomeNick",
+				UserName = "Follower"
+			};
 
-		//	var stories = new FanFictionStory[]
-		//	{
-		//		new FanFictionStory
-		//		{
-		//			Id=1,
-		//			Author=  new FanFictionUser
-		//			{
-		//				Nickname = "TestStory",
-		//				UserName = "WhatEver",
-		//			},
-		//			Summary="some summary",
-		//			Title="Story To test"
-		//		},
-		//		new FanFictionStory
-		//		{
-		//			Id=2,
-		//			Author= new FanFictionUser
-		//			{
-		//				Nickname = "FalseUser",
-		//				UserName = "SomeNickname",
-		//			},
-		//			Summary=null,
-		//			Title="another test"
-		//		},
-		//	};
+			var userManager = this.Provider.GetRequiredService<UserManager<FanFictionUser>>();
+			userManager.CreateAsync(user).GetAwaiter();
+			var storyService = GetService();
+			var stories = new[]
+			{
+					new FanFictionStory
+					{
+						Title = "One",
+						Id = 1,
+						CreatedOn = DateTime.Now,
+						Summary = null,
+						ImageUrl = GlobalConstants.DefaultNoImage,
+						Type = new StoryType
+						{
+							Id = 1,
+							Name = "fantasy"
+						},
+						AuthorId = "11111",
+						Followers = new List<UserStory>
+						{
+							new UserStory
+							{
+								FanFictionStoryId = 1,
+								FanFictionUser = user,
+							}
+						}
+					},
+					new FanFictionStory
+					{
+						Title = "Two",
+						Id = 2,
+						CreatedOn = DateTime.Now.AddMonths(1),
+						Summary = null,
+						ImageUrl = GlobalConstants.DefaultNoImage,
+						Type = new StoryType
+						{
+							Id = 2,
+							Name = "Horror"
+						},
+						AuthorId = "22222",
+						Followers = new List<UserStory>
+						{
+							new UserStory
+							{
+								FanFictionStoryId = 2,
+								FanFictionUser = user,
+							}
+						}
+					},
+					new FanFictionStory
+					{
+						Title = "three",
+						Id = 3,
+						CreatedOn = DateTime.Now.AddDays(2),
+						Summary = null,
+						ImageUrl = GlobalConstants.DefaultNoImage,
+						Type = new StoryType
+						{
+							Id = 3,
+							Name = "Science Fiction"
+						},
+						AuthorId = "2222223333"
+					},
+				};
 
-		//	var storyService = this.Provider.GetRequiredService<IStoryService>();
+			this.Context.FictionStories.AddRange(stories);
+			this.Context.SaveChanges();
 
-		//	//act
-		//	var user = new FanFictionUser
-		//	{
-		//		Nickname = "TestStory",
-		//		UserName = "WhatEver",
-		//	};
-		//	var usermanager = this.Provider.GetRequiredService<UserManager<FanFictionUser>>();
-		//	usermanager.CreateAsync(user).GetAwaiter().GetResult();
-		//	this.Context.FictionStories.AddRange(stories);
-		//	this.Context.SaveChanges();
+			//act
+			string name = user.UserName;
+			var result = storyService.FollowedStories(name);
 
-		//	string id = user.Id;
-		//	string username = "WhatEver";
-		//	var userStories = storyService.UserStories(id);
+			//assert
+			int count = stories.Length - 1;
+			string username = user.UserName;
+			result.Should().NotBeEmpty().And.HaveCount(count)
+				.And.Subject.As<IEnumerable<StoryOutputModel>>().SelectMany(x => x.Followers.Select(u => u.Username))
+				.Should().OnlyContain(x => x == username);
+		}
 
-		//	//assert
-		//	userStories.Should().HaveCount(1).And.ContainSingle(x => x.Author.Username == username);
-		//}
+		[Test]
+		public void FollowedStoriesByGenre_Should_Return_Only_stories_User_Is_FollowingAndGenre_Selected()
+		{
+			//arrange
+			var user = new FanFictionUser
+			{
+				Nickname = "SomeNick",
+				UserName = "Follower"
+			};
+
+			var userManager = this.Provider.GetRequiredService<UserManager<FanFictionUser>>();
+			userManager.CreateAsync(user).GetAwaiter();
+			var storyService = GetService();
+			var stories = new[]
+			{
+					new FanFictionStory
+					{
+						Title = "One",
+						Id = 1,
+						CreatedOn = DateTime.Now,
+						Summary = null,
+						ImageUrl = GlobalConstants.DefaultNoImage,
+						Type = new StoryType
+						{
+							Id = 1,
+							Name = "fantasy"
+						},
+						AuthorId = "11111",
+						Followers = new List<UserStory>
+						{
+							new UserStory
+							{
+								FanFictionStoryId = 1,
+								FanFictionUser = user,
+							}
+						}
+					},
+					new FanFictionStory
+					{
+						Title = "Two",
+						Id = 2,
+						CreatedOn = DateTime.Now.AddMonths(1),
+						Summary = null,
+						ImageUrl = GlobalConstants.DefaultNoImage,
+						Type = new StoryType
+						{
+							Id = 2,
+							Name = "horror"
+						},
+						AuthorId = "22222",
+						Followers = new List<UserStory>
+						{
+							new UserStory
+							{
+								FanFictionStoryId = 2,
+								FanFictionUser = user,
+							}
+						}
+					},
+					new FanFictionStory
+					{
+						Title = "three",
+						Id = 3,
+						CreatedOn = DateTime.Now.AddDays(2),
+						Summary = null,
+						ImageUrl = GlobalConstants.DefaultNoImage,
+						Type = new StoryType
+						{
+							Id = 3,
+							Name = "Science Fiction"
+						},
+						AuthorId = "2222223333"
+					},
+				};
+
+			this.Context.FictionStories.AddRange(stories);
+			this.Context.SaveChanges();
+
+			//act
+			string name = user.UserName;
+			string genre = "horror";
+			var result = storyService.FollowedStoriesByGenre(name, genre);
+
+			//assert
+
+			string username = user.UserName;
+			result.Should().ContainSingle()
+				.And.Subject.As<IEnumerable<StoryOutputModel>>().SelectMany(x => x.Followers.Select(u => u.Username))
+				.Should().OnlyContain(x => x == username);
+		}
+
+		[Test]
+		public void FollowedStoriesByGenre_Should_Return_Only_stories_User_Is_Following_And_All_Genres()
+		{
+			//arrange
+			var user = new FanFictionUser
+			{
+				Nickname = "SomeNick",
+				UserName = "Follower"
+			};
+
+			var userManager = this.Provider.GetRequiredService<UserManager<FanFictionUser>>();
+			userManager.CreateAsync(user).GetAwaiter();
+			var storyService = GetService();
+			var stories = new[]
+			{
+					new FanFictionStory
+					{
+						Title = "One",
+						Id = 1,
+						CreatedOn = DateTime.Now,
+						Summary = null,
+						ImageUrl = GlobalConstants.DefaultNoImage,
+						Type = new StoryType
+						{
+							Id = 1,
+							Name = "fantasy"
+						},
+						AuthorId = "11111",
+						Followers = new List<UserStory>
+						{
+							new UserStory
+							{
+								FanFictionStoryId = 1,
+								FanFictionUser = user,
+							}
+						}
+					},
+					new FanFictionStory
+					{
+						Title = "Two",
+						Id = 2,
+						CreatedOn = DateTime.Now.AddMonths(1),
+						Summary = null,
+						ImageUrl = GlobalConstants.DefaultNoImage,
+						Type = new StoryType
+						{
+							Id = 2,
+							Name = "horror"
+						},
+						AuthorId = "22222",
+						Followers = new List<UserStory>
+						{
+							new UserStory
+							{
+								FanFictionStoryId = 2,
+								FanFictionUser = user,
+							}
+						}
+					},
+					new FanFictionStory
+					{
+						Title = "three",
+						Id = 3,
+						CreatedOn = DateTime.Now.AddDays(2),
+						Summary = null,
+						ImageUrl = GlobalConstants.DefaultNoImage,
+						Type = new StoryType
+						{
+							Id = 3,
+							Name = "Science Fiction"
+						},
+						AuthorId = "2222223333"
+					},
+				};
+
+			this.Context.FictionStories.AddRange(stories);
+			this.Context.SaveChanges();
+
+			//act
+			string name = user.UserName;
+			string genre = GlobalConstants.ReturnAllStories;
+			var result = storyService.FollowedStoriesByGenre(name, genre);
+
+			//assert
+			int count = stories.Length - 1;
+			string username = user.UserName;
+			result.Should().NotBeEmpty().And.HaveCount(count)
+				.And.Subject.As<IEnumerable<StoryOutputModel>>().SelectMany(x => x.Followers.Select(u => u.Username))
+				.Should().OnlyContain(x => x == username);
+		}
 
 		private IStoryService GetService()
 		{
