@@ -28,10 +28,18 @@
                     <td class="text-center">@m.CommentedOn</td>
 
                     <td>
-                        <div class=" d-flex justify-content-around ">
+                        <div class=" d-flex justify-content-around">
 
                             <a asp-action="DeleteCommentFromInfoHub" asp-controller="Comments" asp-area="" asp-route-id="@m.Id" class="btn btn-dark ">Delete Comment</a>
-                            <a asp-action="Details" asp-controller="Stories" asp-area="" asp-route-id="@m.Id" class="btn btn-info ">Go to Story</a>
+                            @if (m.StoryId != default(int))
+                            {
+                                <a asp-action="Details" asp-controller="Stories" asp-area="" asp-route-id="@m.Id" class="btn btn-info ">Go to Story</a>
+                            }
+                            else
+                            {
+                                <a  class="btn btn-info disabled">Story Deleted</a>
+
+                            }
                         </div>
                     </td>
                 </tr>

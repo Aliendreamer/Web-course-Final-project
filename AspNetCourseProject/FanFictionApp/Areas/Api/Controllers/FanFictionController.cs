@@ -13,6 +13,7 @@
 		//this is weird why i need to reference the list and can't send it directly very weird
 		//should investigate!
 		// return Ok(object) seems to do the trick strange
+		//removed the async it was problematic with the service pretty weird IQuerable exceptions object set to null
 
 		public FanFictionController(IApiService apiService)
 		{

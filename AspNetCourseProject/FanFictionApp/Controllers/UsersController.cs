@@ -1,128 +1,140 @@
 ﻿namespace FanFictionApp.Controllers
 {
-    using System.Security.Claims;
-    using System.Threading.Tasks;
-    using FanFiction.Services.Interfaces;
-    using FanFiction.Services.Utilities;
-    using FanFiction.ViewModels.InputModels;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
+	using System.Security.Claims;
+	using System.Threading.Tasks;
+	using FanFiction.Services.Interfaces;
+	using FanFiction.Services.Utilities;
+	using FanFiction.ViewModels.InputModels;
+	using Microsoft.AspNetCore.Authorization;
+	using Microsoft.AspNetCore.Mvc;
+	using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
-    [Authorize]
-    public class UsersController : Controller
-    {
-        public UsersController(IUserService userService)
-        {
-            UserService = userService;
-        }
+	[Authorize]
+	public class UsersController : Controller
+	{
+		public UsersController(IUserService userService)
+		{
+			UserService = userService;
+		}
 
-        protected IUserService UserService { get; }
+		protected IUserService UserService { get; }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Login()
-        {
-            return this.View();
-        }
+		[HttpGet]
+		[AllowAnonymous]
+		public IActionResult Login()
+		{
+			if (this.User.Identity.IsAuthenticated)
+			{
+				//redirect to some other page
+				return RedirectToAction("Index", "Home");
+			}
 
-        [HttpPost]
-        [AllowAnonymous]
-        public IActionResult Login(LoginInputModel loginModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return this.View(loginModel);
-            }
+			return this.View();
+		}
 
-            var result = this.UserService.LogUser(loginModel);
+		[HttpPost]
+		[AllowAnonymous]
+		public IActionResult Login(LoginInputModel loginModel)
+		{
+			if (!ModelState.IsValid)
+			{
+				return this.View(loginModel);
+			}
 
-            if (result != SignInResult.Success)
-            {
-                this.ViewData[GlobalConstants.ModelError] = GlobalConstants.LoginError;
-                return this.View(loginModel);
-            }
+			var result = this.UserService.LogUser(loginModel);
 
-            return RedirectToAction("Index", "Home");
-        }
+			if (result != SignInResult.Success)
+			{
+				this.ViewData[GlobalConstants.ModelError] = GlobalConstants.LoginError;
+				return this.View(loginModel);
+			}
 
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Register()
-        {
-            return this.View();
-        }
+			return RedirectToAction("Index", "Home");
+		}
 
-        [HttpPost]
-        [AllowAnonymous]
-        public IActionResult Register(RegisterInputModel registerModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return this.View(registerModel);
-            }
-            var result = this.UserService.RegisterUser(registerModel).Result;
-            if (result != SignInResult.Success)
-            {
-                this.ViewData[GlobalConstants.ModelError] = string.Format(GlobalConstants.NicknameUnique, registerModel.Nickname);
-                return this.View(registerModel);
-            }
-            return RedirectToAction("Index", "Home");
-        }
+		[HttpGet]
+		[AllowAnonymous]
+		public IActionResult Register()
+		{
+			if (this.User.Identity.IsAuthenticated)
+			{
+				//redirect to some other page
+				return RedirectToAction("Index", "Home");
+			}
 
-        [HttpGet]
-        public IActionResult Logout()
-        {
-            this.UserService.Logout();
+			return this.View();
+		}
 
-            return RedirectToAction("Index", "Home");
-        }
+		[HttpPost]
+		[AllowAnonymous]
+		public IActionResult Register(RegisterInputModel registerModel)
+		{
+			if (!ModelState.IsValid)
+			{
+				return this.View(registerModel);
+			}
+			var result = this.UserService.RegisterUser(registerModel).Result;
+			if (result != SignInResult.Success)
+			{
+				this.ViewData[GlobalConstants.ModelError] = string.Format(GlobalConstants.NicknameUnique, registerModel.Nickname);
+				return this.View(registerModel);
+			}
+			return RedirectToAction("Index", "Home");
+		}
 
-        [HttpGet]
-        // [ResponseCache(Duration = 1200)]
-        [Route(GlobalConstants.RouteConstants.UserProfileRoute)]
-        public IActionResult Profile(string username)
-        {
-            bool fullAccess = this.User.Identity.Name == username || this.User.IsInRole(GlobalConstants.Admin);
+		[HttpGet]
+		public IActionResult Logout()
+		{
+			this.UserService.Logout();
 
-            var user = this.UserService.GetUser(username);
+			return RedirectToAction("Index", "Home");
+		}
 
-            //temporarily only
-            if (fullAccess)
-            {
-                return this.View("UserDetails", user);
-            }
+		[HttpGet]
+		// [ResponseCache(Duration = 1200)]
+		[Route(GlobalConstants.RouteConstants.UserProfileRoute)]
+		public IActionResult Profile(string username)
+		{
+			bool fullAccess = this.User.Identity.Name == username || this.User.IsInRole(GlobalConstants.Admin);
 
-            return this.View(user);
-        }
+			var user = this.UserService.GetUser(username);
 
-        [HttpGet]
-        [Route(GlobalConstants.RouteConstants.UserBlockRoute)]
-        public async Task<IActionResult> BlockUser(string username)
-        {
-            var currentUser = this.User.Identity.Name;
+			//temporarily only
+			if (fullAccess)
+			{
+				return this.View("UserDetails", user);
+			}
 
-            await this.UserService.BlockUser(currentUser, username);
+			return this.View(user);
+		}
 
-            return RedirectToAction("Index", "Home");
-        }
+		[HttpGet]
+		[Route(GlobalConstants.RouteConstants.UserBlockRoute)]
+		public async Task<IActionResult> BlockUser(string username)
+		{
+			var currentUser = this.User.Identity.Name;
 
-        [HttpGet]
-        public IActionResult BlockedUsers()
-        {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var model = this.UserService.BlockedUsers(userId);
+			await this.UserService.BlockUser(currentUser, username);
 
-            return this.View(model);
-        }
+			return RedirectToAction("Index", "Home");
+		}
 
-        public IActionResult UnblockUser(string id)
-        {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+		[HttpGet]
+		public IActionResult BlockedUsers()
+		{
+			string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var model = this.UserService.BlockedUsers(userId);
 
-            this.UserService.UnblockUser(userId, id);
+			return this.View(model);
+		}
 
-            return RedirectToAction("BlockedUsers", "Users");
-        }
-    }
+		public IActionResult UnblockUser(string id)
+		{
+			string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+			this.UserService.UnblockUser(userId, id);
+
+			return RedirectToAction("BlockedUsers", "Users");
+		}
+	}
 }
