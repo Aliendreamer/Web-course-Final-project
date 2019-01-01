@@ -25,6 +25,7 @@
 			var users = this.Context.Users
 				.Where(x => x.FollowedStories.Any(xx => xx.FanFictionStoryId == storyId && x.UserName != username)).ToArray();
 
+			// i tried .foreach but it dint work  because of void method maybe if time i will investigate further
 			foreach (var u in users)
 			{
 				var notice = new Notification

@@ -14,6 +14,8 @@
 
 		public const string NullName = "Name can't be empty";
 
+		public const string Anonymous = "anonymous";
+
 		public const string Success = "Success";
 
 		public const string Failed = "Failed the task";
@@ -25,6 +27,8 @@
 		public const string AlreadyExistsInDb = "this {0} entity already exists";
 
 		public const string NoRecordInDb = "No such record!";
+
+		public const string PaidUser = "paidUser";
 
 		public const string Admin = "admin";
 
@@ -113,6 +117,8 @@
 			public const string StoriesByGenre = "StoriesByGenre/{genre}";
 
 			public const string GetGenre = "genre";
+
+			public const string ErrorPageRoute = "/Home/Error";
 		}
 
 		public class CLoudinarySetup

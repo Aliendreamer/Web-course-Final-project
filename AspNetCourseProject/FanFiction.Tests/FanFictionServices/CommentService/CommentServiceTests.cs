@@ -1,188 +1,199 @@
 ﻿namespace FanFiction.Tests.FanFictionServices.CommentService
 {
-    using System;
-    using System.Linq;
-    using AutoMapper;
-    using Base;
-    using FluentAssertions;
-    using Microsoft.AspNetCore.Identity;
-    using Models;
-    using NUnit.Framework;
-    using Services.Interfaces;
-    using Services.Utilities;
-    using ViewModels.InputModels;
-    using ViewModels.OutputModels.Stories;
+	using System;
+	using System.Linq;
+	using AutoMapper;
+	using Base;
+	using FluentAssertions;
+	using Microsoft.AspNetCore.Identity;
+	using Models;
+	using NUnit.Framework;
+	using Services.Interfaces;
+	using Services.Utilities;
+	using ViewModels.InputModels;
+	using ViewModels.OutputModels.Stories;
 
-    [TestFixture]
-    public class CommentServiceTests : BaseServiceFake
-    {
-        private ICommentService CommentService => (ICommentService)this.Provider.GetService(typeof(ICommentService));
+	[TestFixture]
+	public class CommentServiceTests : BaseServiceFake
+	{
+		private ICommentService CommentService => (ICommentService)this.Provider.GetService(typeof(ICommentService));
 
-        [Test]
-        public void AddComment_Should_Add_Comment()
-        {
-            //arrange
-            var user = new FanFictionUser
-            {
-                Id = "user",
-                UserName = "CommentingUser"
-            };
+		[Test]
+		public void AddComment_Should_Add_Comment()
+		{
+			//arrange
+			var user = new FanFictionUser
+			{
+				Id = "user",
+				UserName = "CommentingUser"
+			};
 
-            var userManager = (UserManager<FanFictionUser>)this.Provider.GetService(typeof(UserManager<FanFictionUser>));
+			var userManager = (UserManager<FanFictionUser>)this.Provider.GetService(typeof(UserManager<FanFictionUser>));
 
-            userManager.CreateAsync(user).GetAwaiter();
-            this.Context.SaveChanges();
+			userManager.CreateAsync(user).GetAwaiter();
+			this.Context.SaveChanges();
 
-            var comment = new CommentInputModel
-            {
-                StoryId = 1,
-                CommentAuthor = "CommentingUser",
-                CommentedOn = DateTime.Now.Date,
-                Message = "SomeComment",
-            };
+			//public int Id { get; set; }
 
-            var commentOut = new CommentOutputModel
-            {
-                Id = 1,
-                Author = "CommentingUser",
-                CommentedOn = DateTime.Now.Date,
-                Message = "SomeComment",
-            };
+			//public int StoryId { get; set; }
 
-            //act
-            this.CommentService.AddComment(comment);
+			//public string Author { get; set; }
 
-            //assert
-            var result = this.Context.Comments.First();
+			//public string Message { get; set; }
 
-            var mappedResult = Mapper.Map<CommentOutputModel>(result);
+			//public DateTime CommentedOn { get; set; }
 
-            mappedResult.Should().BeEquivalentTo(commentOut);
-        }
+			var comment = new CommentInputModel
+			{
+				StoryId = 1,
+				CommentAuthor = "CommentingUser",
+				CommentedOn = DateTime.Now.Date,
+				Message = "SomeComment",
+			};
 
-        [Test]
-        public void DeleteComment_Should_Delete_Comment()
-        {
-            //arrange
+			var commentOut = new CommentOutputModel
+			{
+				Id = 1,
+				Author = "CommentingUser",
+				CommentedOn = DateTime.Now.Date,
+				Message = "SomeComment",
+				StoryId = comment.StoryId
+			};
 
-            var user = new FanFictionUser
-            {
-                Id = "user",
-                UserName = "CommentingUser"
-            };
+			//act
+			this.CommentService.AddComment(comment);
 
-            var genre = new StoryType
-            {
-                Id = 1,
-                Name = "Fantasy"
-            };
+			//assert
+			var result = this.Context.Comments.First();
 
-            var story = new FanFictionStory
-            {
-                Title = "One",
-                Id = 1,
-                CreatedOn = DateTime.Now,
-                Summary = null,
-                ImageUrl = GlobalConstants.DefaultNoImage,
-                Type = genre,
-                AuthorId = "user"
-            };
+			var mappedResult = Mapper.Map<CommentOutputModel>(result);
 
-            var comment = new Comment
-            {
-                StoryId = 1,
-                FanFictionUser = user,
-                FanFictionStory = story,
-                CommentedOn = DateTime.Now.Date,
-                Message = "SomeComment",
-                UserId = user.Id,
-                Id = 1
-            };
+			mappedResult.Should().BeEquivalentTo(commentOut);
+		}
 
-            var userManager = (UserManager<FanFictionUser>)this.Provider.GetService(typeof(UserManager<FanFictionUser>));
-            userManager.CreateAsync(user).GetAwaiter();
-            this.Context.Comments.Add(comment);
-            this.Context.StoryTypes.Add(genre);
-            this.Context.FictionStories.Add(story);
-            this.Context.SaveChanges();
+		[Test]
+		public void DeleteComment_Should_Delete_Comment()
+		{
+			//arrange
 
-            //act
+			var user = new FanFictionUser
+			{
+				Id = "user",
+				UserName = "CommentingUser"
+			};
 
-            this.CommentService.DeleteComment(1);
-            var result = this.Context.Comments.ToList();
+			var genre = new StoryType
+			{
+				Id = 1,
+				Name = "Fantasy"
+			};
 
-            //assert
+			var story = new FanFictionStory
+			{
+				Title = "One",
+				Id = 1,
+				CreatedOn = DateTime.Now,
+				Summary = null,
+				ImageUrl = GlobalConstants.DefaultNoImage,
+				Type = genre,
+				AuthorId = "user"
+			};
 
-            result.Should().BeEmpty();
-        }
+			var comment = new Comment
+			{
+				StoryId = 1,
+				FanFictionUser = user,
+				FanFictionStory = story,
+				CommentedOn = DateTime.Now.Date,
+				Message = "SomeComment",
+				UserId = user.Id,
+				Id = 1
+			};
 
-        [Test]
-        public void DeleteAllComments_For_User_Should_Delete_All()
-        {
-            //arrange
+			var userManager = (UserManager<FanFictionUser>)this.Provider.GetService(typeof(UserManager<FanFictionUser>));
+			userManager.CreateAsync(user).GetAwaiter();
+			this.Context.Comments.Add(comment);
+			this.Context.StoryTypes.Add(genre);
+			this.Context.FictionStories.Add(story);
+			this.Context.SaveChanges();
 
-            var user = new FanFictionUser
-            {
-                Id = "user",
-                UserName = "CommentingUser"
-            };
+			//act
 
-            var genre = new StoryType
-            {
-                Id = 1,
-                Name = "Fantasy"
-            };
+			this.CommentService.DeleteComment(1);
+			var result = this.Context.Comments.ToList();
 
-            var story = new FanFictionStory
-            {
-                Title = "One",
-                Id = 1,
-                CreatedOn = DateTime.Now,
-                Summary = null,
-                ImageUrl = GlobalConstants.DefaultNoImage,
-                Type = genre,
-                AuthorId = "user"
-            };
+			//assert
 
-            var comments = new[]
-            {
-                new Comment
-                {
-                StoryId = 1,
-                FanFictionUser = user,
-                FanFictionStory = story,
-                CommentedOn = DateTime.Now.Date,
-                Message = "SomeComment",
-                UserId = user.Id,
-                Id = 1
-                },
-                new Comment
-                {
-                StoryId = 1,
-                FanFictionUser = user,
-                FanFictionStory = story,
-                CommentedOn = DateTime.Now.Date,
-                Message = "SomeCommentTwo",
-                UserId = user.Id,
-                Id = 2
-                }
-        };
+			result.Should().BeEmpty();
+		}
 
-            var userManager = (UserManager<FanFictionUser>)this.Provider.GetService(typeof(UserManager<FanFictionUser>));
-            userManager.CreateAsync(user).GetAwaiter();
-            this.Context.Comments.AddRange(comments);
-            this.Context.StoryTypes.Add(genre);
-            this.Context.FictionStories.Add(story);
-            this.Context.SaveChanges();
+		[Test]
+		public void DeleteAllComments_For_User_Should_Delete_All()
+		{
+			//arrange
 
-            //act
+			var user = new FanFictionUser
+			{
+				Id = "user",
+				UserName = "CommentingUser"
+			};
 
-            string username = user.UserName;
-            this.CommentService.DeleteAllComments(username);
+			var genre = new StoryType
+			{
+				Id = 1,
+				Name = "Fantasy"
+			};
 
-            //assert
-            var result = this.Context.Comments.ToList();
-            result.Should().BeEmpty();
-        }
-    }
+			var story = new FanFictionStory
+			{
+				Title = "One",
+				Id = 1,
+				CreatedOn = DateTime.Now,
+				Summary = null,
+				ImageUrl = GlobalConstants.DefaultNoImage,
+				Type = genre,
+				AuthorId = "user"
+			};
+
+			var comments = new[]
+			{
+				new Comment
+				{
+				StoryId = 1,
+				FanFictionUser = user,
+				FanFictionStory = story,
+				CommentedOn = DateTime.Now.Date,
+				Message = "SomeComment",
+				UserId = user.Id,
+				Id = 1
+				},
+				new Comment
+				{
+				StoryId = 1,
+				FanFictionUser = user,
+				FanFictionStory = story,
+				CommentedOn = DateTime.Now.Date,
+				Message = "SomeCommentTwo",
+				UserId = user.Id,
+				Id = 2
+				}
+		};
+
+			var userManager = (UserManager<FanFictionUser>)this.Provider.GetService(typeof(UserManager<FanFictionUser>));
+			userManager.CreateAsync(user).GetAwaiter();
+			this.Context.Comments.AddRange(comments);
+			this.Context.StoryTypes.Add(genre);
+			this.Context.FictionStories.Add(story);
+			this.Context.SaveChanges();
+
+			//act
+
+			string username = user.UserName;
+			this.CommentService.DeleteAllComments(username);
+
+			//assert
+			var result = this.Context.Comments.ToList();
+			result.Should().BeEmpty();
+		}
+	}
 }

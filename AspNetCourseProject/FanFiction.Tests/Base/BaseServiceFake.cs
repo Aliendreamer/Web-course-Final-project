@@ -35,7 +35,7 @@
 		[TearDown]
 		public void TearDown()
 		{
-			Context.Database.EnsureDeleted();
+			this.Context.Database.EnsureDeleted();
 		}
 
 		//<summary>

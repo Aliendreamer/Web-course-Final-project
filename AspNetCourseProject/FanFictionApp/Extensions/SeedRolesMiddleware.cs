@@ -3,6 +3,7 @@
 	using System.Linq;
 	using System.Threading.Tasks;
 	using FanFiction.Models;
+	using FanFiction.Services.Utilities;
 	using Microsoft.AspNetCore.Http;
 	using Microsoft.AspNetCore.Identity;
 
@@ -34,16 +35,16 @@
 		{
 			await roleManager.CreateAsync(new IdentityRole
 			{
-				Name = "admin"
+				Name = GlobalConstants.Admin
 			});
 			await roleManager.CreateAsync(new IdentityRole
 			{
-				Name = "moderator"
+				Name = GlobalConstants.Moderator
 			});
 
 			await roleManager.CreateAsync(new IdentityRole
 			{
-				Name = "paidUser"
+				Name = GlobalConstants.PaidUser
 			});
 
 			var user = new FanFictionUser
@@ -52,9 +53,12 @@
 				Email = "admin@admin.com",
 				Nickname = "ThatAdmin"
 			};
-			await userManager.CreateAsync(user, "admin");
 
-			await userManager.AddToRoleAsync(user, "admin");
+			string adminPass = "admin";
+
+			await userManager.CreateAsync(user, adminPass);
+
+			await userManager.AddToRoleAsync(user, GlobalConstants.Admin);
 		}
 	}
 }
