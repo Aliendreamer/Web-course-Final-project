@@ -38,7 +38,7 @@
 				.ForMember(opt => opt.Title, cfg => cfg.MapFrom(x => x.Title))
 				.ForMember(opt => opt.StoryType, cfg => cfg.MapFrom(x => x.Type.Name))
 				.ForMember(opt => opt.Id, cfg => cfg.MapFrom(x => x.Id))
-				.ForMember(opt => opt.CreatedOn, cfg => cfg.MapFrom(x => x.CreatedOn.ToShortDateString()))
+				.ForMember(opt => opt.CreatedOn, cfg => cfg.MapFrom(x => x.CreatedOn))
 				.ForMember(opt => opt.Summary, cfg => cfg.MapFrom(x => x.Summary ?? GlobalConstants.NoSummary))
 				.ForMember(opt => opt.Rating, cfg => cfg.MapFrom(x => x.Ratings.Any() ? x.Ratings.Average(r => r.StoryRating.Rating) : GlobalConstants.Zero));
 

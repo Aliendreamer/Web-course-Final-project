@@ -41,8 +41,8 @@
                 {
                     <div class="container d-flex justify-content-between">
 
-                        <a asp-area="" asp-action="DeleteStory" asp-controller="Stories" asp-route-id="@Model.Id" class="btn btn-primary">Delete </a>
-                        <a asp-area="" asp-action="AddChapter" asp-controller="Chapters" asp-route-id="@Model.Id" class="btn btn-primary">Add Chapter </a>
+                        <a asp-area="" asp-action="DeleteStory" asp-controller="Stories" asp-route-id="@Model.Id" class="btn btn-primary"><i class="far fa-trash-alt">Delete</i> </a>
+                        <a asp-area="" asp-action="AddChapter" asp-controller="Chapters" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fas fa-plus-square">Chapter</i></a>
                     </div>
                 }
                 @if (followed && !owner)
@@ -107,7 +107,7 @@
                             <span>@TempData[GlobalConstants.Error]</span>
                         }
                     </div>
-                    <button type="submit" class="btn btn-primary btn-sm">Add comment</button>
+                    <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-plus-square">Comment</i></button>
                 </form>
             </div>
         </div>
@@ -122,7 +122,7 @@
             var len = 0;
             var maxchar = 100;
 
-            $('#my-input').keyup(function () {
+            $('#my-input').keyup(function() {
                 len = this.value.length;
                 if (len > maxchar) {
                     return false;

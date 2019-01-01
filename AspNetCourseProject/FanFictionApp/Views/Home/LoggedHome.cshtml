@@ -22,7 +22,7 @@
                 <div class="card-body w-100 border border-dark mt-1 mb-1">
                     <div class="container d-flex justify-content-between row mx-auto">
                         <h5 class="card-title">Title: @s.Title</h5>
-                        <h6 class="card-subtitle text-muted">Published: @s.CreatedOn</h6>
+                        <h6 class="card-subtitle text-muted">Published: @s.CreatedOn.ToShortDateString()</h6>
                     </div>
                     <hr style="height: 2px" />
                     <div class="container d-flex justify-content-between row">
@@ -43,7 +43,7 @@
                     @s.Summary
 
                     <hr />
-                    <a asp-action="Details" asp-controller="Stories" asp-route-id="@s.Id" class="card-link">Go to Story</a>
+                    <a asp-action="Details" asp-controller="Stories" asp-route-id="@s.Id" class="card-link"><i class="fas fa-book-open"></i>Go to Story</a>
                     <hr />
                 </div>
             }

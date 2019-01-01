@@ -47,8 +47,8 @@
                     <td class="text-center">@m.Rating</td>
                     <td class="text-center">@m.Ratings.Count</td>
                     <td class="text-center">@m.Chapters.Count</td>
-                    <td class="text-center">@m.CreatedOn.Date.Date</td>
-                    <td class="text-center">@m.LastEditedOn</td>
+                    <td class="text-center">@m.CreatedOn.ToShortDateString()</td>
+                    <td class="text-center">@m.LastEditedOn.ToShortDateString()</td>
                     <td class="text-center">@m.Followers.Count</td>
                     <td>
                         <div class=" d-flex justify-content-around ">

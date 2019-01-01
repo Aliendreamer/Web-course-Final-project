@@ -7,6 +7,7 @@
     bool notblocked = this.service.CanSendMessage(this.User.Identity.Name, Model.Username);
     var user = this.userManager.FindByNameAsync(this.User.Identity.Name).GetAwaiter().GetResult();
     var hasRole = this.userManager.GetRolesAsync(user).GetAwaiter().GetResult().Any(x => x == GlobalConstants.Admin);
+    bool sameUser = this.User.Identity.Name.Equals(@Model.Username);
 
 }
 
@@ -53,56 +54,62 @@
                     <div class=" col-md-12 col-lg-12">
                         <table class="table  border border-dark" style="background-color:deepskyblue">
                             <tbody>
-                                <tr>
-                                    <td>Name:</td>
-                                    <td>@Model.Username</td>
-                                </tr>
-                                <tr>
-                                    <td>Nickname:</td>
-                                    <td>@Model.NickName</td>
-                                <tr>
-                                    <td>Email:</td>
-                                    <td>@Model.Email</td>
-                                </tr>
+                            <tr>
+                                <td>Name:</td>
+                                <td>@Model.Username</td>
+                            </tr>
+                            <tr>
+                            <td>Nickname:</td>
+                            <td>@Model.NickName</td>
+                            <tr>
+                                <td>Email:</td>
+                                <td>@Model.Email</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                @if (notblocked)
+                @if (!sameUser)
                 {
-                    <a class="btn btn-block btn-danger" asp-action="BlockUser" asp-controller="Users" asp-route-username="@Model.Username">Block User</a>
-                }
-                else
-                {
-                    <a class="btn btn-block btn-danger" asp-action="BlockedUsers" asp-controller="Users">Unblock User</a>
+                    if (notblocked)
+                    {
+                        <a class="btn btn-block btn-danger" asp-action="BlockUser" asp-controller="Users" asp-route-username="@Model.Username">Block User</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-block btn-danger" asp-action="BlockedUsers" asp-controller="Users">Unblock User</a>
+                    }
                 }
             </div>
         </div>
-        @if (notblocked || hasRole)
+        @if (!sameUser)
         {
-            <div class=" panel panel-info w-100 mt-2 border border-dark">
-                <h5 class="card-header">Leave a Message:</h5>
-                <div class="card-body">
-                    <form asp-action="SendMessage" asp-controller="Messages" asp-area="" method="post">
-                        <div class="form-group">
-                            <input type="text" hidden="hidden" value="@this.User.Identity.Name" name="senderName" />
-                            <input type="datetime" hidden="hidden" value="@DateTime.UtcNow" name="sendDate" />
-                            <input hidden="hidden" type="text" value="@Model.Username" name="receiverName" />
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-control" placeholder="Leave a message" rows="4" name="message" id="my-input" maxlength="400"></textarea>
-                            <span id='remainingC'></span>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Send message</button>
-                        @if (error != null)
-                        {
-                            <div>
-                                <span class="text-danger">@error</span>
-                            </div>
-                        }
-                    </form>
-                </div>
-            </div>
+            if (notblocked || hasRole)
+             {
+                 <div class=" panel panel-info w-100 mt-2 border border-dark">
+                     <h5 class="card-header">Leave a Message:</h5>
+                     <div class="card-body">
+                         <form asp-action="SendMessage" asp-controller="Messages" asp-area="" method="post">
+                             <div class="form-group">
+                                 <input type="text" hidden="hidden" value="@this.User.Identity.Name" name="senderName"/>
+                                 <input type="datetime" hidden="hidden" value="@DateTime.UtcNow" name="sendDate"/>
+                                 <input hidden="hidden" type="text" value="@Model.Username" name="receiverName"/>
+                             </div>
+                             <div class="form-group">
+                                 <textarea class="form-control" placeholder="Leave a message" rows="4" name="message" id="my-input" maxlength="400"></textarea>
+                                 <span id='remainingC'></span>
+                             </div>
+                             <button type="submit" class="btn btn-primary">Send message</button>
+                             @if (error != null)
+                             {
+                                 <div>
+                                     <span class="text-danger">@error</span>
+                                 </div>
+                             }
+                         </form>
+                     </div>
+                 </div>
+             }
         }
     </div>
 </div>

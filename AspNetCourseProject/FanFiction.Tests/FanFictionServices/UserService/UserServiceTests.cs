@@ -228,7 +228,7 @@
 				Id = 3,
 				Summary = summary,
 				Author = user.UserName,
-				CreatedOn = date.ToShortDateString(),
+				CreatedOn = date,
 				Rating = 0,
 				StoryType = storyType.Name,
 				Title = title

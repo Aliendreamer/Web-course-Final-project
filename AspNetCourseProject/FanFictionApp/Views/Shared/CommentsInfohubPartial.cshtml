@@ -33,7 +33,7 @@
                             <a asp-action="DeleteCommentFromInfoHub" asp-controller="Comments" asp-area="" asp-route-id="@m.Id" class="btn btn-dark ">Delete Comment</a>
                             @if (m.StoryId != default(int))
                             {
-                                <a asp-action="Details" asp-controller="Stories" asp-area="" asp-route-id="@m.Id" class="btn btn-info ">Go to Story</a>
+                                <a asp-action="Details" asp-controller="Stories" asp-area="" asp-route-id="@m.StoryId" class="btn btn-info ">Go to Story</a>
                             }
                             else
                             {
