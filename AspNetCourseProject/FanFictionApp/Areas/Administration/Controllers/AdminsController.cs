@@ -99,8 +99,7 @@
 
 			if (result == IdentityResult.Success)
 			{
-				var username = this.User.Identity.Name;
-				return RedirectToAction("Profile", "Users", new { username });
+				return RedirectToAction(nameof(AllUsers));
 			}
 
 			this.ViewData[GlobalConstants.Error] = GlobalConstants.RoleChangeError;

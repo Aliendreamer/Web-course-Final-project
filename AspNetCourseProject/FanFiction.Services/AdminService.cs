@@ -130,7 +130,7 @@
 
 		public AllAnnouncementsModel AllAnnouncements()
 		{
-			var result = this.Context.Announcements.ProjectTo<AnnouncementOutputModel>().ToArray();
+			var result = this.Context.Announcements.ProjectTo<AnnouncementOutputModel>(Mapper.ConfigurationProvider).ToArray();
 			var model = new AllAnnouncementsModel
 			{
 				Announcements = result,

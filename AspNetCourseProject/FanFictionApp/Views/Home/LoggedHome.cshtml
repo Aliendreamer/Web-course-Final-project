@@ -12,14 +12,14 @@
     int newMessages = this.messageService.NewMessages(userId);
 }
 
-<div class="container d-flex justify-content-around col-md-12 col-sm-6 card-group" style="margin-top: 5em;">
+<div class="container d-flex justify-content-around col-md-12 col-sm-6 card-group" style="margin-top:50px;">
     <div class="col-md-4" style="overflow: auto; margin-bottom: 20px">
         <div class="col-md-12 border border-dark">
             <div class=" card-header text-center text-dark  container-fluid">Last Published Stories</div>
 
             @foreach (var s in model.Stories)
             {
-                <div class="card-body w-100">
+                <div class="card-body w-100 border border-dark mt-1 mb-1">
                     <div class="container d-flex justify-content-between row mx-auto">
                         <h5 class="card-title">Title: @s.Title</h5>
                         <h6 class="card-subtitle text-muted">Published: @s.CreatedOn</h6>
@@ -51,7 +51,7 @@
     </div>
     <div class="col-md-4">
         <div class="col-md-12 col-sm-12 border border-dark" style="min-height: 20em; min-width: 10em">
-            <div class=" card-header text-center text-dark"> User options</div>
+            <div class=" card-header text-center text-dark"> Options</div>
             <div class="card-body">
                 <a asp-action="Profile" asp-controller="Users" asp-route-id="@this.User.Identity.Name" class="btn btn-info btn-block">My profile</a>
                 <a asp-action="UserStories" id="MyStories" asp-controller="Stories" asp-route-username="@this.User.Identity.Name" class="btn btn-info btn-block">My Stories</a>

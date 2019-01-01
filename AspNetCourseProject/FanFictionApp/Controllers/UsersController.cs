@@ -25,7 +25,6 @@
 		{
 			if (this.User.Identity.IsAuthenticated)
 			{
-				//redirect to some other page
 				return RedirectToAction("Index", "Home");
 			}
 
@@ -58,7 +57,6 @@
 		{
 			if (this.User.Identity.IsAuthenticated)
 			{
-				//redirect to some other page
 				return RedirectToAction("Index", "Home");
 			}
 
@@ -93,14 +91,14 @@
 		[HttpGet]
 		// [ResponseCache(Duration = 1200)]
 		[Route(GlobalConstants.RouteConstants.UserProfileRoute)]
-		public IActionResult Profile(string username)
+		public IActionResult Profile(string username, bool seeProfile = false)
 		{
 			bool fullAccess = this.User.Identity.Name == username || this.User.IsInRole(GlobalConstants.Admin);
 
 			var user = this.UserService.GetUser(username);
 
 			//temporarily only
-			if (fullAccess)
+			if (fullAccess && !seeProfile)
 			{
 				return this.View("UserDetails", user);
 			}
@@ -128,6 +126,7 @@
 			return this.View(model);
 		}
 
+		[HttpGet]
 		public IActionResult UnblockUser(string id)
 		{
 			string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

@@ -78,7 +78,7 @@
 				{
 					opt.Filters.Add<CustomActionFilterAttribute>();
 					opt.Filters.Add<LogExceptionActionFilter>();
-					opt.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+					opt.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
 				})
 				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 		}
