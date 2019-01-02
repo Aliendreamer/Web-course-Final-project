@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Details";
 
-    bool owner = this.User.Identity.Name == @Model.Author;
+    bool owner = this.User.Identity.Name == Model.Author;
     var user = await this.manager.FindByNameAsync(this.User.Identity.Name);
     var followed = this.service.IsFollowed(user.Id, Model.Id);
     bool rated = this.service.AlreadyRated(Model.Id, this.User.Identity.Name);
@@ -122,7 +122,7 @@
             var len = 0;
             var maxchar = 100;
 
-            $('#my-input').keyup(function() {
+            $('#my-input').keyup(function () {
                 len = this.value.length;
                 if (len > maxchar) {
                     return false;

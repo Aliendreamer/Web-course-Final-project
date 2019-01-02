@@ -100,15 +100,8 @@
 
 		public bool IsFollowed(string userId, int id)
 		{
-			var entity = this.Context.UsersStories
-				.Where(st => st.FanFictionStoryId == id)
-				.Select(st => new UserStory
-				{
-					FanFictionStoryId = id,
-					FanfictionUserId = userId
-				}).FirstOrDefault();
-
-			var result = entity != null;
+			var result = this.Context.UsersStories
+				.Any(x => x.FanfictionUserId == userId && x.FanFictionStoryId == id);
 
 			return result;
 		}

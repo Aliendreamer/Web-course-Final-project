@@ -42,11 +42,9 @@
 
 		public const string ReturnAllStories = "All";
 
-		public const string JpgFormat = "jpg";
-
 		public const string PngFormat = "png";
 
-		public const string WrongFileType = "Image file should be jpg or png";
+		public const string WrongFileType = "Image file should be png";
 
 		public const string NotValidChapterStoryConnection = "This story with id: {0} or chapter with id: {1} don't have a connection";
 
@@ -90,7 +88,7 @@
 
 		public const string Id = "id";
 
-		public const string NoSuchGenre = "Searched {0}, does not exist";
+		public const string NoSuchGenre = "Searched genre: {0}, does not exist";
 
 		public const int Zero = 0;
 
@@ -115,8 +113,6 @@
 			public const string TopStories = "TopStories";
 
 			public const string StoriesByGenre = "StoriesByGenre/{genre}";
-
-			public const string GetGenre = "genre";
 
 			public const string ErrorPageRoute = "/Home/Error";
 		}

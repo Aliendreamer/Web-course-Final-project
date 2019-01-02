@@ -58,7 +58,7 @@
 			{
 				var fileType = inputModel.StoryImage.ContentType.Split('/')[1];
 
-				wrongType = fileType == GlobalConstants.JpgFormat || fileType == GlobalConstants.PngFormat;
+				wrongType = fileType == GlobalConstants.PngFormat;
 			}
 
 			if (!ModelState.IsValid)

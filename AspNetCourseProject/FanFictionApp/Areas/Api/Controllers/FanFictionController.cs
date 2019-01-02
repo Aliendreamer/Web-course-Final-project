@@ -51,7 +51,7 @@
 		}
 
 		// GET: api/StoriesByGenre
-		[HttpGet(GlobalConstants.RouteConstants.GetGenre)]
+		[HttpGet]
 		[Route(GlobalConstants.RouteConstants.StoriesByGenre)]
 		public ActionResult<IEnumerable<ApiFanFictionStoryOutputModel>> StoriesByGenre(string genre)
 		{

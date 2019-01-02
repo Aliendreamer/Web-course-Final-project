@@ -97,7 +97,6 @@
 
 			var user = this.UserService.GetUser(username);
 
-			//temporarily only
 			if (fullAccess && !seeProfile)
 			{
 				return this.View("UserDetails", user);
