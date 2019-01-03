@@ -4,7 +4,7 @@
     ViewData["Title"] = "UserDetails";
 }
 
-<div class="row col-md-3"style="margin-top: 80px">
+<div class="row col-md-3" style="margin-top: 80px">
     <a class="btn btn-link" asp-area="" asp-controller="Users" asp-action="Profile" asp-route-seeProfile="true" asp-route-username="@Model.Username">See profile</a>
 </div>
 <div class="row container d-flex col-md-12 justify-content-around" style="margin-top: 20px; background-color:darkblue">
@@ -37,7 +37,7 @@
         <div class=" col-md-12 border border-dark">
 
             <ul class="list-group">
-                @if (Model.UserStories.Any())
+                @if (Model.FollowedStories.Any())
                 {
                     foreach (var s in Model.FollowedStories)
                     {
