@@ -1,5 +1,6 @@
 ﻿namespace FanFictionApp.Controllers
 {
+	using System.Linq;
 	using System.Security.Claims;
 	using System.Threading.Tasks;
 	using Microsoft.AspNetCore.Mvc;
@@ -58,7 +59,7 @@
 			{
 				var fileType = inputModel.StoryImage.ContentType.Split('/')[1];
 
-				wrongType = fileType == GlobalConstants.PngFormat;
+				wrongType = GlobalConstants.imageFormat.Contains(fileType);
 			}
 
 			if (!ModelState.IsValid)

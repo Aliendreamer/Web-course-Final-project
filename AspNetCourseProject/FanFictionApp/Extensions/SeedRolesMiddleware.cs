@@ -54,9 +54,18 @@
 				Nickname = "ThatAdmin"
 			};
 
+			var normalUser = new FanFictionUser
+			{
+				UserName = "SomeUser",
+				Email = "user@user.com",
+				Nickname = "NormalUser"
+			};
+
+			string normalUserPass = "123";
 			string adminPass = "admin";
 
 			await userManager.CreateAsync(user, adminPass);
+			await userManager.CreateAsync(normalUser, normalUserPass);
 
 			await userManager.AddToRoleAsync(user, GlobalConstants.Admin);
 		}

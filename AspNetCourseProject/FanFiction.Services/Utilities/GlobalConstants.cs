@@ -42,7 +42,7 @@
 
 		public const string ReturnAllStories = "All";
 
-		public const string PngFormat = "png";
+		public static readonly string[] imageFormat = { "png", "jpeg" };
 
 		public const string WrongFileType = "Image file should be png";
 

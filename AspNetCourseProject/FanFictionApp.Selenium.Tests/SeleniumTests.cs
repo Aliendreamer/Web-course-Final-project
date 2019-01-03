@@ -63,5 +63,31 @@
 
 			result.Should().Be("Details");
 		}
+
+		//[Fact]
+		//public void GetOnDetailsStoryPageAndRateAndFollowStoryInThisOrderShouldNotCreateBug()
+		//{
+		//	browser.Navigate().GoToUrl(server.RootUri);
+		//	browser.FindElement(By.LinkText("Login")).Click();
+		//	browser.FindElement(By.Name("Nickname")).SendKeys("ThatAdmin");
+		//	browser.FindElement(By.Name("Password")).SendKeys("admin");
+		//	browser.FindElement(By.Name("LoginButton")).Submit();
+		//	browser.FindElement(By.Id("MyStories")).Click();
+		//	browser.FindElement(By.LinkText("Add Story")).Click();
+		//	browser.FindElement(By.Name("Title")).SendKeys("SeleniumTestStoryТеstRating");
+		//	browser.FindElement(By.Name("Genre")).SendKeys("fantasy");
+		//	browser.FindElement(By.Name("StoryImage"));
+		//	browser.FindElement(By.Name("Summary")).SendKeys("Selenium story summary");
+		//	browser.FindElement(By.Id("CreateStoryButton")).Submit();
+		//	browser.FindElement(By.LinkText("Logout")).Click();
+
+		//	browser.FindElement(By.LinkText("Login")).Click();
+		//	browser.FindElement(By.Name("Nickname")).SendKeys("user");
+		//	browser.FindElement(By.Name("Password")).SendKeys("123");
+		//	browser.FindElement(By.Name("LoginButton")).Submit();
+
+		//	var result = browser.Title.Split(" ")[0];
+		//	result.Should().Be("Details");
+		//}
 	}
 }

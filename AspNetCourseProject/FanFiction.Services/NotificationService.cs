@@ -1,5 +1,6 @@
 ﻿namespace FanFiction.Services
 {
+	using System;
 	using Data;
 	using Models;
 	using Utilities;
@@ -49,7 +50,7 @@
 		{
 			var user = this.UserManager.FindByNameAsync(username).GetAwaiter().GetResult();
 
-			var newNotices = this.Context.Notifications.Include(x => x.FanFictionUser)
+			int newNotices = this.Context.Notifications.Include(x => x.FanFictionUser)
 				.Where(x => x.FanFictionUserId == user.Id && x.Seen == false).ToList().Count;
 
 			return newNotices;

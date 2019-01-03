@@ -1,5 +1,6 @@
 ﻿namespace FanFictionApp
 {
+	using System;
 	using AutoMapper;
 	using Extensions;
 	using Microsoft.AspNetCore.Builder;
@@ -73,6 +74,14 @@
 			//    options.LogoutPath = $"/Account/Logout";
 			//    options.AccessDeniedPath = $"/Account/AccessDenied";
 			//});
+
+			services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = TimeSpan.FromSeconds(10));
+			services.AddAuthentication()
+				.Services.ConfigureApplicationCookie(options =>
+			{
+				options.SlidingExpiration = true;
+				options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+			}); ;
 
 			services.AddMvc(opt =>
 				{

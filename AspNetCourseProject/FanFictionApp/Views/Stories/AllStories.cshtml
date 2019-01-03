@@ -36,7 +36,7 @@
                             <small>Title: @s.Title</small>
                             <small>Genre: @s.Type.Type</small>
                         </h4>
-                        @if (s.Author==null)
+                        @if (s.Author == null)
                         {
                             <h5>Author: @nullAuthor</h5>
                         }
@@ -48,7 +48,7 @@
                         <p class="card-text">@s.Summary</p>
                     </div>
                     <div class="card-footer">
-                        <a small class="text-muted card-link" asp-controller="Stories" asp-action="Details" asp-route-id="@s.Id" as>Go to Story</a>
+                        <a small class="text-muted card-link" id="@s.Title" asp-controller="Stories" asp-action="Details" asp-route-id="@s.Id" as>Go to Story</a>
                     </div>
                 </div>
             </div>
