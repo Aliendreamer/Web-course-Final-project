@@ -67,21 +67,20 @@
 
 			services.AddAutoMapper(x => x.AddProfile<FanfictionProfile>());
 
-			//TODO: Think about this shit? leave it for now though
-			//services.ConfigureApplicationCookie(options =>
-			//{
-			//    options.LoginPath = $"/Account/Login";
-			//    options.LogoutPath = $"/Account/Logout";
-			//    options.AccessDeniedPath = $"/Account/AccessDenied";
-			//});
-
-			services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = TimeSpan.FromSeconds(10));
-			services.AddAuthentication()
-				.Services.ConfigureApplicationCookie(options =>
+			//TODO: Think about this commented things leave it for now though not sure i can configure it correctly before defence
+			services.ConfigureApplicationCookie(options =>
 			{
-				options.SlidingExpiration = true;
-				options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-			}); ;
+				options.LoginPath = $"/Users/Login";
+				options.LogoutPath = $"/Users/Logout";
+			});
+
+			//services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = TimeSpan.FromSeconds(10));
+			services.AddAuthentication();
+			//	.Services.ConfigureApplicationCookie(options =>
+			//{
+			//	options.SlidingExpiration = true;
+			//	options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+			//}); ;
 
 			services.AddMvc(opt =>
 				{

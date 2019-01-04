@@ -62,8 +62,6 @@
 
 		public const string DefaultNoImage = "https://res.cloudinary.com/dbwuk5rsq/image/upload/v1544052092/noimagedefault.jpg";
 
-		public const string RoleChangeError = "User already has no role make another choice!";
-
 		public const string EmptyMessage = "Message can't be empty";
 
 		public const string ChapterLength = "ChapterLength";

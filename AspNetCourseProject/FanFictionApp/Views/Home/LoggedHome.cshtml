@@ -20,7 +20,7 @@
             @foreach (var s in model.Stories)
             {
                 <div class="card-body w-100 border border-dark mt-1 mb-1">
-                    <div class="container d-flex justify-content-between row mx-auto">
+                    <div class="container d-flex justify-content-between row mx-auto" style="word-wrap: break-word">
                         <h5 class="card-title">Title: @s.Title</h5>
                         <h6 class="card-subtitle text-muted">Published: @s.CreatedOn.ToShortDateString()</h6>
                     </div>
@@ -38,7 +38,7 @@
                         }
                         <h6 class="card-subtitle text-muted">Genre: @s.StoryType</h6>
                     </div>
-                    <hr />
+                    <hr style="word-wrap: break-word" />
 
                     @s.Summary
 

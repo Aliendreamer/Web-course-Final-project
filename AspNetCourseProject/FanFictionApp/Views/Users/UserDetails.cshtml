@@ -12,7 +12,7 @@
         <div class="panel-heading  justify-content-center ">
             <h4 class="text-capitalize text-center text-white">User Stories</h4>
         </div>
-        <div class=" col-md-12 border border-dark">
+        <div class=" col-md-12 border border-dark container-fluid">
 
             <ul class="list-group">
                 @if (Model.UserStories.Any())
@@ -20,7 +20,7 @@
                     foreach (var s in Model.UserStories)
                     {
 
-                        <a asp-action="Details" asp-route-id="@s.Id" asp-controller="Stories" class="list-group-item list-group-item-action list-group-item-dark">@s.Title</a>
+                        <a asp-action="Details" asp-route-id="@s.Id" asp-controller="Stories" class="list-group-item list-group-item-action list-group-item-dark d-flex">@s.Title</a>
                     }
                 }
                 else
@@ -34,7 +34,7 @@
         <div class="panel-heading  justify-content-center ">
             <h4 class="text-capitalize text-center text-white">Followed Stories</h4>
         </div>
-        <div class=" col-md-12 border border-dark">
+        <div class=" col-md-12 border border-dark d-flex">
 
             <ul class="list-group">
                 @if (Model.FollowedStories.Any())
@@ -69,43 +69,41 @@
         </div>
     </div>
     <div class=" col-md-4 mx-auto">
-        <div class="col-xs-6 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0">
 
-            <div class="panel panel-info ">
-                <div class="panel-heading offset-5">
-                    <h3 class="text-capitalize text-white">User Details</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
+        <div class="panel panel-info">
+            <div class="panel-heading row justify-content-center col-md-9 col-lg-9 " style="text-align: right">
+                <h4 class="text-capitalize text-white">User Details</h4>
+            </div>
+            <div class="panel-body">
+                <div class="row">
 
-                        <div class=" col-md-9 col-lg-9 offset-3">
-                            <table class="table  border border-dark" style="background-color:deepskyblue">
-                                <tbody>
-                                    <tr>
-                                        <td>Name:</td>
-                                        <td>@Model.Username</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nickname:</td>
-                                        <td>@Model.NickName</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Id:</td>
-                                        <td>@Model.Id</td>
-                                    </tr>
+                    <div class=" col-md-9 col-lg-9 ">
+                        <table class="table  border border-dark" style="background-color:deepskyblue">
+                            <tbody>
+                                <tr>
+                                    <td>Name:</td>
+                                    <td>@Model.Username</td>
+                                </tr>
+                                <tr>
+                                    <td>Nickname:</td>
+                                    <td>@Model.NickName</td>
+                                </tr>
+                                <tr>
+                                    <td>Id:</td>
+                                    <td>@Model.Id</td>
+                                </tr>
 
-                                    <tr>
-                                    <tr>
-                                        <td>User role:</td>
-                                        <td>@Model.Role</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email:</td>
-                                        <td>@Model.Email</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                <tr>
+                                <tr>
+                                    <td>User role:</td>
+                                    <td>@Model.Role</td>
+                                </tr>
+                                <tr>
+                                    <td>Email:</td>
+                                    <td>@Model.Email</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
