@@ -23,6 +23,7 @@
 	{
 		protected UserManager<FanFictionUser> userManager => this.Provider.GetRequiredService<UserManager<FanFictionUser>>();
 		protected IUserService userService => this.Provider.GetRequiredService<IUserService>();
+		protected RoleManager<IdentityRole> roleService => this.Provider.GetRequiredService<RoleManager<IdentityRole>>();
 
 		[Test]
 		public void LogUser_Should_Return_Sucess()
@@ -88,6 +89,7 @@
 			};
 
 			//act
+			this.roleService.CreateAsync(new IdentityRole { Name = GlobalConstants.DefaultRole }).GetAwaiter();
 			var result = this.userService.RegisterUser(toRegister).GetAwaiter().GetResult();
 
 			//assert
@@ -118,6 +120,7 @@
 			this.userManager.CreateAsync(user).GetAwaiter();
 			this.Context.SaveChanges();
 			//act
+			this.roleService.CreateAsync(new IdentityRole { Name = GlobalConstants.DefaultRole }).GetAwaiter();
 			var result = this.userService.RegisterUser(toRegister).GetAwaiter().GetResult();
 
 			//assert

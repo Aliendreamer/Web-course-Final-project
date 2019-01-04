@@ -58,6 +58,7 @@
 
 			await this.UserManager.CreateAsync(user);
 			await this.UserManager.AddPasswordAsync(user, registerModel.Password);
+			await this.UserManager.AddToRoleAsync(user, GlobalConstants.DefaultRole);
 			var result = await this.SignInManager.PasswordSignInAsync(user, registerModel.Password, true, false);
 
 			return result;

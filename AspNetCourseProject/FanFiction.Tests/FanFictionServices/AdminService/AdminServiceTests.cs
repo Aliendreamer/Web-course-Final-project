@@ -335,106 +335,6 @@
 		}
 
 		[Test]
-		public void ChangeRole_Should_Succeed_When_User_Already_Has_Role()
-		{
-			//arrange
-			var roles = new[]
-			{
-				"admin",
-				"superUser",
-				"moderator"
-			};
-
-			foreach (var currentRolename in roles)
-			{
-				var role = new IdentityRole
-				{
-					Name = currentRolename
-				};
-				this.roleManager.CreateAsync(role).GetAwaiter();
-			}
-
-			var user = new FanFictionUser
-			{
-				Id = "userId",
-				Nickname = "AnotherUser",
-				UserName = "user",
-			};
-
-			this.userManager.CreateAsync(user).GetAwaiter();
-			string userRole = roles[0];
-			this.userManager.AddToRoleAsync(user, userRole).GetAwaiter();
-			this.Context.SaveChanges();
-
-			//act
-			string newRole = roles[1];
-			var model = new ChangingRoleModel
-			{
-				Id = user.Id,
-				AppRoles = roles,
-				NewRole = newRole,
-				Nickname = user.Nickname,
-				Role = GlobalConstants.DefaultRole
-			};
-			var methodResult = this.adminService.ChangeRole(model);
-
-			//assert
-			var userFromdb = this.Context.Users.FirstOrDefault(x => x.Id == user.Id);
-			var userRoleCurrent = this.userManager.GetRolesAsync(userFromdb).GetAwaiter().GetResult();
-			userRoleCurrent.Should().ContainSingle().And.Subject.Should().Contain(newRole);
-			methodResult.Should().Equals(IdentityResult.Success);
-		}
-
-		[Test]
-		public void ChangeRole_Should_Succeed_When_User_Has_No_Prior_Role()
-		{
-			//arrange
-			var roles = new[]
-			{
-				"admin",
-				"superUser",
-				"moderator"
-			};
-
-			foreach (var currentRolename in roles)
-			{
-				var role = new IdentityRole
-				{
-					Name = currentRolename
-				};
-				this.roleManager.CreateAsync(role).GetAwaiter();
-			}
-
-			var user = new FanFictionUser
-			{
-				Id = "userId",
-				Nickname = "AnotherUser",
-				UserName = "user",
-			};
-
-			this.userManager.CreateAsync(user).GetAwaiter();
-			this.Context.SaveChanges();
-
-			//act
-			string newRole = roles[1];
-			var model = new ChangingRoleModel
-			{
-				Id = user.Id,
-				AppRoles = roles,
-				NewRole = newRole,
-				Nickname = user.Nickname,
-				Role = GlobalConstants.DefaultRole
-			};
-			var methodResult = this.adminService.ChangeRole(model);
-
-			//assert
-			var userFromdb = this.Context.Users.FirstOrDefault(x => x.Id == user.Id);
-			var userRoleCurrent = this.userManager.GetRolesAsync(userFromdb).GetAwaiter().GetResult();
-			userRoleCurrent.Should().ContainSingle().And.Subject.Should().Contain(newRole);
-			methodResult.Should().Equals(IdentityResult.Success);
-		}
-
-		[Test]
 		public void ChangeRole_Should_Fail_With_Non_Existant_Role()
 		{
 			//arrange
@@ -442,7 +342,8 @@
 			{
 				"admin",
 				"superUser",
-				"moderator"
+				"moderator",
+				"user"
 			};
 
 			foreach (var currentRolename in roles)
@@ -481,14 +382,15 @@
 		}
 
 		[Test]
-		public void ChangeRole_Should_Remove_User_From_Role_And_Set_Him_To_Default()
+		public void ChangeRole_Succeed_Role()
 		{
 			//arrange
 			var roles = new[]
 			{
 				"admin",
 				"superUser",
-				"moderator"
+				"moderator",
+				"user"
 			};
 
 			foreach (var currentRolename in roles)
@@ -511,7 +413,7 @@
 			this.Context.SaveChanges();
 
 			//act
-			string newRole = "SomeUser";
+			string newRole = roles[2];
 			var model = new ChangingRoleModel
 			{
 				Id = user.Id,
@@ -520,12 +422,10 @@
 				Nickname = user.Nickname,
 				Role = GlobalConstants.DefaultRole
 			};
-			this.adminService.ChangeRole(model).GetAwaiter();
+			var methodResult = this.adminService.ChangeRole(model);
 
 			//assert
-			var userFromdb = this.Context.Users.FirstOrDefault(x => x.Id == user.Id);
-			var userRoleCurrent = this.userManager.GetRolesAsync(userFromdb).GetAwaiter().GetResult();
-			userRoleCurrent.Should().BeNullOrEmpty();
+			methodResult.Should().Equals(IdentityResult.Failed());
 		}
 
 		[Test]

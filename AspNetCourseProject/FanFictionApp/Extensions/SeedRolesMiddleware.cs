@@ -47,6 +47,11 @@
 				Name = GlobalConstants.PaidUser
 			});
 
+			await roleManager.CreateAsync(new IdentityRole
+			{
+				Name = GlobalConstants.DefaultRole
+			});
+
 			var user = new FanFictionUser
 			{
 				UserName = "AppAdmin",
@@ -68,6 +73,7 @@
 			await userManager.CreateAsync(normalUser, normalUserPass);
 
 			await userManager.AddToRoleAsync(user, GlobalConstants.Admin);
+			await userManager.AddToRoleAsync(normalUser, GlobalConstants.DefaultRole);
 		}
 	}
 }

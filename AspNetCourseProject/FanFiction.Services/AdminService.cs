@@ -100,30 +100,13 @@
 
 		public async Task<IdentityResult> ChangeRole(ChangingRoleModel model)
 		{
-			bool roleExist = this.RoleManager.RoleExistsAsync(model.NewRole).Result;
-
+			string newRole = model.NewRole;
 			var user = this.UserManager.FindByIdAsync(model.Id).Result;
 			var currentRole = await this.UserManager.GetRolesAsync(user);
 			IdentityResult result = null;
 
-			if (!roleExist && !currentRole.Any())
-			{
-				return IdentityResult.Failed();
-			}
-			if (!roleExist && currentRole.Any())
-			{
-				result = await this.UserManager.RemoveFromRoleAsync(user, currentRole.First());
-				return IdentityResult.Success;
-			}
-			if (roleExist && !currentRole.Any())
-			{
-				result = await this.UserManager.AddToRoleAsync(user, model.NewRole);
-			}
-			else
-			{
-				result = await this.UserManager.RemoveFromRoleAsync(user, currentRole.First());
-				result = await this.UserManager.AddToRoleAsync(user, model.NewRole);
-			}
+			result = await this.UserManager.RemoveFromRoleAsync(user, currentRole.First());
+			result = await this.UserManager.AddToRoleAsync(user, newRole);
 
 			return result;
 		}

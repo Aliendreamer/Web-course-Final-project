@@ -102,8 +102,7 @@
 				return RedirectToAction(nameof(AllUsers));
 			}
 
-			this.ViewData[GlobalConstants.Error] = GlobalConstants.RoleChangeError;
-			return this.EditRole(inputModel.Id);
+			return RedirectToAction("Error", "Home");
 		}
 
 		[HttpGet]
