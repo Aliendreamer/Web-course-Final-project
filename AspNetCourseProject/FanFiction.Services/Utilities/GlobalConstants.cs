@@ -24,7 +24,7 @@
 
 		public const string UserLackRights = "User don't have rights to make this action";
 
-		public const string AlreadyExistsInDb = "this {0} entity already exists";
+		public const string AlreadyExistsInDb = "Genre: {0} already exists";
 
 		public const string NoRecordInDb = "No such record!";
 

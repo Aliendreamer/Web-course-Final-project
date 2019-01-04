@@ -1,19 +1,19 @@
 ﻿namespace FanFictionApp.Selenium.Tests
 {
 	using System;
-	using System.Diagnostics;
 	using System.Linq;
+	using System.Diagnostics;
 	using Microsoft.AspNetCore.Hosting;
-	using Microsoft.AspNetCore.Hosting.Server.Features;
-	using Microsoft.AspNetCore.Mvc.Testing;
 	using Microsoft.AspNetCore.TestHost;
+	using Microsoft.AspNetCore.Mvc.Testing;
+	using Microsoft.AspNetCore.Hosting.Server.Features;
 
 	public class SeleniumServerFactory<TStartup>
 		: WebApplicationFactory<Startup> where TStartup : class
 	{
 		public string RootUri { get; set; } //Save this use by tests
 
-		private Process process;
+		private readonly Process process;
 		private IWebHost host;
 
 		public SeleniumServerFactory()

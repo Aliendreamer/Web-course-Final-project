@@ -143,7 +143,8 @@
 
 			if (result != GlobalConstants.Success)
 			{
-				this.ViewData[GlobalConstants.Error] = string.Join(GlobalConstants.AlreadyExistsInDb, name);
+				string error = string.Format(GlobalConstants.AlreadyExistsInDb, name);
+				this.ViewData[GlobalConstants.Error] = error;
 				return this.View(genres);
 			}
 
