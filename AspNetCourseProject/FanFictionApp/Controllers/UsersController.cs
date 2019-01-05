@@ -74,7 +74,7 @@
 			var result = this.UserService.RegisterUser(registerModel).Result;
 			if (result != SignInResult.Success)
 			{
-				this.ViewData[GlobalConstants.ModelError] = string.Format(GlobalConstants.NicknameUnique, registerModel.Nickname);
+				this.ViewData[GlobalConstants.ModelError] = string.Format(GlobalConstants.NicknameOrUsernameNotUnique, registerModel.Nickname, registerModel.Username);
 				return this.View(registerModel);
 			}
 			return RedirectToAction("Index", "Home");

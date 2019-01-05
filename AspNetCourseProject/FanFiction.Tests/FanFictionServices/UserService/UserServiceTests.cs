@@ -98,7 +98,7 @@
 		}
 
 		[Test]
-		public void RegisterUser_Should_Fail()
+		public void RegisterUser_Should_Fail_With_Same_Nickname()
 		{
 			//arrange
 			var toRegister = new RegisterInputModel
@@ -115,6 +115,37 @@
 				Nickname = "NewUser",
 				Email = "some@mail.com",
 				UserName = "GetMeIn2"
+			};
+
+			this.userManager.CreateAsync(user).GetAwaiter();
+			this.Context.SaveChanges();
+			//act
+			this.roleService.CreateAsync(new IdentityRole { Name = GlobalConstants.DefaultRole }).GetAwaiter();
+			var result = this.userService.RegisterUser(toRegister).GetAwaiter().GetResult();
+
+			//assert
+
+			result.Should().BeEquivalentTo(SignInResult.Failed);
+		}
+
+		[Test]
+		public void RegisterUser_Should_Fail_With_Same_Username()
+		{
+			//arrange
+			var toRegister = new RegisterInputModel
+			{
+				Nickname = "NewUser",
+				Password = "123",
+				ConfirmPassword = "123",
+				Email = "some@mail.com",
+				Username = "GetMeIn"
+			};
+
+			var user = new FanFictionUser
+			{
+				Nickname = "NewUserTwo",
+				Email = "some@mail.com",
+				UserName = "GetMeIn"
 			};
 
 			this.userManager.CreateAsync(user).GetAwaiter();

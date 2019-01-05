@@ -48,8 +48,9 @@
 		public async Task<SignInResult> RegisterUser(RegisterInputModel registerModel)
 		{
 			bool uniqueNickname = this.Context.Users.All(x => x.Nickname != registerModel.Nickname);
+			bool uniqueUsername = this.Context.Users.All(x => x.UserName != registerModel.Username);
 
-			if (!uniqueNickname)
+			if (!uniqueNickname || !uniqueUsername)
 			{
 				return SignInResult.Failed;
 			}
