@@ -15,9 +15,9 @@
 
 		ICollection<StoryTypeOutputModel> Genres();
 
-		Task Follow(string username, int id);
+		Task Follow(string username, string userId, int id);
 
-		Task UnFollow(string username, int id);
+		Task UnFollow(string userId, int id);
 
 		bool IsFollowed(string username, int id);
 

@@ -39,8 +39,9 @@
 			host.Start();
 			RootUri = host.ServerFeatures.Get<IServerAddressesFeature>().Addresses
 				.LastOrDefault(); //Last is https://localhost:5001!
+								  //TODO:this should be with inMemoryDb but it just works for now not the correct or right way but
+								  //Fake Server we won't use...this is lame. Should be cleaner, or a utility class
 
-			//Fake Server we won't use...this is lame. Should be cleaner, or a utility class
 			return new TestServer(new WebHostBuilder().UseStartup<FakeStartUp>());
 		}
 

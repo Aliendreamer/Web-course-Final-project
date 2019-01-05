@@ -56,20 +56,18 @@
 			return this.Context.StoryTypes.ProjectTo<StoryTypeOutputModel>(Mapper.ConfigurationProvider).ToArray();
 		}
 
-		public async Task Follow(string username, int id)
+		public async Task Follow(string username, string userId, int id)
 		{
-			var user = await this.UserManager.FindByNameAsync(username);
-
 			var userstory = new UserStory
 			{
 				FanFictionStoryId = id,
-				FanfictionUserId = user.Id
+				FanfictionUserId = userId
 			};
 
-			bool followed = IsFollowed(user.Id, id);
+			bool followed = IsFollowed(userId, id);
 			if (followed)
 			{
-				throw new InvalidOperationException(string.Join(GlobalConstants.UserFollowAlready, user.UserName));
+				throw new InvalidOperationException(string.Join(GlobalConstants.UserFollowAlready, username));
 			}
 
 			this.Context.UsersStories.Add(userstory);
@@ -78,13 +76,12 @@
 
 		public async Task UnFollow(string username, int storyId)
 		{
-			var user = await this.UserManager.FindByNameAsync(username);
 			var entity = this.Context.UsersStories
 				.Where(st => st.FanFictionStoryId == storyId)
 				.Select(st => new UserStory
 				{
 					FanFictionStoryId = storyId,
-					FanfictionUserId = user.Id
+					FanfictionUserId = username
 				}).FirstOrDefault();
 
 			if (entity != null)

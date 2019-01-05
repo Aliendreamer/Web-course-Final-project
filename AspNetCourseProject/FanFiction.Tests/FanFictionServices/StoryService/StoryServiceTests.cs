@@ -273,7 +273,8 @@
 
 			var storyId = story.Id;
 			var username = user.UserName;
-			await storyService.Follow(username, storyId);
+			var userId = user.Id;
+			await storyService.Follow(username, userId, storyId);
 
 			//assert
 
@@ -319,11 +320,12 @@
 
 			var storyId = story.Id;
 			var username = user.UserName;
-			await storyService.Follow(username, storyId);
+			var userId = user.Id;
+			await storyService.Follow(username, userId, storyId);
 
 			//assert
 
-			Action act = () => storyService.Follow(username, storyId).GetAwaiter().GetResult();
+			Action act = () => storyService.Follow(username, userId, storyId).GetAwaiter().GetResult();
 
 			string message = string.Join(GlobalConstants.UserFollowAlready, user.UserName);
 			act.Should().Throw<InvalidOperationException>().WithMessage(message);
@@ -365,9 +367,9 @@
 			var storyService = GetService();
 
 			var storyId = story.Id;
-			var username = user.UserName;
+			var userId = user.Id;
 
-			storyService.UnFollow(username, storyId).GetAwaiter().GetResult();
+			storyService.UnFollow(userId, storyId).GetAwaiter().GetResult();
 
 			//assert
 
@@ -405,9 +407,9 @@
 			var storyService = GetService();
 
 			var storyId = story.Id;
-			var username = user.UserName;
+			var userId = user.Id;
 
-			Func<Task> act = async () => await storyService.UnFollow(username, storyId);
+			Func<Task> act = async () => await storyService.UnFollow(userId, storyId);
 
 			//assert
 

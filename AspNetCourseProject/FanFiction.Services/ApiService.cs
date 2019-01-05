@@ -12,6 +12,7 @@
 	using Microsoft.EntityFrameworkCore;
 	using AutoMapper.QueryableExtensions;
 	using ViewModels.OutputModels.ApiOutputModels;
+	using ViewModels.OutputModels.Stories;
 
 	public class ApiService : BaseService, IApiService
 	{
@@ -45,9 +46,11 @@
 
 		public IEnumerable<ApiFanFictionStoryOutputModel> StoriesByGenre(string genre)
 		{
-			bool genreNone = this.Context.StoryTypes.Any(x => x.Name == genre);
+			var genresFromdb = this.Context.StoryTypes.Select(x => x.Name).ToList();
 
-			if (!genreNone)
+			bool genreNone = genresFromdb.All(x => x.ToLower() != genre.ToLower());
+
+			if (genreNone)
 			{
 				throw new ArgumentException(string.Join(GlobalConstants.NoSuchGenre, genre));
 			}

@@ -99,7 +99,8 @@
 		public async Task<IActionResult> Follow(int id)
 		{
 			var username = this.User.Identity.Name;
-			await this.StoryService.Follow(username, id);
+			var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+			await this.StoryService.Follow(username, userId, id);
 
 			return RedirectToAction("Details", "Stories", new { id });
 		}
@@ -107,8 +108,8 @@
 		[HttpGet]
 		public async Task<IActionResult> UnFollow(int id)
 		{
-			var username = this.User.Identity.Name;
-			await this.StoryService.UnFollow(username, id);
+			var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+			await this.StoryService.UnFollow(userId, id);
 
 			return RedirectToAction("Details", "Stories", new { id });
 		}
