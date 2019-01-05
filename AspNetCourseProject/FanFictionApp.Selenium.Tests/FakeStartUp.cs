@@ -4,7 +4,7 @@
 
 	public class FakeStartUp
 	{
-		public void ConfigureServices(IServiceCollection service)
+		public void ConfigureServices(IServiceCollection services)
 		{
 		}
 

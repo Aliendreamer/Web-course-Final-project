@@ -36,13 +36,19 @@
 		{
 			//Real TCP port
 			host = builder.Build();
+
 			host.Start();
 			RootUri = host.ServerFeatures.Get<IServerAddressesFeature>().Addresses
-				.LastOrDefault(); //Last is https://localhost:5001!
-								  //TODO:this should be with inMemoryDb but it just works for now not the correct or right way but
-								  //Fake Server we won't use...this is lame. Should be cleaner, or a utility class
+				.LastOrDefault();
 
-			return new TestServer(new WebHostBuilder().UseStartup<FakeStartUp>());
+			//Last is https://localhost:5001!
+			//TODO:this should be with inMemoryDb but it just works for now,documentation don't work with supposed workarounds
+			//... i think i should check the inherited object something from there is problem I think and don't allow to ovveride
+			//Fake Server we won't use...this is lame. Should be cleaner, or a utility class
+
+			var server = new TestServer(new WebHostBuilder().UseStartup<FakeStartUp>());
+
+			return server;
 		}
 
 		protected override void Dispose(bool disposing)

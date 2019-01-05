@@ -16,7 +16,6 @@
 	using FanFiction.Services;
 	using FanFiction.Services.Interfaces;
 	using FanFiction.Services.Utilities;
-	using Microsoft.AspNetCore.Authentication.Cookies;
 	using Microsoft.Extensions.Logging;
 
 	public class Startup
