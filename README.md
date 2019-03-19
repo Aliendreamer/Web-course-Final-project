@@ -15,3 +15,4 @@ Administration is handled by admins and moderators.
 Admins are in god mode can delete everything users stories ect.
 Moderators can only moderate stories comments.
 
+I should add new functionality and refactor it a bit. But will see when I find the time.
