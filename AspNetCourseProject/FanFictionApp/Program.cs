@@ -26,12 +26,14 @@
 
 		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
 			WebHost.CreateDefaultBuilder(args)
-				.UseStartup<Startup>();
+				.UseStartup<Startup>()
+				.UseUrls("https://*:5000")
+				.UseKestrel().UseEnvironment("Development");
 
 		private static async Task SeedStoryTypesIfDbEmpty(IServiceProvider serviceProvider)
 		{
 			var dbContext = serviceProvider.GetRequiredService<FanFictionContext>();
-
+		
 			var storytypes = new[]
 			{
 				new StoryType

@@ -16,12 +16,14 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" PrivateAssets="All" />
+
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FanFiction.Services\FanFiction.Services.csproj" />
     <ProjectReference Include="..\FanFiction.ViewModels\FanFiction.ViewModels.csproj" />
+
   </ItemGroup>
 
   <ItemGroup>

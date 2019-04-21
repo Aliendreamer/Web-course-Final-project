@@ -39,7 +39,8 @@
 			services.AddDbContext<FanFictionContext>(options =>
 				options.UseSqlServer(
 					Configuration.GetConnectionString("DefaultConnection")));
-
+		
+    //"Server=(LocalDb)\\.;Database=FanFictionAppDb;Integrated Security=True;Trusted_Connection=True;MultipleActiveResultSets=true"
 			services.AddIdentity<FanFictionUser, IdentityRole>(opt =>
 				{
 					opt.Password.RequireDigit = false;
