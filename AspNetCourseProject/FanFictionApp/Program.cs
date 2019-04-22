@@ -28,7 +28,7 @@
 			WebHost.CreateDefaultBuilder(args)
 				.UseStartup<Startup>()
 				.UseUrls("https://*:5000")
-				.UseKestrel().UseEnvironment("Development");
+				.UseKestrel();
 
 		private static async Task SeedStoryTypesIfDbEmpty(IServiceProvider serviceProvider)
 		{

@@ -19,4 +19,4 @@ RUN dotnet publish -c Release -o /app/out
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine  
 WORKDIR /app
 COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "fanfictionapp.dll"]
+ENTRYPOINT ["dotnet", "FanFictionApp.dll"]
