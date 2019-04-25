@@ -16,4 +16,4 @@ Admins are in god mode can delete everything users stories ect.
 Moderators can only moderate stories comments.
 
 I should add new functionality and refactor it a bit. But will see when I find the time.
-for linux "DefaultConnection":"Server=localhost;Database=FanFictionAppDb;User Id=x;Password=x!" the string conection string should be like this as at x it should be your local params.
+for linux "DefaultConnection":"Server=x;Database=FanFictionAppDb;User Id=x;Password=x!" the string conection string should be like this as at x it should be your local params.

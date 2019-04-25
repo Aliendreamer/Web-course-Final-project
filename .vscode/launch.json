@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/AspNetCourseProject/FanFictionApp/bin/Debug/netcoreapp2.1/FanFictionApp.dll",
+            "program": "${workspaceFolder}/AspNetCourseProject/FanFictionApp/bin/Debug/netcoreapp2.2/FanFictionApp.dll",
             "args": [],
             "cwd": "${workspaceFolder}/AspNetCourseProject/FanFictionApp",
             "stopAtEntry": false,

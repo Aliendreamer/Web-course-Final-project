@@ -1,22 +1,19 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine  AS build-env
-
-
+FROM mcr.microsoft.com/dotnet/core/runtime:2.2-alpine  AS base
 WORKDIR /app
-COPY  ./AspNetCourseProject/FanFiction.Data  ./FanFiction.Data/
-COPY ./AspNetCourseProject/FanFiction.Models ./FanFiction.Models/
-COPY ./AspNetCourseProject/FanFiction.Services ./FanFiction.Services/
-COPY ./AspNetCourseProject/FanFiction.ViewModels ./FanFiction.ViewModels/
-COPY ./AspNetCourseProject/FanFictionApp.Selenium.Tests ./FanFiction.Selenium.Tests/
-COPY ./AspNetCourseProject/FanFiction.Tests ./FanFiction.Tests/
-COPY ./AspNetCourseProject/FanFictionApp ./FanFictionApp/
+EXPOSE 80
 
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine AS build
+WORKDIR /src
+COPY  ./AspNetCourseProject/FanFictionApp/FanFictionApp.csproj FanFictionApp/
+RUN dotnet restore FanFictionApp/FanFictionApp.csproj
+COPY ./AspNetCourseProject .
+WORKDIR /src/FanFictionApp
+RUN dotnet build FanFictionApp.csproj -c Release -o /app
 
+FROM build AS publish
+RUN dotnet publish FanFictionApp.csproj -c Release -o /app
 
-WORKDIR /app/FanFictionApp
-RUN dotnet restore
-RUN dotnet publish -c Release -o /app/out
-
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine  
+FROM base AS final
 WORKDIR /app
-COPY --from=build-env /app/out .
+COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "FanFictionApp.dll"]
