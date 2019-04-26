@@ -27,12 +27,11 @@
 		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
 			WebHost.CreateDefaultBuilder(args)
 				.UseStartup<Startup>();
-				
 
 		private static async Task SeedStoryTypesIfDbEmpty(IServiceProvider serviceProvider)
 		{
 			var dbContext = serviceProvider.GetRequiredService<FanFictionContext>();
-		
+
 			var storytypes = new[]
 			{
 				new StoryType
