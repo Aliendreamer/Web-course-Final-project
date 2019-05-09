@@ -6,10 +6,10 @@
 
 <div class="mt-5">
     <h1 class="text-center">Register</h1>
-    <div class="container col-4 offset-4">
-        <hr class="bg-secondary" />
 
-        <form class="mx-auto" asp-controller="Users" asp-action="Register" method="post">
+       
+        
+        <form class="register mx-auto" asp-controller="Users" asp-action="Register" method="post">
             @if (error != null)
             {
                 <p class="text-danger">@error</p>
@@ -46,7 +46,7 @@
             </div>
             <hr class="bg-secondary" />
         </form>
-    </div>
+
 </div>
 @section scripts{
 
